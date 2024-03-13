@@ -1,3 +1,6 @@
+
+![gojo](https://github.com/Jhoneric12/mis-of-jc-skin-works/assets/95606482/26a6c0b2-66e9-4b1a-81e4-b75c313952e7)
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

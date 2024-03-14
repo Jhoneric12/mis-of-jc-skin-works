@@ -28,6 +28,7 @@ class Billing extends Component
     public $modalUpdate = false;
     public $modalView = false;
     public $modalStatus = false;
+    public $modalSucess = false;
 
     #[URL]
     public $appointment_id;
@@ -274,15 +275,14 @@ class Billing extends Component
     {
 
         // Check if appointment id in url
-        if ($this->appointment_id) {
-            // Update Appointment Status
-            $updateStatus = Appointment::where('id', $this->appointment_id)->first();
+        // if ($this->appointment_id) {
+        //     // Update Appointment Status
+        //     $updateStatus = Appointment::where('id', $this->appointment_id)->first();
 
-            $updateStatus->update([
-                'status' => 'Completed'
-        ]);
-
-        }
+        //     $updateStatus->update([
+        //         'status' => 'Completed'
+        // ]);
+        // }
 
         // $this->validate([
         //     'patient_id' => 'required|integer',
@@ -323,9 +323,9 @@ class Billing extends Component
             }
         }
 
-        Session::flash('checkout', 'Transaction Completed.');
 
-        $this->redirectRoute('billing');
+        $this->modalSucess = true;
+        $this->modalView = false;
 
         // Print Invoice 
 
@@ -347,6 +347,11 @@ class Billing extends Component
         return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);
 
         $this->cart = [];
+    }
+
+    public function proceedToSession()
+    {
+        $this->redirectRoute('session-progress', ['appointment_id' => $this->appointment_id, 'isProceed' => true]);
     }
 
 }

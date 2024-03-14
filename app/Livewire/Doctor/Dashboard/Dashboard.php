@@ -28,8 +28,8 @@ class Dashboard extends Component
     public function render()
     {
         $appointments = Appointment::where('specialist_id', Auth::user()->id)
-            ->whereIn('status', ['On-going', 'Confirmed'])
-            ->whereDate('date', Carbon::now()->toDateString())
+            ->whereIn('status', ['On-going', 'Confirmed', 'Completed', 'Cancelled'])
+            ->whereDate('date', '=',  Carbon::today()->toDateString())
             ->latest()
             ->paginate(5);
 

@@ -98,14 +98,40 @@
                 <div>
                     <div class="flex flex-col">
                             @forelse ($sessions as $session)
-                                @if ($session->status ==='Completed')
+                                @if ($session->status ==='Completed' || $session->status === 'On-going')
                                     <div class="mt-2 flex flex-col gap-4 border-b border-b-[#D0D0D0] py-10 px-4">
                                         <div class="flex gap-1 justify-between">
                                             <div class="flex flex-col justify-between">
                                                 <h1 class="text-base">{{$session->service->service_name}}</h1>
-                                                <span class="text-xs">Service Name</span>
+                                                <span class="text-xs">Appointment No. {{$session->id}}</span>
                                             </div>
-                                            <div><h1 class="text-sm">{{\Carbon\Carbon::parse($session->created_at)->format('M, d, Y')}}</h1></div>
+                                            <div>
+                                                @if($session->status == 'Scheduled')
+                                                <span class="bg-gray-300 text-white text-xs px-2 py-1 rounded-full">
+                                                    {{ $session->status }}
+                                                </span>
+                                                @elseif($session->status == 'Cancelled')
+                                                    <span class="bg-red-300 text-white text-xs px-2 py-1 rounded-full">
+                                                        {{ $session->status }}
+                                                    </span>
+                                                @elseif($session->status == 'Completed')
+                                                    <span class="bg-green-300 text-white text-xs px-2 py-1 rounded-full">
+                                                        {{ $session->status }}
+                                                    </span>
+                                                @elseif($session->status == 'Confirmed')
+                                                    <span class="bg-blue-300 text-white text-xs px-2 py-1 rounded-full">
+                                                        {{ $session->status }}
+                                                    </span>
+                                                @elseif($session->status == 'On-going')
+                                                    <span class="bg-[#C7A7EA] text-white text-xs px-2 py-1 rounded-full">
+                                                        {{ $session->status }}
+                                                    </span>
+                                                @else
+                                                    <span class="bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
+                                                        {{ $session->status }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                         <a href="{{route('session-progress', ['appointment_id' => $session->id])}}" class="w-full bg-green-300 p-2 rounded-lg text-green-500 font-bold hover:opacity-90 text-xs text-center">
                                             <button>View Session Progress</button>

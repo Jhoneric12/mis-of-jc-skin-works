@@ -29,7 +29,7 @@
 
     {{-- PATIENT TABLE --}}
     <div class="relative overflow-x-auto sm:rounded-lg shadow-md px-6 py-8 border-2 border-solid">
-        <div class="mb-4 flex gap-2 items-center justify-between">
+        <div class="mb-4 flex gap-2 items-center justify-between w-full">
             <div class="flex gap-2 items-center w-[80%]">
                 <a href="{{route('add-patient')}}">
                     <x-button class="flex gap-2" wire:loading.attr="disabled">
@@ -158,7 +158,7 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="mt-6">
+        <div class="mt-6 w-full">
             {{$patients->links()}}
         </div>
     </div>

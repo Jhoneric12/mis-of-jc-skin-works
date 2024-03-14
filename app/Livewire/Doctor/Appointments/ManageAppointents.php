@@ -47,7 +47,6 @@ class ManageAppointents extends Component
         $appointments = Appointment::query()
         ->where('specialist_id', Auth::user()->id)
         ->whereIn('status', ['Confirmed', 'Completed','Cancelled', 'On-going'])
-        ->orderBy('date', 'asc')
         // ->where('id', Auth::user()->id)
         ->where(function ($query) {
             $query->where('id', $this->search)

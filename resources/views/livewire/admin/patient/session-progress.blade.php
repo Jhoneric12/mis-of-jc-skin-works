@@ -4,7 +4,7 @@
             <x-Essentials.page-title class="text-[#9D9D9D]">Patients</x-Essentials.page-title>
         </a>
         <x-Essentials.page-title> > </x-Essentials.page-title>
-        <x-Essentials.page-title>View Session Progress</x-Essentials.page-title>
+        <x-Essentials.page-title>Session Progress of {{$full_name}}</x-Essentials.page-title>
    </div>
 
     {{-- Added Message --}}
@@ -35,12 +35,18 @@
             </svg>
             <span class="sr-only">Loading...</span>
         </div>
-        <div @if($no_of_progress === $no_of_session->service->nno_of_sessions) style="display: none;" @endif>
+        <div class="flex gap-4 items-center" @if($no_of_progress === $no_of_session->service->nno_of_sessions || !$isProceed) style="display: none;" @endif>
+            <x-secondary-button class="flex gap-2" wire:click="openReSchedule" wire:loading.attr="disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+                </svg>                       
+                {{ __('Next Session') }}
+            </x-button>
             <x-button class="flex gap-2" wire:click="openModal" wire:loading.attr="disabled">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
                 </svg>                       
-                {{ __('Add New Session') }}
+                {{ __('Add New') }}
             </x-button>
         </div>
     </div>
@@ -89,7 +95,7 @@
     {{-- Add Modal --}}
     <x-dialog-modal wire:model.live="modalAdd" maxWidth='lg'>
         <x-slot name="title">
-            {{ __('Add Session') }}
+            {{ __('Add session progress') }}
         </x-slot> 
     
         <x-slot name="content">
@@ -97,17 +103,6 @@
                 @csrf
                 <div>
                     <div class='flex flex-col w-full'>
-                        <div class="w-full">
-                            <x-label for="" value="{{ __('Specialist') }}" />
-                            <select wire:model='specialist_id' class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <option  value="">- Select Options - </option>
-                                @foreach ($specialists as $specialist)
-                                    @if ($specialist->role == 2 || $specialist->role ==3)
-                                        <option value="{{ $specialist->last_name }}">{{ $specialist->first_name . " " . $specialist->last_name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
                         <div class='flex flex-col gap-1 mb-4 text-fontColor w-full mt-4'>
                             <x-label for="" value="{{ __('Image') }}" />
                             <input wire:model="image" type="file"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -128,4 +123,41 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
+
+    <x-dialog-modal wire:model.live="reSchedule" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Next session schedule') }}
+        </x-slot> 
+    
+        <x-slot name="content">
+            <form wire:submit='create'>
+                @csrf
+                <div>
+                    <div class='flex flex-col w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <x-label for="" value="{{ __('Date') }}" />
+                            <input wire:model="date" type="date"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="date"/>
+                        </div>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <x-label for="" value="{{ __('Time') }}" />
+                            <input wire:model="time" type="time"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="time"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+    
+            <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='reschedule'>
+                {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
 </div>

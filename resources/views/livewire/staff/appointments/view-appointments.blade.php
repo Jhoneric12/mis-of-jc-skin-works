@@ -21,7 +21,7 @@
 
     <div @if($status == 'Completed') style="display:none" @endif class="flex flex-end">
         <div class="flex gap-4 items-center">
-            <div class="flex justify-between" @if($status != 'On-going') style="display:none" @endif >
+            <div class="flex justify-between"  @if($status != 'On-going' || !\Carbon\Carbon::parse($appointment_date)->isToday()) style="display:none" @endif >
                 <div></div>
                 <div>
                     <a href="{{route('staff-billing', ['appointment_id' => $app_id])}}">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         
-            <div class="flex justify-between" @if($status != 'Confirmed' || \Carbon\Carbon::parse($appointment_date)->isToday()) style="display:none" @endif >
+            <div class="flex justify-between" @if($status != 'Confirmed' || !\Carbon\Carbon::parse($appointment_date)->isToday()) style="display:none" @endif >
                 <div></div>
                 <div>
                     <x-button wire:click='startSession' class="flex gap-2" wire:loading.attr="disabled">

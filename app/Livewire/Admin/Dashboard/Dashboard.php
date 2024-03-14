@@ -29,10 +29,14 @@ class Dashboard extends Component
     {
         $appointments = Appointment::whereIn('status', ['Scheduled', 'Completed', 'Cancelled', 'Confirmed'])
                         ->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                        ->latest()
-                        ->paginate(5);
+                        ->latest()->get();
 
         $total_patient = User::where('role', 0)->count();
+
+        $appointments_today = Appointment::whereDate('date', '=',  Carbon::today()->toDateString())
+            ->whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])
+            ->latest()
+            ->paginate(5);
 
        // Get the current month's start and end dates
         $currentMonthStart = Carbon::now()->startOfMonth();
@@ -45,7 +49,7 @@ class Dashboard extends Component
 
         $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')->where('status', 1)->count();
 
-        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments'));
+        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments'));
     }
 
     public function editStatus($id)

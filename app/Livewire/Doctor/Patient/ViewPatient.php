@@ -21,7 +21,7 @@ class ViewPatient extends Component
     {
         $patient = User::where('id', $this->patient_id)->first();
 
-        $sessions = Appointment::where('patient_id', $this->patient_id)->where('specialist_id', Auth::user()->id)->get();
+        $sessions = Appointment::where('patient_id', $this->patient_id)->where('specialist_id', Auth::user()->id)->latest()->get();
 
         $records = MedicalRecord::where('patient_id', $this->patient_id)->paginate(3);
 

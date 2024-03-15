@@ -236,7 +236,15 @@
 
         <div class="relative overflow-x-auto sm:rounded-lg shadow-md px-6 py-8 border-2 border-solid mt-6 ">
             <div class="mb-4">
-                <h1 class="font-bold text-md">Cart</h1>
+                <h1 class="font-bold text-md mb-6">Cart</h1>
+                <div class="relative w-1/4" >
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input wire:model='promo_id' wire:keydown.enter='promo' type='search' id="default-search-services" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Promo code" autocomplete="off">
+                </div>
             </div>
         
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sm:rounded-lg shadow-xl py-6 border border-solid">
@@ -313,8 +321,18 @@
                             <h1 class="text-sm font-bold mb-4">Checkout Details</h1>
                             <div class="flex gap-4">
                                 <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                    <x-label for="" value="{{ __('Patient ID') }}" />
-                                    <input wire:model="patient_id" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <div class="flex gap-4 items-center">
+                                        <x-label for="" value="{{ __('Patient ID') }}" />
+                                        <span class="text-red-500 text-xs"> *Press enter search patient</span>
+                                    </div>
+                                    <div class="relative" >
+                                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                            </svg>
+                                        </div>
+                                        <input wire:model.live='patient_id' wire:keydown.enter='searchPatient' type='search' id="default-search-services"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ps-10" autocomplete="off">
+                                    </div>
                                     <x-input-error for="patient_id"/>
                                 </div>
                                 <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
@@ -480,6 +498,29 @@
             </x-secondary-button>
             <x-button class="flex gap-2 ms-3" wire:click='printInvoice' wire:loading.attr="disabled">              
                 {{ __('Print Invoice') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    <x-dialog-modal wire:model.live="modalSucess" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Transaction Completed') }}
+        </x-slot>
+    
+        <x-slot name="content">
+            <div class="flex flex-col items-center justify-center gap-4">
+                <div>
+                    <img src="{{asset('assets/Essentials/delivery-completed.gif')}}" alt="" class="w-20 h-20">
+                </div>
+                <div>
+                    <h1 class="font-medium text-lg">Transaction Completed</h1>
+                </div>
+            </div>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-button class="flex gap-2 ms-3" wire:click='proceedToSession' wire:loading.attr="disabled">              
+                {{ __('Proceed') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>

@@ -54,7 +54,10 @@ class SessionProgress extends Component
                  'status' => 'Completed'
              ]);
 
-             $this->redirectRoute('view-appointments', ['appointment_id' => $this->appointment_id]);
+            if ($this->isProceed)
+            {
+                $this->redirectRoute('view-appointments', ['appointment_id' => $this->appointment_id]);
+            }
          }
 
         return view('livewire.admin.patient.session-progress', ['sessions' => $sessions, 'specialists' => User::where('account_status', 1)->get(), 'services' => Service::where("status", 1 )]);

@@ -14,6 +14,7 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
+use App\Models\Promotion;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Session;
@@ -40,6 +41,7 @@ class Billing extends Component
     public $patient_id;
     public $patient_name;
     public $ref_no;
+    public $promo_id;
 
     public $cart = [];
     protected $listeners = ['addToCart'];
@@ -143,24 +145,24 @@ class Billing extends Component
         }
     }
 
-    private function addAppointmentServicesToCart()
-    {
-        // Fetch appointment services associated with the appointment_id
-        $appointment = Appointment::find($this->appointment_id);
-        if ($appointment) {
-            $services = $appointment->service;
-            // Add services to the cart
-            foreach ($services as $service) {
-                $this->cart[] = [
-                    'id' => $service->service->id,
-                    'name' => $service->service->service_name,
-                    'type' => 'Service',
-                    'quantity' => 1, // You may adjust this as needed
-                    'total' => $service->service->price, // Assuming there's a 'price' attribute in the Service model
-                ];
-            }
-        }
-    }
+    // private function addAppointmentServicesToCart()
+    // {
+    //     // Fetch appointment services associated with the appointment_id
+    //     $appointment = Appointment::find($this->appointment_id);
+    //     if ($appointment) {
+    //         $services = $appointment->service;
+
+    //         foreach ($services as $service) {
+    //             $this->cart[] = [
+    //                 'id' => $service->service->id,
+    //                 'name' => $service->service->service_name,
+    //                 'type' => 'Service',
+    //                 'quantity' => 1, 
+    //                 'total' => $service->service->price, 
+    //             ];
+    //         }
+    //     }
+    // }
 
     // public function addToCart($itemId, $type)
     // {
@@ -225,13 +227,21 @@ class Billing extends Component
 
         if ($type == 'product') {
             $item = Product::find($itemId);
+            $unitPrice = $item->price;
         } elseif ($type == 'service') {
             $item = Service::find($itemId);
+            $unitPrice = $item->price;
+        }
+        elseif($type == 'promo') {
+            $item = Service::find($itemId);
+            // If the type is "promo", set its price to 0
+            $unitPrice = 0;
+            $this->quantity = 1;
         } else {
             return;
         }
 
-        $unitPrice = $item->price;
+        // $unitPrice = $item->price;
         $subtotal = $this->quantity * $unitPrice;
 
         if ($existingIndex !== null) {
@@ -251,6 +261,45 @@ class Billing extends Component
                 'total' => $subtotal, // assuming total is the same as subtotal for the first addition
             ];
         }
+
+         // Update the cart totals
+        $this->updateCartTotals();
+    }
+
+    public function promo()
+    {
+        if ($this->promo_id) {
+            $promo = Promotion::find($this->promo_id);
+            if ($promo) {
+                $promoId = $promo->services->id;
+                if ($promoId) {
+                    // Add the service to the cart
+                    $service = Service::find($promoId);
+                    if ($service) {
+                        $this->addToCart($promoId, 'promo');
+                    }
+                }
+            }
+        }
+    }
+
+    private function updateCartTotals()
+    {
+        $totalAmount = 0;
+        foreach ($this->cart as $item) {
+            // Exclude items with the type "promo" from the total calculation
+            if ($item['type'] !== 'promo') {
+                $totalAmount += $item['subtotal'];
+            }
+        }
+        $this->total_amount = $totalAmount;
+    }
+
+    public function searchPatient() 
+    {
+        $patient = User::where('id', $this->patient_id)->where('role', 0)->first();
+
+        $this->patient_name =  $patient->first_name . " " . $patient->middle_name . " " .  $patient->last_name;
     }
 
 

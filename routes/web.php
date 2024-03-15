@@ -32,8 +32,10 @@ use App\Http\Controllers\Admin\Settings\Accounts\Patient;
 use App\Http\Controllers\Admin\Settings\Accounts\Staff;
 use App\Http\Controllers\Admin\Settings\Accounts\Doctors;
 use App\Http\Controllers\Admin\Settings\Accounts\Admin;
+use App\Http\Controllers\Admin\Settings\Promotions\ManagePromotions;
 use App\Http\Controllers\Admin\Patient\MedicalRecord;
 use App\Http\Controllers\Admin\Patient\ViewMedicalRecord;
+use App\Http\Controllers\Admin\AuditTrail\AuditTrail;
 
 // PATIENT
 use App\Http\Controllers\Patient\MyAppointments\Appointments;
@@ -140,6 +142,8 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('transactions', [Transactions::class, 'index'])->name('transactions');
             Route::get('medical-record', [MedicalRecord::class, 'index'])->name('medical-record');
             Route::get('view-medical-record', [ViewMedicalRecord::class, 'index'])->name('view-medical-record');
+            Route::get('manage-promotions', [ManagePromotions::class, 'index'])->name('manage-promotions');
+            Route::get('audit-trail', [AuditTrail::class, 'index'])->name('audit-trail');
 
         })->name('admin-routes');
 

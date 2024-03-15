@@ -34,6 +34,21 @@
                     </a>
                 </div>
             </div>
+
+            <div class="flex justify-between" @if($status != 'On-going') style="display:none" @endif >
+                <div></div>
+                <div>
+                    <a href="{{route('doctor-session-progress', ['appointment_id' => $app_id, 'isProceed' => true])}}">
+                        <x-secondary-button class="flex gap-2" wire:loading.attr="disabled">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                              </svg>
+                                             
+                            {{ __('Session progress') }}
+                        </x-button>
+                    </a>
+                </div>
+            </div>
         
             <div class="flex justify-between" @if($status != 'Cancelled' && $status != 'Confirmed') style="display:none" @endif >
                 <div></div>
@@ -56,6 +71,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                           </svg>
                                         
+        
                         {{ __('Start Session') }}
                     </x-button>
                 </div>

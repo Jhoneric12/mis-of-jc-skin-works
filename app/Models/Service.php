@@ -31,4 +31,9 @@ class Service extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function promotion()
+    {
+        return $this->hasMany(Promotion::class);
+    }
 }

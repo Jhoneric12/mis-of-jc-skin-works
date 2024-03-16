@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Admin\Patient;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class AddPatient extends Component
 {
-    
     public $firstname;
     public $middlename;
     public $lastname;
@@ -59,6 +60,14 @@ class AddPatient extends Component
             'skin_type' => strtoupper($this->skintype),
             'name' =>  strtoupper($this->firstname . " " . $this->middlename . " " . $this->lastname),
             'role' => 0
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PATIENT'
         ]);
 
         // return $this->redirect('/manage-patient');

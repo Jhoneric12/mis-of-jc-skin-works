@@ -16,13 +16,13 @@ class Dashboard extends Component
         $this->patientName = Auth::user()->first_name . " " . Auth::user()->last_name;
 
         // Retrieve the start and end dates for the current month
-        $currentMonthStart = Carbon::now()->startOfMonth();
-        $currentMonthEnd = Carbon::now()->endOfMonth();
+        // $currentMonthStart = Carbon::now()->startOfMonth();
+        // $currentMonthEnd = Carbon::now()->endOfMonth();
 
         // Retrieve appointments with status 'Confirmed' within the current month
         $appointments = Appointment::where('patient_id', Auth::user()->id)
             ->whereIn('status', ['Confirmed', 'Cancelled', 'Completed', 'Scheduled'])
-            ->whereBetween('date', [$currentMonthStart, $currentMonthEnd])
+            ->whereDate('date', '=',  Carbon::today()->toDateString())
             ->latest()
             ->paginate(5);
 

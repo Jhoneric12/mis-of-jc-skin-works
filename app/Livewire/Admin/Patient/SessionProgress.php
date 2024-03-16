@@ -7,8 +7,10 @@ use Livewire\Component;
 USE Livewire\Attributes\Url;
 use App\Models\Appointment;
 use App\Models\AppointmentSession;
+use App\Models\AuditTrail;
 use App\Models\Service;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class SessionProgress extends Component
@@ -97,6 +99,14 @@ class SessionProgress extends Component
             'specialist' => $specialist->specialist->last_name,
             'image_path' => $image
         ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SESSION PROGRESS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED SESSION PROGRESS'
+        ]);
             
 
         $this->resetFields();
@@ -116,6 +126,14 @@ class SessionProgress extends Component
         $appointment->update([
             'date' => $this->date,
             'time' => $this->time
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SESSION PROGRESS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'RE-SCHEDULED AN APPOINTMENT'
         ]);
 
         $this->redirectRoute('view-appointments', ['appointment_id' => $this->appointment_id]);

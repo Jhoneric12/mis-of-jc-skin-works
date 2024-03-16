@@ -7,6 +7,7 @@ use App\Mail\AppointmentCanceled;
 use App\Mail\AppointmentCreated;
 use App\Mail\AppointmentEdited;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -153,6 +154,14 @@ class ManageAppointments extends Component
             'status' => $this->status,
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'SCHEDULE AN APPOINTMENT'
+        ]);
+
         Mail::to($patient->email)
         ->send(new AppointmentCreated($appointment));
 
@@ -215,6 +224,14 @@ class ManageAppointments extends Component
             'status' => $this->status
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED APPOINTMENT'
+        ]);
+
         Mail::to($updateAppointment->patient->email)
         ->send(new AppointmentEdited($updateAppointment));
 
@@ -241,6 +258,14 @@ class ManageAppointments extends Component
 
         $updateStatus->update([
             'status' => 'Cancelled'
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'CANCELLED AN APPOINTMENT'
         ]);
 
         Mail::to($patient_email)->send(new AppointmentCanceled($updateStatus));

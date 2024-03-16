@@ -105,5 +105,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Prescription::class);
     }
 
+    public function notification()
+    {
+        return $this->hasMany(ClinicNotif::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(AuditTrail::class);
+    }
+
 
 }

@@ -3,5 +3,5 @@
 @section('title', 'Audit Trail')
 
 @section('main-content')
-    @livewire('admin.audit-trail.audit-trail')
+    @livewire('admin.activity-log.activity-log')
 @endsection

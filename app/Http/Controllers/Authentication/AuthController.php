@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Appointment;
+use App\Models\ClinicNotif;
 
 class AuthController extends Controller
 {
@@ -20,6 +21,7 @@ class AuthController extends Controller
         else if ($users == 1)
         {
             return view('Admin.dashboard');
+
         }
         else if ($users == 2)
         {

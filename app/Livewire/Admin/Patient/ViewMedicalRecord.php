@@ -4,11 +4,13 @@ namespace App\Livewire\Admin\Patient;
 
 ini_set('max_execution_time', 18000);
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\MedicalRecord;
 use Livewire\Attributes\Url;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ViewMedicalRecord extends Component
 {
@@ -68,6 +70,14 @@ class ViewMedicalRecord extends Component
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="medical_record.pdf"',
         ];
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'MEDICAL RECORDS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'EXPORTED MEDICAL RECORD'
+        ]);
 
         // Return the response to stream the PDF with the specified filename
         return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);

@@ -14,6 +14,7 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\Promotion;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -346,6 +347,14 @@ class Billing extends Component
             'payment_mode' => $this->payment_mode,
             'total_amount' => $this->total_amount,
             'ref_no' => $this->ref_no
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'TRANSACTION',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'COMPLETED TRANSACTION'
         ]);
 
          // Add items from the cart to order items

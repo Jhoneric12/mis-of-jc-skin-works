@@ -6,9 +6,11 @@ use App\Mail\AppointmentEdited;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\Service;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -138,6 +140,14 @@ class ViewAppointments extends Component
             'status' => $this->app_status   
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED APPOINTMENT'
+        ]);
+
         Mail::to($updateAppointment->patient->email)
         ->send(new AppointmentEdited($updateAppointment));
 
@@ -155,6 +165,14 @@ class ViewAppointments extends Component
         ]);
 
         $this->dispatch('updated-appointment');
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SESSION',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'STARTED A SESSION'
+        ]);
     }
 
 }

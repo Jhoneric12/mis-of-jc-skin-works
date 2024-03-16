@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Patient;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class UpdatePatient extends Component
@@ -75,6 +77,14 @@ class UpdatePatient extends Component
             'home_address' => strtoupper($this->homeaddress),
             'contact_number' => $this->contactnumber,
             'skin_type' => strtoupper($this->skintype),
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PATIENT'
         ]);
 
         Session::flash('updated', 'Updated Successfully.');

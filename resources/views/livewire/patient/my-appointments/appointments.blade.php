@@ -169,6 +169,7 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                <x-input-error for="service_id"/>
                             </div>
                             <div class="w-full">
                                 <x-label for="" value="{{ __('Specialist') }}" />
@@ -180,6 +181,7 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                <x-input-error for="specialist_id"/>
                             </div>
                         </div>
                         <div class='w-full flex gap-4'>

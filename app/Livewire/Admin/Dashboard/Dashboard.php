@@ -11,6 +11,9 @@ use App\Models\Appointment;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentConfirmed;
 use App\Mail\AppointmentDeclined;
+use App\Models\ClinicNotif;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class Dashboard extends Component
 {
@@ -50,6 +53,27 @@ class Dashboard extends Component
         $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')->where('status', 1)->count();
 
         return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments'));
+    }
+
+    public function mount()
+    {
+        if (!Cache::has('critical_products_notified')) {
+
+            $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')
+                ->where('status', 1)
+                ->get();
+
+        
+            foreach ($critical_products as $product) {
+                ClinicNotif::create([
+                    'user_id' => Auth::user()->id,
+                    'description' => 'Product "'.$product->product_name.'" is in low stock. Manage the product before the stock reaches zero',
+                    'type' => 'admin'
+                ]);
+            }
+            
+            Cache::put('critical_products_notified', true, now()->addHours(24)); 
+        }
     }
 
     public function editStatus($id)

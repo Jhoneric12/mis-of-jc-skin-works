@@ -268,7 +268,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
+                        {{-- <div class="bg-white p-6 rounded-lg shadow-md">
                             <div class="grid gap-2 grid-cols-1 lg:grid-cols-1 max-h-[30rem] overflow-y-auto">
                                 <div class="bg-white p-4 shadow-lg rounded-lg">
                                     <h1 class="font-bold text-base text-[#4FBD5E]">Clinic's appointments this {{ \Carbon\Carbon::now()->format('F Y') }}</h1>
@@ -363,23 +363,23 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    {{-- <div class="mt-6">
+                                                    <div class="mt-6">
                                                         {{$appointments->links()}}
-                                                    </div> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
-                    {{-- <div class="col-span-12">
+                    <div class="col-span-12">
                         <div class="grid gap-2 grid-cols-1 lg:grid-cols-2 ">
                             <div class="bg-white shadow-lg p-4 rounded-lg" id="chartline"></div>
                             <div class="bg-white shadow-lg rounded-lg" id="chartpie"></div>
                         </div>
-                    </div> --}}
+                    </div>
                     {{-- <div class="bg-white p-4 shadow-lg rounded-lg col-span-12">
                         <h1 class="font-bold text-base text-[#4FBD5E] mb-4">Appointment Calendar</h1>
                         @livewire('admin.appointments.appointment-calendar')

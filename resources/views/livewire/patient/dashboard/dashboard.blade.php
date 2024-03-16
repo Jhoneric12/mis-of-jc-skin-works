@@ -32,7 +32,7 @@
     <div class="col-span-12 mt-6">
         <div class="grid gap-2 grid-cols-1 lg:grid-cols-1">
             <div class="bg-white p-4 shadow-lg rounded-lg">
-                <h1 class="font-bold text-base text-[#4FBD5E]">My recent appointments this {{ \Carbon\Carbon::now()->format('F Y') }}</h1>
+                <h1 class="font-bold text-base text-[#4FBD5E]">Appointments Today</h1>
                 <div class="mt-4">
                     <div class="flex flex-col">
                         <div class="-my-2 overflow-x-auto">

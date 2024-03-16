@@ -119,12 +119,11 @@
   </nav>
 
   <main>
-    <section class="bg-[#F3F5F7]">
+
+    {{-- @livewire('landing-page.landing') --}}
+    <section class="h-screen flex justify-center items-center">
         @livewire('admin.landing-page.hero')
     </section>
-    {{-- <section class="h-screen flex justify-center items-center">
-        @livewire('admin.landing-page.carousel')
-    </section> --}}
   </main>
 
     </body>

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Appointments;
 
 use App\Mail\AppointmentCreated;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class AddAppointment extends Component
@@ -85,6 +87,14 @@ class AddAppointment extends Component
             'time' => $this->time,
             'setting' => $this->setting,
             'status' => $this->status,
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'SCHEDULED AN APPOINTMENT'
         ]);
 
         Mail::to($patient->email)

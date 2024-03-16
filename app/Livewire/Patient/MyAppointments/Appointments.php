@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\Mail\AppointmentCreated;
 use App\Mail\AppointmentExpired;
 use App\Mail\AppointmentTomorrow;
+use App\Models\AuditTrail;
+use App\Models\ClinicNotif;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
@@ -172,6 +174,21 @@ class Appointments extends Component
             'status' => $this->status,
         ]);
 
+        // Notification
+        ClinicNotif::create([
+            'user_id' => Auth::user()->id,
+            'description' => Auth::user()->first_name . " " . Auth::user()->last_name . " " . 'scheduled an appointment.',
+            'type' => 'patient'
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'PATIENT',
+            'description' => 'SCHEDULED AN APPOINTMENT'
+        ]);
+
         // Send email to the patient
         Mail::to(Auth::user()->email)->send(new AppointmentCreated($appointment));
 
@@ -240,6 +257,21 @@ class Appointments extends Component
             'status' => $this->status
         ]);
 
+        // Notification
+        ClinicNotif::create([
+            'user_id' => Auth::user()->id,
+            'description' => Auth::user()->first_name . " " . Auth::user()->last_name . " " . 'Re-scheduled an appointment.',
+            'type' => 'patient'
+        ]);
+
+         // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'PATIENT',
+            'description' => ' RE-SCHEDULED AN APPOINTMENT'
+        ]);
+
         $this->resetFields();
         $this->dispatch('updated');
     }
@@ -261,5 +293,13 @@ class Appointments extends Component
 
         $this->resetFields();
         $this->dispatch('cancelled');
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'PATIENT',
+            'description' => 'CANCELLED AN APPOINTMENT'
+        ]);
     }
 }

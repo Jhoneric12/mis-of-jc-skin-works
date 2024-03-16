@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 use App\Mail\AppointmentCreated;
+use App\Models\AuditTrail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
@@ -112,6 +113,15 @@ class ServiceList extends Component
             'setting' => $this->setting,
             'status' => $this->status,
         ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'PATIENT',
+            'description' => 'SCHEDULED AN APPOINTMENT'
+        ]);
+         
 
         // Send email to the patient
         Mail::to(Auth::user()->email)->send(new AppointmentCreated($appointment));

@@ -41,6 +41,8 @@ use App\Http\Controllers\Admin\AuditTrail\AuditTrail;
 use App\Http\Controllers\Patient\MyAppointments\Appointments;
 use App\Http\Controllers\Patient\MyAppointments\AddAppointments;
 use App\Http\Controllers\Patient\Services\ServiceList;
+use App\Http\Controllers\Patient\Settings\Menu;
+use App\Http\Controllers\Patient\Settings\AccountSettings;
 
 //STAFF
 use App\Http\Controllers\Staff\Patient\ManagePatient as StaffManagePatient;
@@ -153,6 +155,8 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('appointmetns', [Appointments::class, 'index'])->name('appointments');
             Route::get('add-appointments', [AddAppointments::class, 'index'])->name('patient-add-appointment');
             Route::get('services', [ServiceList::class, 'index'])->name('services');
+            Route::get('settings', [Menu::class, 'index'])->name('settings');
+            Route::get('account-settings', [AccountSettings::class, 'index'])->name('account-settings');
 
         })->name('patient-routes'); 
 

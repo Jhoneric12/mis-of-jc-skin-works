@@ -43,6 +43,7 @@ use App\Http\Controllers\Patient\MyAppointments\AddAppointments;
 use App\Http\Controllers\Patient\Services\ServiceList;
 use App\Http\Controllers\Patient\Settings\Menu;
 use App\Http\Controllers\Patient\Settings\AccountSettings;
+use App\Http\Controllers\Patient\Settings\ViewAccount;
 
 //STAFF
 use App\Http\Controllers\Staff\Patient\ManagePatient as StaffManagePatient;
@@ -157,6 +158,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('services', [ServiceList::class, 'index'])->name('services');
             Route::get('settings', [Menu::class, 'index'])->name('settings');
             Route::get('account-settings', [AccountSettings::class, 'index'])->name('account-settings');
+            Route::get('view-account', [ViewAccount::class, 'index'])->name('view-account');
 
         })->name('patient-routes'); 
 

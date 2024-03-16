@@ -69,10 +69,28 @@
             <x-input-error for="lastname" class="mt-2" />
         </div>
 
+        {{-- <div class="col-span-6 sm:col-span-4"  @if(Auth::user()->role != 0) style="display:none" @endif>
+            <x-label for="skin_type" value="{{ __('Skin Type') }}" />
+            <x-input id="skint_ype" type="text" class="mt-1 block w-full"  wire:model="state.skin_type" required autocomplete="skin_type" />
+            <x-input-error for="skin_type" class="mt-2" />
+        </div>
+
+        <div class="col-span-6 sm:col-span-4"  @if(Auth::user()->role != 0) style="display:none" @endif>
+            <x-label for="contact" value="{{ __('Contact Number') }}" />
+            <x-input id="contact" type="text" class="mt-1 block w-full"  wire:model="state.contact" required autocomplete="contact" />
+            <x-input-error for="contact" class="mt-2" />
+        </div>
+
+        <div class="col-span-6 sm:col-span-4"  @if(Auth::user()->role != 0) style="display:none" @endif>
+            <x-label for="last_name" value="{{ __('Home Address') }}" />
+            <x-input id="home_address" type="text" class="mt-1 block w-full"  wire:model="state.home_address" required autocomplete="home_address" />
+            <x-input-error for="home_address" class="mt-2" />
+        </div> --}}
+
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />
-            <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required autocomplete="username" />
+            <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required autocomplete="username" readonly/>
             <x-input-error for="email" class="mt-2" />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())

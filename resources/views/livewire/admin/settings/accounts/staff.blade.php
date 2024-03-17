@@ -91,6 +91,9 @@
                             Staff
                         </th>
                         <th scope="col" class="px-6 py-6">
+                            License Number
+                        </th>
+                        <th scope="col" class="px-6 py-6">
                             Username
                         </th>
                         <th scope="col" class="px-6 py-6">
@@ -122,6 +125,9 @@
                             @endif
                         </th>
                         <td class="px-6 py-6">
+                            {{$staff->license_number}}
+                        </td>
+                        <td class="px-6 py-6">
                             {{$staff->username}}
                         </td>
                         <td class="px-6 py-6">
@@ -130,10 +136,12 @@
                             </span>
                         </td>
                         <td class="px-6 py-6 flex gap-2 items-center">
-                            <svg wire:click='view({{$staff->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>                          
+                            <a href="{{route('view-staff', ['staff_id' => $staff->id])}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                            </a>                          
                             {{-- <svg wire:click='editModal({{$category->category_id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                             </svg>        --}}
@@ -193,6 +201,13 @@
                                     <input wire:model="email" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     <x-input-error for="email"/>
                                 </div>
+                                <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                                    <x-label for="" value="{{ __('License Number') }}" />
+                                    <input wire:model="LN" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <x-input-error for="LN"/>
+                                </div>
+                            </div>
+                            <div class='flex gap-4 mb-4 w-full'>
                                 <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                     <x-label for="" value="{{ __('Username') }}" />
                                     <input wire:model="username" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -269,7 +284,7 @@
         {{-- Update Status --}}
         <x-dialog-modal wire:model.live="modalStatus" maxWidth='lg'>
             <x-slot name="title">
-                {{ __('Edit Status for ' . $staff_id) }}
+                {{ __('Edit Status for ' . $full_name) }}
             </x-slot>
     
             <x-slot name="content">

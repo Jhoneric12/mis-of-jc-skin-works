@@ -38,6 +38,7 @@ class Doctors extends Component
     public $password;
     public $password_confirmation;
     public $status;
+    public $LN;
 
     public function render()
     {
@@ -85,7 +86,8 @@ class Doctors extends Component
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'LN' => 'required'
         ]);
 
         User::create([
@@ -95,6 +97,7 @@ class Doctors extends Component
             'email' => $this->email,
             'username' => $this->username,
             'password' => Hash::make($this->password),
+            'license_number' => $this->LN,
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name),
             'role' => 3
         ]);
@@ -113,6 +116,7 @@ class Doctors extends Component
         $staff_id = User::where('id', $id)->first();
 
         $this->staff_id = $staff_id->id;
+        $this->full_name = $staff_id->first_name . " " . $staff_id->last_name;
     }
 
     public function updateStatus()

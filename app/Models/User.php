@@ -43,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'contact_number', 
         'account_status', 
         'role', 
+        'license_number'
     ];
 
     /**

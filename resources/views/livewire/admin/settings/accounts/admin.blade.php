@@ -267,7 +267,7 @@
     {{-- Update Status --}}
     <x-dialog-modal wire:model.live="modalStatus" maxWidth='lg'>
         <x-slot name="title">
-            {{ __('Edit Status for ' . $staff_id) }}
+            {{ __('Edit Status for ' . $full_name) }}
         </x-slot>
 
         <x-slot name="content">

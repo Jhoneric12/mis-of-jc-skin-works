@@ -113,6 +113,7 @@ class Admin extends Component
         $staff_id = User::where('id', $id)->first();
 
         $this->staff_id = $staff_id->id;
+        $this->full_name = $staff_id->first_name . " " . $staff_id->last_name;
     }
 
     public function updateStatus()

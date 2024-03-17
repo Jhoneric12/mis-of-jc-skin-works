@@ -106,7 +106,10 @@
                         {{\Carbon\Carbon::parse($product->expiration_date)->format('M, d, Y')}}
                     </td>
                     <td class="px-6 py-6">
-                        {{$product->total_quantity}}
+                        {{$product->product->total_qty}}
+                        @if($product->total_qty < $product->min_qty)
+                            <span class="text-red-700 font-bold">!</span>
+                        @endif
                     </td>
                     {{-- <td class="py-6 flex gap-2">
                         <svg wire:click='view({{$product->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">

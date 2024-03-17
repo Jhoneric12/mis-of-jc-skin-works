@@ -268,13 +268,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class='w-full'>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor'>
-                                <x-label for="" value="{{ __('Description') }}" />
-                                <textarea wire:model='description' cols="30" rows="3" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
-                                <x-input-error for="description"/>
-                            </div>
-                        </div>
                         <div class="flex gap-4">
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Minimum Quantity') }}" />
@@ -282,9 +275,9 @@
                                 <x-input-error for="min_qty"/>
                             </div>
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('Maximum Quantity') }}" />
-                                <input wire:model="max_qty" type="number"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="max_qty"/>
+                                <x-label for="" value="{{ __('Quantity On Hand') }}" />
+                                <input wire:model="onhand" type="number"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <x-input-error for="onhand"/>
                             </div>
                         </div>
                         <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
@@ -292,10 +285,17 @@
                             <input wire:model="price" type="number"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-input-error for="price"/>
                         </div>
-                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                        {{-- <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                             <x-label for="" value="{{ __('Image') }}" />
                             <input wire:model="image" type="file"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-input-error for="image"/>
+                        </div> --}}
+                        <div class='w-full'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor'>
+                                <x-label for="" value="{{ __('Description') }}" />
+                                <textarea wire:model='description' cols="30" rows="7" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
+                                <x-input-error for="description"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -366,7 +366,6 @@
                             <h1 class="">Product Name : <span class="text-gray-400" wire:model='service_name'>{{$product_name}}</span></h1>
                             <h1 class="">Category : <span class="text-gray-400" wire:model='service_category_id'>{{$product_category_id}}</span></h1>
                             <h1 class="">Price : <span class="text-gray-400"     wire:model='price'>{{$price}}</span></h1>
-                            <h1 class="">Description : <span class="text-gray-400" wire:model='description'>{{$description}}</span></h1>
                             <h1 class="">Minimum Quantity: <span class="text-gray-400" wire:model='min_qty'>{{$min_qty}}</span></h1>
                             <h1 class="">Quantity On Hand: <span class="text-gray-400" wire:model='min_qty'>{{$quantity}}</span></h1>
                             <h1>Status : 
@@ -374,6 +373,7 @@
                                     {{ $status ? 'Active' : 'Inactive'}}
                                 </span>
                             </h1>
+                            <h1 class="">Description : <span class="text-gray-400" wire:model='description'>{{$description}}</span></h1>
                         </div>
                     </div>
                 </div>

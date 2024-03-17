@@ -372,8 +372,19 @@ class Billing extends Component
         }
 
 
-        $this->modalSucess = true;
-        $this->modalView = false;
+        if($this->appointment_id)
+        {
+            $this->modalSucess = true;
+        }
+        
+        else 
+        {
+            Session::flash('checkout', 'Transaction Completed.');
+
+            $this->redirectRoute('doctor-billing');
+            
+            $this->modalView = false;
+        }
 
         // Print Invoice 
 

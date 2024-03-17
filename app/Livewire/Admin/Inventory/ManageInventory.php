@@ -36,6 +36,7 @@ class ManageInventory extends Component
             ->leftJoin('products', 'inventories.product_id', '=', 'products.id')
             ->where('products.product_name', 'like', '%' . $this->search . '%')
             ->orWhere('inventories.product_id', $this->search)
+            ->distinct()
             ->orderBy('inventories.created_at', 'desc');
             
         $products = $query->paginate(10);
@@ -74,20 +75,24 @@ class ManageInventory extends Component
             'exp_date' => 'required',
         ]);
 
-        // Find existing inventory for the product
-        $inventory = Product::where('id', $this->product_id)->first();
+       // Find existing inventory for the product
+        $inventory = Inventory::where('product_id', $this->product_id)->first();
 
         if ($inventory) {
-            // If inventory exists, update the total quantity
-            $inventory->total_qty += $this->total_quantity;
-            $inventory->save();
-        } 
-
-        Inventory::create([
-            'product_id' => $this->product_id,
-            'total_quantity' => $this->total_quantity,
-            'expiration_date' => $this->exp_date,
-        ]);
+            // If inventory exists, update the total quantity in the product model
+            $product = Product::find($this->product_id);
+            if ($product) {
+                $product->total_qty += $this->total_quantity;
+                $product->save();
+            }
+        } else {
+            // If inventory doesn't exist, create a new entry
+            Inventory::create([
+                'product_id' => $this->product_id,
+                'total_quantity' => $this->total_quantity,
+                'expiration_date' => $this->exp_date,
+            ]);
+        }
 
         $this->resetFields();
         $this->dispatch('created');

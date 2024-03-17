@@ -26,7 +26,7 @@ class ManageProducts extends Component
     public $product_category_id;
     public $description;
     public $min_qty;
-    public $max_qty;
+    public $onhand;
     public $price;
     public $image;
     public $quantity;
@@ -113,7 +113,7 @@ class ManageProducts extends Component
         $this->product_category_id = $product_id->product_category_id;
         $this->description = $product_id->description;
         $this->min_qty = $product_id->min_qty;
-        $this->max_qty = $product_id->max_qty;
+        $this->onhand = $product_id->total_qty;
         $this->price = $product_id->price;
         $this->image = $product_id->product_image_path;
     }
@@ -151,22 +151,22 @@ class ManageProducts extends Component
             'description' => 'required',
             'price' => 'required',
             'min_qty' => 'required',
-            'max_qty' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
+            'onhand' => 'required',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
         ]);
 
         $updateProduct = Product::where('id', $this->product_id);
 
-        $image =  $this->image->store('photos', 'public');
+        // $image =  $this->image->store('photos', 'public');
 
         $updateProduct->update([
             'product_name' => strtoupper($this->product_name),
             'description' => strtoupper($this->description),
             'min_qty' => $this->min_qty,
-            'max_qty' => $this->max_qty,
+            'total_qty' => $this->onhand,
             'product_category_id' => $this->product_category_id,
             'price' => $this->price,
-            'product_image_path' => $image
+            // 'product_image_path' => $image
         ]);
 
         $this->resetFields();

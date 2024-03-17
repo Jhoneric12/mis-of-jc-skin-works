@@ -89,7 +89,7 @@
                             {{\Carbon\Carbon::parse($product->expiration_date)->format('M, d, Y')}}
                         </td>
                         <td class="px-6 py-6">
-                            {{$product->total_quantity}}
+                            {{$product->product->total_qty}}
                         </td>
                         <td class="px-6 py-6">
                             <div>

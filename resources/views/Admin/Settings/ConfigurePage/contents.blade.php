@@ -69,6 +69,15 @@
             </x-slot>
         </x-Essentials.card>
 
+        <x-Essentials.card :link="route('banner')">
+            <x-slot name='img'>
+                <img src="{{asset('assets/Essentials/billboard.png')}}" alt="">
+            </x-slot>
+            <x-slot name='title'>
+                <h1>Promotion Banner</h1>
+            </x-slot>
+        </x-Essentials.card>
+
     </div>
 
 @endsection

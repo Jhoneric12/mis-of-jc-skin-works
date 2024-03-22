@@ -70,7 +70,7 @@
                                 </div>
                             </a>
                             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                                href="{{route('manage-product-table')}}">
+                                href="{{route('manage-inventory')}}">
                                 <div class="p-5">
                                     <div class="flex justify-between">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-pink-600"
@@ -129,7 +129,27 @@
                             </div>
                             <div></div>
                         </div>
-                        <div class="grid gap-2 grid-cols-1 lg:grid-cols-1 mb-6">
+                        <div class="col-span-12 mb-6">
+                            <div class="grid gap-6 grid-cols-1 lg:grid-cols-2 ">
+                                <div class="bg-white p-6 shadow-md rounded-lg">
+                                    <h1 class="font-semibold">Monthly Sales</h1>
+                                    <div id="sales-chart"></div>
+                                </div>
+                                <div class="bg-white p-6 shadow-md rounded-lg">
+                                    <h1 class="font-semibold">Products and Services</h1>
+                                    <div id="sales-pie-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="col-span-12 bg-white p-6 shadow-md rounded-lg mb-6">
+                            <h1 class="font-semibold">Daily Sales</h1>
+                            <div id="daily-sales-chart"></div>
+                        </div> --}}
+                        <div class="col-span-12 bg-white p-6 shadow-md rounded-lg mb-6">
+                            <h1 class="font-semibold">Appointment Statistics</h1>
+                            <div id="daily-visits-chart"></div>
+                        </div>
+                        <div class="grid gap-2 grid-cols-1 lg:grid-cols-1">
                             <div class="bg-white p-4 shadow-lg rounded-lg ">
                                 <h1 class="font-bold text-base text-[#4FBD5E]">Appointments Today</h1>
                                 <div class="mt-4">
@@ -374,12 +394,6 @@
                             </div>
                         </div> --}}
                     </div>
-                    <div class="col-span-12">
-                        <div class="grid gap-2 grid-cols-1 lg:grid-cols-2 ">
-                            <div class="bg-white shadow-lg p-4 rounded-lg" id="chartline"></div>
-                            <div class="bg-white shadow-lg rounded-lg" id="chartpie"></div>
-                        </div>
-                    </div>
                     {{-- <div class="bg-white p-4 shadow-lg rounded-lg col-span-12">
                         <h1 class="font-bold text-base text-[#4FBD5E] mb-4">Appointment Calendar</h1>
                         @livewire('admin.appointments.appointment-calendar')
@@ -426,133 +440,185 @@
             </x-slot>
         </x-dialog-modal>
     </main>
-
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        function data() {
-          
-            return {
-               
-                isSideMenuOpen: false,
-                toggleSideMenu() {
-                    this.isSideMenuOpen = !this.isSideMenuOpen
+        document.addEventListener('livewire:init', function () {
+            // Monthly Sales Chart
+            var salesData = @json($sales->pluck('total', 'month')->toArray());
+            var months = Object.keys(salesData).map(function(month) {
+                var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                var monthIndex = parseInt(month.split('-')[1]) - 1;
+                return monthNames[monthIndex];
+            });
+            var totals = Object.values(salesData);
+            var monthlyColors = totals.map(function(sale) {
+                if (sale > 10000) {
+                    return '#4EBB59';
+                } else if (sale >= 5000 && sale <= 10000) {
+                    return '#FFC234';
+                } else {
+                    return '#FF4069';
+                }
+            });
+    
+            var salesChartOptions = {
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                        }
+                    }
                 },
-                closeSideMenu() {
-                    this.isSideMenuOpen = false
+                colors: monthlyColors,
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        endingShape: 'rounded'
+                    },
                 },
-                isNotificationsMenuOpen: false,
-                toggleNotificationsMenu() {
-                    this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen
-                },
-                closeNotificationsMenu() {
-                    this.isNotificationsMenuOpen = false
-                },
-                isProfileMenuOpen: false,
-                toggleProfileMenu() {
-                    this.isProfileMenuOpen = !this.isProfileMenuOpen
-                },
-                closeProfileMenu() {
-                    this.isProfileMenuOpen = false
-                },
-                isPagesMenuOpen: false,
-                togglePagesMenu() {
-                    this.isPagesMenuOpen = !this.isPagesMenuOpen
-                },
-               
-            }
-        }
-    </script>
-    <script>
-        var chart = document.querySelector('#chartline')
-        var options = {
-            series: [{
-                name: 'TEAM A',
-                type: 'area',
-                data: [44, 55, 31, 47, 31, 43, 26, 41, 31, 47, 33]
-            }, {
-                name: 'TEAM B',
-                type: 'line',
-                data: [55, 69, 45, 61, 43, 54, 37, 52, 44, 61, 43]
-            }],
-            chart: {
-                height: 350,
-                type: 'line',
-                zoom: {
+                dataLabels: {
                     enabled: false
-                }
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            fill: {
-                type: 'solid',
-                opacity: [0.35, 1],
-            },
-            labels: ['Dec 01', 'Dec 02', 'Dec 03', 'Dec 04', 'Dec 05', 'Dec 06', 'Dec 07', 'Dec 08', 'Dec 09 ',
-                'Dec 10', 'Dec 11'
-            ],
-            markers: {
-                size: 0
-            },
-            yaxis: [{
-                    title: {
-                        text: 'Series A',
-                    },
                 },
-                {
-                    opposite: true,
-                    title: {
-                        text: 'Series B',
-                    },
+                series: [{
+                    name: 'Monthly Sales Amount',
+                    data: totals
+                }],
+                xaxis: {
+                    categories: months,
                 },
-            ],
-            tooltip: {
-                shared: true,
-                intersect: false,
-                y: {
-                    formatter: function(y) {
-                        if (typeof y !== "undefined") {
-                            return y.toFixed(0) + " points";
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return "$" + val;
                         }
-                        return y;
                     }
                 }
-            }
-        };
-        var chart = new ApexCharts(chart, options);
-        chart.render();
-    </script>
-    <script>
-        var chart = document.querySelector('#chartpie')
-        var options = {
-            series: [44, 55, 67, 83],
+            };
+    
+            var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesChartOptions);
+            salesChart.render();
+    
+            // Pie chart for sales in services and products
+        var pieChartOptions = {
             chart: {
+                type: 'pie',
                 height: 350,
-                type: 'radialBar',
-            },
-            plotOptions: {
-                radialBar: {
-                    dataLabels: {
-                        name: {
-                            fontSize: '22px',
-                        },
-                        value: {
-                            fontSize: '16px',
-                        },
-                        total: {
-                            show: true,
-                            label: 'Total',
-                            formatter: function(w) {
-                                // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                                return 249
-                            }
-                        }
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: true,
                     }
                 }
             },
-            labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
+            series: [{{$servicesSales}}, {{$productsSales}}],
+            labels: ['Services', 'Products'],
+            colors: ['#FFC234', '#FF4069'],
+            legend: {
+                show: true,
+                position: 'bottom'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
         };
-        var chart = new ApexCharts(chart, options);
-        chart.render();
+
+        var pieChart = new ApexCharts(document.querySelector("#sales-pie-chart"), pieChartOptions);
+        pieChart.render();
+    
+            // Daily Sales Chart
+            var dailySalesData = @json($dailySales);
+            var days = Object.keys(dailySalesData).map(function(day) {
+                return new Date(day).toLocaleDateString('en-US', { weekday: 'short' });
+            });
+            var dailyTotals = Object.values(dailySalesData);
+    
+            var dailySalesChartOptions = {
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Daily Sales',
+                    data: dailyTotals
+                }],
+                xaxis: {
+                    categories: days
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return "$" + val;
+                        }
+                    }
+                }
+            };
+    
+            var dailySalesChart = new ApexCharts(document.querySelector("#daily-sales-chart"), dailySalesChartOptions);
+            dailySalesChart.render();
+    
+            // Daily Visits Chart
+            var dailyVisitsData = @json($dailyVisitsData);
+            var dailyVisitsDays = Object.keys(dailyVisitsData).map(function(day) {
+                return new Date(day).toLocaleDateString('en-US', { weekday: 'short' });
+            });
+            var dailyVisitsCounts = Object.values(dailyVisitsData);
+    
+            var dailyVisitsChartOptions = {
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: true,
+                        tools: {
+                            download: true,
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Daily Visits',
+                    data: dailyVisitsCounts
+                }],
+                xaxis: {
+                    categories: dailyVisitsDays
+                },
+                // yaxis: {
+                //     title: {
+                //         text: 'Visit Count'
+                //     }
+                // },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return val + " visits";
+                        }
+                    }
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                // colors: '#4EBB59'
+            };
+    
+            var dailyVisitsChart = new ApexCharts(document.querySelector("#daily-visits-chart"), dailyVisitsChartOptions);
+            dailyVisitsChart.render();
+        });
     </script>
-</div>
+    

@@ -21,7 +21,7 @@ class Dashboard extends Component
 
         // Retrieve appointments with status 'Confirmed' within the current month
         $appointments = Appointment::where('patient_id', Auth::user()->id)
-            ->whereIn('status', ['Confirmed', 'Cancelled', 'Completed', 'Scheduled'])
+            ->whereIn('status', ['Cancelled', 'Completed', 'On-going'])
             ->whereDate('date', '=',  Carbon::today()->toDateString())
             ->latest()
             ->paginate(5);

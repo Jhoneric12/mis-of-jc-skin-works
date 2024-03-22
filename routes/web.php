@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\Settings\ConfigurePage\HighlighContent;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\Dermatologist;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\AboutUs;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\Testimonials;
+use App\Http\Controllers\Admin\Settings\ConfigurePage\Banner;
 use App\Http\Controllers\Admin\Settings\Accounts\UserAccounts;
 use App\Http\Controllers\Admin\Settings\Accounts\Patient;
 use App\Http\Controllers\Admin\Settings\Accounts\Staff;
@@ -38,6 +39,10 @@ use App\Http\Controllers\Admin\Patient\ViewMedicalRecord;
 use App\Http\Controllers\Admin\AuditTrail\AuditTrail;
 use App\Http\Controllers\Admin\Settings\Accounts\ViewAccount as ViewAccounts;
 use App\Http\Controllers\Admin\Settings\Accounts\ViewDoctor;
+use App\Http\Controllers\Admin\Reports\Sales;
+use App\Http\Controllers\Admin\Reports\Products;
+use App\Http\Controllers\Admin\Reports\Services;
+use App\Http\Controllers\Admin\Reports\Inventory;
 
 // PATIENT
 use App\Http\Controllers\Patient\MyAppointments\Appointments;
@@ -138,6 +143,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('dermatologist', [Dermatologist::class, 'index'])->name('dermatologist');
             Route::get('about-us', [AboutUs::class, 'index'])->name('about-us');
             Route::get('testimonials', [Testimonials::class, 'index'])->name('testimonials');
+            Route::get('banner', [Banner::class, 'index'])->name('banner');
             Route::get('user-accounts', [UserAccounts::class, 'index'])->name('user-accounts');
             Route::get('patient-accounts', [Patient::class, 'index'])->name('patient-accounts');
             Route::get('staff-accounts', [Staff::class, 'index'])->name('staff-accounts');
@@ -151,6 +157,10 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('view-medical-record', [ViewMedicalRecord::class, 'index'])->name('view-medical-record');
             Route::get('manage-promotions', [ManagePromotions::class, 'index'])->name('manage-promotions');
             Route::get('audit-trail', [AuditTrail::class, 'index'])->name('audit-trail');
+            Route::get('sales-report', [Sales::class, 'index'])->name('sales-report');
+            Route::get('products-report', [Products::class, 'index'])->name('products-report');
+            Route::get('services-report', [Services::class, 'index'])->name('services-report');
+            Route::get('inventory-report', [Inventory::class, 'index'])->name('inventory-report');
 
         })->name('admin-routes');
 

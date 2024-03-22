@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentConfirmed;
 use App\Mail\AppointmentDeclined;
 use App\Models\ClinicNotif;
+use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -28,11 +29,18 @@ class Dashboard extends Component
     public $appointment_id;
     public $status;
 
+    public $sales;
+    public $servicesSales;
+    public $productsSales;
+    public $weeklySales;
+    public $dailySales;
+    public $dailyVisitsData;
+
     public function render()
     {
         $appointments = Appointment::whereIn('status', ['Scheduled', 'Completed', 'Cancelled', 'Confirmed'])
                         ->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                        ->latest()->get();
+                        ->latest()->paginate(5);
 
         $total_patient = User::where('role', 0)->count();
 
@@ -40,6 +48,13 @@ class Dashboard extends Component
             ->whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])
             ->latest()
             ->paginate(5);
+
+        // Top 3 selling products
+        $topSellingProducts = OrderItem::selectRaw('item_id, SUM(quantity) as total_quantity')
+            ->groupBy('item_id')
+            ->orderByDesc('total_quantity')
+            ->limit(3)
+            ->get();
 
        // Get the current month's start and end dates
         $currentMonthStart = Carbon::now()->startOfMonth();
@@ -52,7 +67,7 @@ class Dashboard extends Component
 
         $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')->where('status', 1)->count();
 
-        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments'));
+        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments', 'topSellingProducts'));
     }
 
     public function mount()
@@ -71,9 +86,45 @@ class Dashboard extends Component
                     'type' => 'admin'
                 ]);
             }
-            
+
             Cache::put('critical_products_notified', true, now()->addHours(24)); 
         }
+
+        // Fetch and aggregate sales data by month
+        $this->sales = Orders::selectRaw('SUM(total_amount) as total, DATE_FORMAT(created_at, "%Y-%m") as month')
+                            ->groupBy('month')
+                            ->orderBy('month')
+                            ->get();
+
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        $this->weeklySales = Orders::selectRaw('SUM(total_amount) as total, YEARWEEK(created_at, 1) as week')
+                            ->groupBy('week')
+                            ->orderBy('week')
+                            ->pluck('total', 'week')
+                            ->toArray();
+
+        $this->dailySales = Orders::selectRaw('SUM(total_amount) as total, DATE(created_at) as day')
+                            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                            ->groupBy('day')
+                            ->orderBy('day')
+                            ->pluck('total', 'day')
+                            ->toArray();
+        
+
+         // Fetch sales data for services
+         $this->servicesSales = OrderItem::where('item_type', 'Service')->sum('price');
+
+         // Fetch sales data for products
+         $this->productsSales = OrderItem::where('item_type', 'Product')->sum('price');
+
+         // Fetch daily visits data from the database
+        $this->dailyVisitsData = Appointment::selectRaw('DATE(date) as visit_date, COUNT(*) as visit_count')
+        ->groupBy('visit_date')
+        ->get()
+        ->pluck('visit_count', 'visit_date');
+        
     }
 
     public function editStatus($id)

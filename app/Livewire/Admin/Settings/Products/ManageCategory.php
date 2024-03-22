@@ -2,9 +2,16 @@
 
 namespace App\Livewire\Admin\Settings\Products;
 
+ini_set('max_execution_time', 18000);
+
+use App\Models\AuditTrail;
+use App\Models\Product;
 use Livewire\Component;
 use App\Models\ProductCategory;
 use Livewire\WithPagination;
+
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ManageCategory extends Component
 {
@@ -135,5 +142,34 @@ class ManageCategory extends Component
         $this->category_name = $category_id->category_name;
         $this->status = $category_id->status;
 
+    }
+
+    public function export()
+    {
+        $data = ProductCategory::latest()->get();
+        $pdf = PDF::loadView('Admin.Dompdf.Products.category', ['data' => $data]);
+
+        // Generate a temporary file path for the PDF
+        $tempFilePath = tempnam(sys_get_temp_dir(), 'patients');
+
+        // Save the PDF to the temporary file with the desired filename
+        $pdf->save($tempFilePath);
+
+        // Set appropriate headers for streaming
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="product_category_list_report.pdf"',
+        ];
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'EXPORTED PRODUCTS CATEGORY'
+        ]);
+
+        // Return the response to stream the PDF with the specified filename
+        return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);
     }
 }

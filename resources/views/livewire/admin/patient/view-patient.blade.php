@@ -146,8 +146,8 @@
                                     </div>
                                 </div>
                             @endforelse
-                        </div>
-                   </div>
+                    </div>
+                </div>
             </div>
             <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="medical-records" role="tabpanel" aria-labelledby="settings-tab">
                 <div>
@@ -193,9 +193,9 @@
                                 <th scope="col" class="px-6 py-6">
                                     Date Created
                                 </th>
-                                {{-- <th scope="col" class="px-6 py-6">
+                                <th scope="col" class="px-6 py-6">
                                     Findings
-                                </th> --}}
+                                </th>
                                 <th scope="col" class="px-6 py-6">
                                     Action
                                 </th>
@@ -210,9 +210,9 @@
                                 <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                     {{\Carbon\Carbon::parse($record->created_at)->format('M, d, Y')}}
                                 </td>
-                                {{-- <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <td scope="row" class="px-6 py-4 whitespace-normal dark:text-white">
                                     {{$record->findings}}
-                                </td> --}}
+                                </td>
                                 <td class="px-6 py-6 flex gap-2 items-center">
                                     <a href="{{route('view-medical-record', ['record_id' => $record->id])}}" class="hover:cursor-pointer text-[#5FC26C]">
                                         Full Details

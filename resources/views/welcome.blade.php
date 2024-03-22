@@ -8,20 +8,19 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-        <link rel="shortcut icon" href="{{asset('asssets/Essentials/jcslogo.png')}}" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="{{asset('assets/Essentials/jcslogo.png')}}" type="image/x-icon">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 
     </head>
     <body class="antialiased selection:bg-green-500 selection:text-[white]">
         
 
-    <nav class="bg-white shadow-md dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <nav class="bg-white fixed dark:bg-gray-900 w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="{{asset('assets/Essentials/jcslogo.png')}}" class="h-10" alt="Flowbite Logo">
+    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="{{asset('assets/Essentials/jcslogo.png')}}" class="h-12 w-18" alt="Flowbite Logo">
     </a>
     <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
        <div class="flex">
@@ -81,14 +80,14 @@
             </x-dropdown>
         </div> 
         @else
+            @if (Route::has('register'))
+                <a href="{{route('register')}}">
+                    <x-secondary-button class="ms-4">{{ __('Sign Up') }}</x-secondary-button>
+                </a>
+            @endif
             <a href="{{route('login')}}">
                 <x-button class="ms-4">{{ __('Log in') }}</x-button>
             </a>
-            @if (Route::has('register'))
-                <a href="{{route('register')}}">
-                    <x-button class="ms-4">{{ __('Sign Up') }}</x-button>
-                </a>
-            @endif
         @endif
         @endauth
        </div>
@@ -103,6 +102,9 @@
       <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li>
           <a href="#" class="block py-2 px-3 text-white bg-green-700 rounded md:bg-transparent md:text-green-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
+        </li>
+        <li>
+            <a href="#featured-products" class="block py-2 px-3 text-white rounded md:bg-transparent md:text-green-700 md:p-0 md:dark:text-blue-500" aria-current="page">Featured</a>
         </li>
         <li>
           <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
@@ -124,24 +126,25 @@
     <section class="h-screen flex justify-center items-center">
         @livewire('admin.landing-page.hero')
     </section>
+    <section id="banner">
+        @livewire('admin.landing-page.carouse-banner')
+    </section>
+    <section id="register">
+        @livewire('admin.landing-page.register')
+    </section>
+    <section id="dermatologist">
+        @livewire('admin.landing-page.dermatologist')
+    </section>
+    <section id="featured-products">
+        @livewire('admin.landing-page.carousel')
+    </section>
+    <section id="aboput-us">
+        @livewire('admin.landing-page.about-us')
+    </section>
+    <section id="footer">
+        @livewire('admin.landing-page.footer')
+    </section>
   </main>
 
     </body>
 </html>
-
-{{-- 
-<div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 selection:bg-red-500 selection:text-white">
-    @if (Route::has('login'))
-        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-            @auth
-                <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-            @else
-                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
-
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
-</div> --}}

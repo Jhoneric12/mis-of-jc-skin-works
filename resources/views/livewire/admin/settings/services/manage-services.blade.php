@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="20%">
-                <x-button class="flex gap-2 bg-red-500">
+                <x-button class="flex gap-2 bg-red-500" wire:click='export'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
                     </svg>                                       
@@ -190,13 +190,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class='w-full'>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor'>
-                                <x-label for="" value="{{ __('Description') }}" />
-                                <textarea wire:model='description' cols="30" rows="3" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
-                                <x-input-error for="description"/>
-                            </div>
-                        </div>
                        <div class="flex gap-4">
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Price') }}" />
@@ -209,6 +202,13 @@
                                 <x-input-error for="sessions"/>
                             </div>
                        </div>
+                       <div class='w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor'>
+                            <x-label for="" value="{{ __('Description') }}" />
+                            <textarea wire:model='description' cols="30" rows="6" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
+                            <x-input-error for="description"/>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </form>
@@ -252,13 +252,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class='w-full'>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor'>
-                                <x-label for="" value="{{ __('Description') }}" />
-                                <textarea wire:model='description' cols="30" rows="3" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
-                                <x-input-error for="description"/>
-                            </div>
-                        </div>
                         <div class="flex gap-4">
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Price') }}" />
@@ -271,6 +264,13 @@
                                 <x-input-error for="sessions"/>
                             </div>
                        </div>
+                       <div class='w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor'>
+                            <x-label for="" value="{{ __('Description') }}" />
+                            <textarea wire:model='description' cols="30" rows="6" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
+                            <x-input-error for="description"/>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </form>

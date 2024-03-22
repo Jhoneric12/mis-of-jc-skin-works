@@ -151,8 +151,20 @@
                     <tr>
                         <td class="border px-4 py-2"></td>
                         <td class="border px-4 py-2"></td>
-                        <td class="border px-4 py-2 text-right font-medium">Total</td>
+                        <td class="border px-4 py-2 text-right"><strong>Discount</strong></td>
+                        <td class="border px-4 py-2">{{ number_format($discount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2"></td>
+                        <td class="border px-4 py-2"></td>
+                        <td class="border px-4 py-2 text-right"><strong>Total</strong></td>
                         <td class="border px-4 py-2">{{ number_format($total_amount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2"></td>
+                        <td class="border px-4 py-2"></td>
+                        <td class="border px-4 py-2 text-right"><strong>Payment Mode</strong></td>
+                        <td class="border px-4 py-2">{{ $payment_mode }}</td>
                     </tr>
                 </tbody>
             </table>

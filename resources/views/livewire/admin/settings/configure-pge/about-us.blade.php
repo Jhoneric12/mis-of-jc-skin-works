@@ -22,7 +22,7 @@
     <form class="bg-white rounded-lg shadow-md p-16 border-t-4 border-t-solid border-t-[green]" wire:submit='update'>
         <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
             <x-label for="" value="{{ __('Title') }}" />
-            <input wire:model="title" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            <input wire:model="title" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md py-3">
             <x-input-error for="title"/>
         </div>
         <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>

@@ -1,9 +1,14 @@
 <div>
     <x-Essentials.page-title>Home</x-Essentials.page-title>
 
-    <div class="bg-[#B0E1B6] w-full p-12 rounded-lg shadow-lg">
+
+    <div class="bg-[#B0E1B6] w-full p-12 rounded-lg shadow-lg mb-6">
         <h1 class="text-xl font-bold">Welcome {{$patientName}} !</h1>
         <p class="text-sm mt-1 font-regular">Transform Your Skin with JC's Skin Works: Unveiling Radiant Beauty through Expert Care and Tailored Treatments.</p>
+    </div>
+
+    <div class="mb-6">
+        @livewire('admin.landing-page.carouse-banner')
     </div>
 
     {{-- <div class="mt-10">

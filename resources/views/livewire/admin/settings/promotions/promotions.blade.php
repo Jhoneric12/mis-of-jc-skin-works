@@ -44,7 +44,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input wire:model.live='search' type='search' id="default-search" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Category" autocomplete="off">
+                        <input wire:model.live='search' type='search' id="default-search" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Promotion" autocomplete="off">
                     </div>
                 </div>
     
@@ -84,36 +84,45 @@
                         Promo Name
                     </th>
                     <th scope="col" class="px-6 py-6">
+                        Price
+                    </th>
+                    <th scope="col" class="px-6 py-6">
                         Status
+                    </th>
+                    <th scope="col" class="px-6 py-6">
+                        Action
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($promotions as $promotion)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg">
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white">
                         {{$promotion->id}}
                     </td>
-                    <td class="px-6 py-6">
-                        {{$promotion->services->service_name}}
+                    <td class="px-6 py-6  whitespace-normal">
+                        {{$promotion->promo_name}}
                     </td>
-                    <td class="px-6 py-6">
+                    <td class="px-6 py-6  whitespace-normal">
+                        {{$promotion->price}}
+                    </td>
+                    <td class="px-6 py-6  whitespace-normal">
                         <span class="{{ $promotion->status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                             {{ $promotion->status ? 'Active' : 'Inactive'}}
                         </span>
                     </td>
-                    {{-- <td class="py-6 flex gap-2 items-center">
-                        <svg wire:click='viewCategory({{$category->category_id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                    <td class="py-6 flex gap-2 items-center  whitespace-normal"> 
+                        <svg wire:click='view({{$promotion->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>                          
-                        <svg wire:click='editModal({{$category->category_id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                        </svg>  
+                        <svg wire:click='editModal({{$promotion->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>       
-                        <svg wire:click='editStatus({{$category->category_id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                        </svg>    
+                        <svg wire:click='editStatus({{$promotion->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                         </svg>
-                    </td> --}}
+                    </td>
                 </tr>
                 @empty
                     <tr class="w-full">
@@ -135,7 +144,7 @@
      {{-- Add Modal --}}
      <x-dialog-modal wire:model.live="modalAdd" maxWidth='lg'>
         <x-slot name="title">
-            {{ __('Add Promotions') }}
+            {{ __('Add Promotion') }}
         </x-slot>
     
         <x-slot name="content">
@@ -145,13 +154,22 @@
                     <div class='flex gap-4 w-full'>
                         <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                             <x-label for="" value="{{ __('Promo Name') }}" />
-                            <select wire:model='service' class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <option  value="">- Select Options - </option>
-                                @foreach ($services as $service)
-                                    <option value="{{ $service->id }}">{{ $service->service_name }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error for="service"/>
+                            <input wire:model="promo_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="promo_name"/>
+                        </div>
+                    </div>
+                    <div class='flex gap-4 w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <x-label for="" value="{{ __('Price') }}" />
+                            <input wire:model="price" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="price"/>
+                        </div>
+                    </div>
+                    <div class='w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor'>
+                            <x-label for="" value="{{ __('Description') }}" />
+                            <textarea wire:model='description' cols="30" rows="6" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
+                            <x-input-error for="description"/>
                         </div>
                     </div>
                 </div>
@@ -169,10 +187,56 @@
         </x-slot>
     </x-dialog-modal>
 
-       {{-- Update Status --}}
-       {{-- <x-dialog-modal wire:model.live="modalStatus" maxWidth='lg'>
+    {{-- Update Modal --}}
+    <x-dialog-modal wire:model.live="modalUpdate" maxWidth='lg'>
         <x-slot name="title">
-            {{ __('Edit Status for ' . $category_name) }}
+            {{ __('Edit Promotion') }}
+        </x-slot>
+    
+        <x-slot name="content">
+            <form wire:submit='createCategory'>
+                @csrf
+                <div>
+                    <div class='flex gap-4 w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <x-label for="" value="{{ __('Promo Name') }}" />
+                            <input wire:model="promo_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="promo_name"/>
+                        </div>
+                    </div>
+                    <div class='flex gap-4 w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <x-label for="" value="{{ __('Price') }}" />
+                            <input wire:model="price" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="price"/>
+                        </div>
+                    </div>
+                    <div class='w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor'>
+                            <x-label for="" value="{{ __('Description') }}" />
+                            <textarea wire:model='description' cols="30" rows="6" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder='Enter Description' '></textarea>
+                            <x-input-error for="description"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+    
+            <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='update'>
+                {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    {{-- Update Status --}}
+    <x-dialog-modal wire:model.live="modalStatus" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Edit Status for ' . $promo_name) }}
         </x-slot>
 
         <x-slot name="content">
@@ -205,5 +269,39 @@
                 {{ __('Save') }}
             </x-button>
         </x-slot>
-    </x-dialog-modal> --}}
+    </x-dialog-modal>
+
+     {{-- View Modal --}}
+     <x-dialog-modal wire:model.live="modalView" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Promotion Details') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <form wire:submit='updateCategory'>
+                @csrf
+                <div class="w-full">
+                    <div class='flex gap-4 w-full'>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full text-based font-semibold'>
+                            <h1>Promo ID : <span class="text-gray-400">{{$promo_id}}</span></h1>
+                            <h1 class="">Promo Name : <span class="text-gray-400" wire:model='service_name'>{{$promo_name}}</span></h1>
+                            <h1 class="">Price : <span class="text-gray-400"     wire:model='price'>{{$price}}</span></h1>
+                            <h1>Status : 
+                                <span class="{{ $status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
+                                    {{ $status ? 'Active' : 'Inactive'}}
+                                </span>
+                            </h1>
+                            <h1 class="">Description : <span class="text-gray-400" wire:model='description'>{{$description}}</span></h1>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                {{ __('Close') }}
+            </x-secondary-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>

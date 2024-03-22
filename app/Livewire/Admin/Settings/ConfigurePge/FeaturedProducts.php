@@ -17,6 +17,7 @@ class FeaturedProducts extends Component
     public $modalUpdate = false;
     public $modalView = false;
     public $modalStatus = false;
+    public $modalImage = false;
 
     public $product_name;
     public $description;
@@ -96,6 +97,35 @@ class FeaturedProducts extends Component
         $feature_id = FeaturedProduct::where('id', $id)->first();
 
         $this->product_name = $feature_id->product_name;
+    }
+
+    public function editImage($id)
+    {
+        $this->modalImage = true;
+
+        $this->feature_id = $id;
+
+        $feature_id = FeaturedProduct::where('id', $id)->first();
+
+        $this->product_name = $feature_id->product_name;
+    }
+
+    public function updateImage()
+    {
+        $this->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
+        ]);
+
+        $updateImage = FeaturedProduct::where('id', $this->feature_id);
+
+        $image =  $this->image->store('photos', 'public');
+
+        $updateImage->update([
+            'product_image_path' => $image
+        ]);
+
+        $this->resetFields();
+        $this->dispatch('updated');
     }
 
     public function updateStatus()

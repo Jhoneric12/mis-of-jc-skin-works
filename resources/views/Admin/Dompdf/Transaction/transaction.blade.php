@@ -89,16 +89,21 @@
             </tr>
             @foreach($data as $item)
             <tr>
-                    <td>{{ $item->id}}</td>
-                    <td>{{ $item->patient->first_name . " " . $item->patient->last_name}}</td>
-                    <td>{{ $item->total_amount}}</td>
-                    <td>{{ $item->payment_mode }}</td>
-                    <td>{{ $item->staff->first_name . " " . $item->staff->last_name}}</td>
-                    <td>{{ $item->created_at}}</td>
+                <td>{{ $item->id}}</td>
+                <td>{{ $item->patient->first_name . " " . $item->patient->last_name}}</td>
+                <td>{{ $item->total_amount}}</td>
+                <td>{{ $item->payment_mode }}</td>
+                <td>{{ $item->staff->first_name . " " . $item->staff->last_name}}</td>
+                <td>{{ $item->created_at}}</td>
             </tr>
             @endforeach
         </table>
     
+        <!-- Display Total Amount -->
+        <div class="total">
+            <strong>Total Amount:</strong> P{{ number_format($total_amount, 2) }}
+        </div>
+
         <div class="footer">
             <div>"Working Together to bring out the beauty within"</div>
             <p>Issued on {{ date('Y-m-d') }}</p>

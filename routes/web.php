@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\Reports\Sales;
 use App\Http\Controllers\Admin\Reports\Products;
 use App\Http\Controllers\Admin\Reports\Services;
 use App\Http\Controllers\Admin\Reports\Inventory;
+use App\Http\Controllers\Admin\Reports\Patient as PatientReport;
 use App\Http\Controllers\Admin\Prescription\GeneratePrescription;
 use App\Http\Controllers\Admin\LandingPage\Services as ServicesOffered;
 
@@ -74,6 +75,9 @@ use App\Http\Controllers\Staff\Settings\Accounts\Staff as StaffStaff;
 use App\Http\Controllers\Staff\Inventory\Inventory as StaffInventory;
 use App\Http\Controllers\Staff\Transactions\Transactions as StaffTransactions;
 use App\Http\Controllers\Staff\Billing\Billing as StaffBilling;
+use App\Http\Controllers\Staff\Reports\Inventory\InventoryReport;
+use App\Http\Controllers\Staff\Reports\Patient\PatientReport as StaffPatientReport;
+use App\Http\Controllers\Staff\Reports\Transactions\TransactionReport;
 use App\Http\Controllers\Staff\Dashboard\UpcomingAppointments;
 use App\Livewire\Admin\Appointments\ViewAppointments as AppointmentsViewAppointments;
 
@@ -92,6 +96,8 @@ use App\Http\Controllers\Doctor\Appointments\AddAppointments as DoctorAddAppoint
 use App\Http\Controllers\Doctor\Prescription\GeneratePrescription as DoctorGeneratePrescription;
 use App\Http\Controllers\Doctor\Billing\Billing as DoctorBilling;
 use App\Http\Controllers\Doctor\Transactions\Transactions as DoctorTransactions;
+use App\Http\Controllers\Doctor\Reports\PatientReport as DoctorPatientReport;
+use App\Http\Controllers\Doctor\Reports\Transactions as DoctorTransacationReport;
 
 /*
 |--------------------------------------------------------------------------
@@ -164,6 +170,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('products-report', [Products::class, 'index'])->name('products-report');
             Route::get('services-report', [Services::class, 'index'])->name('services-report');
             Route::get('inventory-report', [Inventory::class, 'index'])->name('inventory-report');
+            Route::get('patient-report', [PatientReport::class, 'index'])->name('patient-report');
             Route::get('generate-prescription', [GeneratePrescription::class, 'index'])->name('generate-prescription');
 
 
@@ -201,6 +208,9 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('billing', [StaffBilling::class, 'index'])->name('staff-billing');
             Route::get('view-medical-records', [StaffViewMedicalRecords::class, 'index'])->name('staff-view-medical-records');
             Route::get('add-medical-records', [StaffAddMedicalRecord::class, 'index'])->name('staff-add-medical-record');
+            Route::get('inventory-report', [InventoryReport::class, 'index'])->name('staff-inventory-report');
+            Route::get('patient-report', [StaffPatientReport::class, 'index'])->name('staff-patient-report');
+            Route::get('transaction-report', [TransactionReport::class, 'index'])->name('staff-transaction-report');
 
         })->name('staff-routes'); 
 
@@ -221,6 +231,8 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('generate-prescription', [DoctorGeneratePrescription::class, 'index'])->name('doctor-generate-prescription');
             Route::get('billing', [DoctorBilling::class, 'index'])->name('doctor-billing');
             Route::get('transactions', [DoctorTransactions::class, 'index'])->name('doctor-transactions');
+            Route::get('patient-report', [DoctorPatientReport::class, 'index'])->name('doctor-patient-report');
+            Route::get('transaction-report', [DoctorTransacationReport::class, 'index'])->name('doctor-transaction-report');
 
         })->name('doctor-routes'); 
 

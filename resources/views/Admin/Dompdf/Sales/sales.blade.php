@@ -86,9 +86,6 @@
                 <th>Payment Mode</th>
                 <th>Date</th>
             </tr>
-            @php
-                $totalAmount = 0; // Initialize total amount variable
-            @endphp
             @foreach($data as $item)
             <tr>
                     <td>{{ $item->id }}</td>
@@ -97,21 +94,17 @@
                     <td>{{ $item->payment_mode }}</td>
                     <td>{{ $item->created_at }}</td>
             </tr>
-            @php
-                $totalAmount += $item->total_amount; // Add to total amount
-            @endphp
             @endforeach
-            <tr>
-                <td colspan="2"></td>
-                <td colspan="2"></td>
-                <td class="total">Total: P {{number_format($totalAmount, 0, ',', '.');}}</td>
-            </tr>
         </table>
+
+         <!-- Display Total Amount -->
+         <div class="total">
+            <strong>Total Amount:</strong> P{{ number_format($total_amount, 2) }}
+        </div>
     
         <div class="footer">
             <div>"Working Together to bring out the beauty within"</div>
             <p>Issued on {{ date('Y-m-d') }}</p>
-            {{-- <div>&copy; Jc's Skin Works</div> --}}
         </div>
     </div>
 </body>

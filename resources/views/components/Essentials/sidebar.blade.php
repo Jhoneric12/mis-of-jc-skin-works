@@ -159,9 +159,9 @@
                <li>
                 <a href="{{route('services-report')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Services</a>
               </li>
-              <li>
+              {{-- <li>
                 <a href="{{route('inventory-report')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Inventory</a>
-              </li>
+              </li> --}}
           </ul>
        </li>
          <li>

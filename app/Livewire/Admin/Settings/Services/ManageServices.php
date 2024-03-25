@@ -99,6 +99,14 @@ class ManageServices extends Component
             'image_path' => $image
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED SERVICES'
+        ]);
+
         $this->resetFields();
         $this->dispatch('created');
         $this->modalAdd = false;
@@ -157,6 +165,14 @@ class ManageServices extends Component
             'image_path' => $image
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED SERVICES IMAGE'
+        ]);
+
         $this->resetFields();
         $this->dispatch('updated');
     }
@@ -171,6 +187,14 @@ class ManageServices extends Component
 
         $updateStatus->update([
             'status' => $status
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED SERVICES STATUS'
         ]);
 
         $this->resetFields();
@@ -194,6 +218,14 @@ class ManageServices extends Component
             'description' => strtoupper($this->description),
             'price' => $this->price,
             'nno_of_sessions' => $this->sessions,
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED SERVICES'
         ]);
 
         $this->resetFields();

@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Settings\Accounts;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class Patient extends Component
@@ -98,6 +100,14 @@ class Patient extends Component
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name)
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'ACCOUNT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PATIENT ACCOUNT'
+        ]);
+
         $this->modalAdd = false;
         $this->resetFields();
         $this->dispatch('created');
@@ -124,6 +134,14 @@ class Patient extends Component
 
         $updateStatus->update([
             'account_status' => $status
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'ACCOUNT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PATIENT ACCOUNT STATUS'
         ]);
 
         $this->resetFields();

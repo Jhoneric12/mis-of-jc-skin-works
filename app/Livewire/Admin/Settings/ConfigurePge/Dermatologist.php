@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\ConfigureDermatologist;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
@@ -47,6 +49,14 @@ class Dermatologist extends Component
         $updateDermatologist->update([
             'name' => $this->name,
             'image_path' => $imagePath
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED DERMATOLOGIST'
         ]);
 
         $this->modalUpdate = false;

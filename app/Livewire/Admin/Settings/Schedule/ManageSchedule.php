@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Settings\Schedule;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\Auth;
 
 class ManageSchedule extends Component
 {
@@ -42,6 +44,14 @@ class ManageSchedule extends Component
             'weekly_schedule' => $serializedSchedule,
             'open_time' => $this->openTime,
             'closing_time' => $this->closingTime,
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SCHEDULE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED CLINIC SCHEDULE'
         ]);
 
         $this->dispatch('updated');

@@ -143,6 +143,7 @@ class AddAppointment extends Component
             'description' => 'SCHEDULED AN APPOINTMENT'
         ]);
 
+
         Mail::to($patient->email)
         ->send(new AppointmentCreated($appointment));
 

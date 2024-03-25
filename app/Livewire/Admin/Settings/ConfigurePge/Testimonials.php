@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\ConfigureTestimonials;
 use App\Models\Feedback;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
 
@@ -112,6 +114,14 @@ class Testimonials extends Component
 
         $updateStatus->update([
             'status' => $status
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED TESTIMONIALS STATUS'
         ]);
 
         $this->resetFields();

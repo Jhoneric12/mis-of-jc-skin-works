@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\ConfigureAboutUs;
+use Illuminate\Support\Facades\Auth;
 
 class AboutUs extends Component
 {
@@ -35,6 +37,14 @@ class AboutUs extends Component
         $updateAbout->update([
             'title' => $this->title,
             'content' => $this->content
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED ABOUT US'
         ]);
 
         $this->dispatch('updated');

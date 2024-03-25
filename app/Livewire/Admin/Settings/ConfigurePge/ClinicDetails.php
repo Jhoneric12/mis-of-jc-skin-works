@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
+use App\Models\AuditTrail;
 use App\Models\ClinicInformation;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class ClinicDetails extends Component
@@ -57,6 +59,14 @@ class ClinicDetails extends Component
             'facebook' => $this->fb_link,
             'twitter' => $this->twitter_link,
             'home_address' => $this->home_address,
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED CLINIC DETAILS'
         ]);
 
        $this->dispatch('updated');

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
-use App\Models\HighlightsContent;  
+use App\Models\HighlightsContent;
+use Illuminate\Support\Facades\Auth;
 
 class HighlightContent extends Component
 {
@@ -30,6 +32,14 @@ class HighlightContent extends Component
 
         $updateContent->update([
             'content' => $this->content
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED HIGHLIGHT CONTENT'
         ]);
 
         $this->dispatch('updated');

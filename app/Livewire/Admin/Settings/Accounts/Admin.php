@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Settings\Accounts;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class Admin extends Component
@@ -99,6 +101,14 @@ class Admin extends Component
             'role' => 1
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'ACCOUNT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED ADMIN ACCOUNT'
+        ]);
+
         $this->modalAdd = false;
         $this->resetFields();
         $this->dispatch('created');
@@ -126,6 +136,14 @@ class Admin extends Component
 
         $updateStatus->update([
             'account_status' => $status
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'ACCOUNT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED ADMIN ACCOUNT STATUS'
         ]);
 
         $this->resetFields();

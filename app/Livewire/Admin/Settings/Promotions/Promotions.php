@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Settings\Promotions;
 
+use App\Models\AuditTrail;
 use App\Models\Promo;
 use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -75,6 +77,14 @@ class Promotions extends Component
             'description' => strtoupper($this->description)
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PROMOTIONS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PROMOTION'
+        ]);
+
         $this->modalAdd = false;
         $this->resetFields();
         $this->dispatch('created');
@@ -120,6 +130,14 @@ class Promotions extends Component
             'description' => strtoupper($this->description)
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PROMOTIONS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PROMOTION'
+        ]);
+
         $this->modalUpdate = false;
         $this->resetFields();
         $this->dispatch('updated');
@@ -135,6 +153,14 @@ class Promotions extends Component
 
         $updateStatus->update([
             'status' => $status
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PROMOTIONS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PROMOTION STATUS'
         ]);
 
         $this->modalStatus = false;

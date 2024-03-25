@@ -70,6 +70,14 @@ class ManageCategory extends Component
             'category_name' => strtoupper($this->category_name)
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PRODUCT CATEGORY'
+        ]);
+
         $this->modalAdd = false;
         $this->resetFields();
         $this->dispatch('category-created');
@@ -111,6 +119,14 @@ class ManageCategory extends Component
             'status' => $status
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PRODUCT CATEGORY STATUS'
+        ]);
+
         $this->resetFields();
         $this->dispatch('updated');
     }
@@ -125,6 +141,14 @@ class ManageCategory extends Component
 
         $updateCategory->update([
             'category_name' => strtoupper($this->category_name),
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PRODUCT CATEGORY'
         ]);
 
         $this->resetFields();

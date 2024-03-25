@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
+use App\Models\AuditTrail;
 use App\Models\Banner;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
@@ -74,6 +76,14 @@ class PromotionBanner extends Component
             'image' => $image
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PROMO BANNER'
+        ]);
+
         $this->resetFields();
         $this->dispatch('created');
     }
@@ -122,6 +132,14 @@ class PromotionBanner extends Component
             'image' => $image
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED BANNER IMAGE'
+        ]);
+
         $this->resetFields();
         $this->dispatch('updated');
     }
@@ -140,6 +158,14 @@ class PromotionBanner extends Component
         $updateBanner->update([
             'promo_title' => strtoupper($this->promo_title),
             // 'image' => $image
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PROMO BANNER'
         ]);
 
         $this->dispatch('updated');

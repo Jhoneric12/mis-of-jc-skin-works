@@ -69,6 +69,14 @@ class ManageServiceCategory extends Component
             'category_name' => strtoupper($this->category_name)
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED SERVICES CATEGORY'
+        ]);
+
         $this->modalAdd = false;
         $this->resetFields();
         $this->dispatch('category-created');
@@ -110,6 +118,14 @@ class ManageServiceCategory extends Component
             'status' => $status
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED SERVICES CATEGORY STATUS'
+        ]);
+
         $this->resetFields();
         $this->dispatch('category-updated');
     }
@@ -124,6 +140,14 @@ class ManageServiceCategory extends Component
 
         $updateCategory->update([
             'category_name' => strtoupper($this->category_name),
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SERVCES',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED SERVICES CATEGORY'
         ]);
 
         $this->resetFields();

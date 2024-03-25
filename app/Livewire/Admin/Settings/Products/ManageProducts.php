@@ -104,6 +104,14 @@ class ManageProducts extends Component
             'product_image_path' => $image
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PRODUCT'
+        ]);
+
         $this->resetFields();
         $this->dispatch('created');
     }
@@ -161,6 +169,14 @@ class ManageProducts extends Component
             'product_image_path' => $image
         ]);
 
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PRODUCT IMAGE'
+        ]);
+
         $this->resetFields();
         $this->dispatch('updated');
     }
@@ -173,6 +189,14 @@ class ManageProducts extends Component
 
         $updateStatus->update([
             'status' => $status
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED PRODUCT STATUS'
         ]);
 
         $this->resetFields();
@@ -203,6 +227,14 @@ class ManageProducts extends Component
             'product_category_id' => $this->product_category_id,
             'price' => $this->price,
             // 'product_image_path' => $image
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRODUCTS',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PRODUCT'
         ]);
 
         $this->resetFields();

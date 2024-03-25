@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Settings\Accounts;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Hash;
 
@@ -102,6 +104,14 @@ class Staff extends Component
             'role' => 2
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'ACCOUNT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED STAFF ACCOUNT'
+        ]);
+
         $this->modalAdd = false;
         $this->resetFields();
         $this->dispatch('created');
@@ -129,6 +139,14 @@ class Staff extends Component
 
         $updateStatus->update([
             'account_status' => $status
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'ACCOUNT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED STAFF ACCOUNT STATUS'
         ]);
 
         $this->resetFields();

@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Doctor\Appointments;
 
+ini_set('max_execution_time', 18000);
+
 use App\Mail\AppointmentCanceled;
 use App\Mail\AppointmentCreated;
 use App\Mail\AppointmentEdited;
 use Livewire\Component;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +18,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Livewire\WithPagination;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ManageAppointents extends Component
 {
@@ -197,6 +202,14 @@ class ManageAppointents extends Component
             'status' => $this->status,
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'DOCTOR',
+            'description' => 'ADDED APPOINTMENTS'
+        ]);
+
         Mail::to($patient->email)
         ->send(new AppointmentCreated($appointment));
 
@@ -304,6 +317,14 @@ class ManageAppointents extends Component
             'time' => $this->time,
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'DOCTOR',
+            'description' => 'UPDATED APPOINTMENTS'
+        ]);
+
         Mail::to($updateAppointment->patient->email)
         ->send(new AppointmentEdited($updateAppointment));
 
@@ -332,6 +353,14 @@ class ManageAppointents extends Component
             'status' => 'Cancelled'
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'DOCTOR',
+            'description' => 'CANCELLED APPOINTMENTS'
+        ]);
+
         Mail::to($patient_email)->send(new AppointmentCanceled($updateStatus));
 
         $this->resetFields();
@@ -352,5 +381,34 @@ class ManageAppointents extends Component
         $this->date = $appointment_id->date;
         $this->time = $appointment_id->time;
         $this->status = $appointment_id->status;
+    }
+
+    public function export()
+    {
+        $data = Appointment::where('specialist_id', Auth::user()->id)->latest()->get();
+        $pdf = PDF::loadView('Admin.Dompdf.Appointment.appointment-report', ['data' => $data]);
+
+        // Generate a temporary file path for the PDF
+        $tempFilePath = tempnam(sys_get_temp_dir(), 'patients');
+
+        // Save the PDF to the temporary file with the desired filename
+        $pdf->save($tempFilePath);
+
+        // Set appropriate headers for streaming
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="appointment_list_report.pdf"',
+        ];
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'DOCTOR',
+            'description' => 'EXPORTED APPOINTMENT'
+        ]);
+
+        // Return the response to stream the PDF with the specified filename
+        return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);
     }
 }

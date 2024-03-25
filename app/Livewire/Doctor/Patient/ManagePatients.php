@@ -4,11 +4,13 @@ namespace App\Livewire\Doctor\Patient;
 
 ini_set('max_execution_time', 18000);
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ManagePatients extends Component
 {
@@ -167,6 +169,14 @@ class ManagePatients extends Component
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name)
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'DOCTOR',
+            'description' => 'UPDATED PATIENT'
+        ]);
+
        $this->resetFields();
        $this->dispatch('updated-patient');
     }
@@ -187,6 +197,14 @@ class ManagePatients extends Component
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="patient_list_report.pdf"',
         ];
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'DOCTOR',
+            'description' => 'EXPORTED PATIENT'
+        ]);
 
         // Return the response to stream the PDF with the specified filename
         return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);

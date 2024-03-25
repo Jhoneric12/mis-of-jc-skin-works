@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\Settings\ConfigurePge;
 
 use App\Http\Controllers\Admin\Settings\ConfigurePage\FeatureProducts;
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\FeaturedProduct;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
 
@@ -71,6 +73,14 @@ class FeaturedProducts extends Component
             'product_image_path' => $image
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED FEATURE PRODUCTS'
+        ]);
+
         $this->resetFields();
         $this->dispatch('created');
     }
@@ -124,6 +134,14 @@ class FeaturedProducts extends Component
             'product_image_path' => $image
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED FEATURE PRODUCT IMAGE'
+        ]);
+
         $this->resetFields();
         $this->dispatch('updated');
     }
@@ -138,6 +156,14 @@ class FeaturedProducts extends Component
 
         $updateStatus->update([
             'status' => $status
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED FEATURE PRODUCT STATUS'
         ]);
 
         $this->resetFields();
@@ -160,6 +186,14 @@ class FeaturedProducts extends Component
             'product_name' => $this->product_name,
             'description' => $this->description,
             'product_image_path' => $image
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'CONFIGURE PAGE',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED FEATURE PRODUCT'
         ]);
 
         $this->resetFields();

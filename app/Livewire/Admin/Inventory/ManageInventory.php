@@ -101,6 +101,14 @@ class ManageInventory extends Component
             ]);
         }
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'INVENTORY',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'ADDED STOCKS'
+        ]);
+
         $this->resetFields();
         $this->dispatch('created');
     }
@@ -123,12 +131,24 @@ class ManageInventory extends Component
         ];
 
         // Logs
-        AuditTrail::create([
-            'user_id' => Auth::user()->id,
-            'log_name' => 'INVENTORY',
-            'user_type' => 'ADMINISTRATOR',
-            'description' => 'EXPORTED INVENTORY'
-        ]);
+        if(Auth::user()->role == 1)
+        {
+            AuditTrail::create([
+                'user_id' => Auth::user()->id,
+                'log_name' => 'INVENTORY',
+                'user_type' => 'ADMINISTRATOR',
+                'description' => 'EXPORTED INVENTORY'
+            ]);
+        }
+        elseif(Auth::user()->role == 2)
+        {
+            AuditTrail::create([
+                'user_id' => Auth::user()->id,
+                'log_name' => 'INVENTORY',
+                'user_type' => 'STAFF',
+                'description' => 'EXPORTED INVENTORY'
+            ]);
+        }
 
         // Return the response to stream the PDF with the specified filename
         return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);

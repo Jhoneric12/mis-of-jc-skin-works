@@ -72,13 +72,13 @@
                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <img src="{{ asset('storage/' . $product->product_image_path) }}" alt="" class="w-14 h-14">
                     </td>
-                    <td scope="row" class="px-6 py-4  text-gray-900 whitespace-normal dark:text-white">
+                    <td scope="row" class="px-6 py-4   whitespace-normal dark:text-white">
                         {{$product->id}}
                     </td>
-                    <td scope="row" class="px-6 py-4  text-gray-900 whitespace-normal dark:text-white">
+                    <td scope="row" class="px-6 py-4   whitespace-normal dark:text-white">
                         {{$product->product_name}}
                     </td>
-                    <td scope="row" class="px-6 py-4  text-gray-900 whitespace-normal dark:text-white">
+                    <td scope="row" class="px-6 py-4   whitespace-normal dark:text-white">
                         {{$product->description}}
                     </td>
                     <td class="px-6 py-6">

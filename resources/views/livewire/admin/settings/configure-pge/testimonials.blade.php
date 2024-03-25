@@ -32,34 +32,20 @@
     </x-action-message>
 
     <div class="relative overflow-x-auto sm:rounded-lg shadow-md px-6 py-8 border-2 border-solid">
-        <div class="mb-4 flex gap-2 items-center justify-between w-full">
-            <div></div>
-            <div class="flex gap-2 items-center">
-                <x-button class="flex gap-2" wire:click="openModal" wire:loading.attr="disabled">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>                  
-                    {{ __('Add New') }}
-                </x-button>
-            </div>
-        </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sm:rounded-lg shadow-xl py-6 border border-solid">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-b-solid">
                 <tr>
                     <th scope="col" class="px-6 py-6">
-                        Image
-                    </th>
-                    <th scope="col" class="px-6 py-6">
-                        ID
-                    </th>
-                    <th scope="col" class="px-6 py-6">
-                        Name
+                        Patient
                     </th>
                     <th scope="col" class="px-6 py-6">
                         Address
                     </th>
                     <th scope="col" class="px-6 py-6">
                         Review
+                    </th>
+                    <th scope="col" class="px-6 py-6">
+                        Rating
                     </th>
                     <th scope="col" class="px-6 py-6">
                         Status
@@ -72,30 +58,41 @@
             <tbody>
                 @forelse ($testimonials as $testimonial)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg">
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <img src="{{ asset('storage/' . $testimonial->image_path) }}" alt="" class="w-14 h-14">
+                    <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $testimonial->patient )
+                        <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $testimonial->patient->profile_photo_url }}" alt="{{ $testimonial->patient->name }}"> </div>
+                        <div class="ml-4">
+                            <div class="text-xs font-medium text-gray-900"> {{ $testimonial->patient->first_name .  " " . $testimonial->patient->last_name }} </div>
+                            <div class="text-xs text-gray-500"> {{ $testimonial->patient->email }} </div>
+                        </div>
+                        @else
+                            <div>
+                                <div class="text-sm font-medium text-gray-900"> {{ $testimonial->first_name . " " . $testimonial->last_name }} </div>
+                                {{-- <div class="text-xs text-gray-500"> {{ $appointment->email }} </div> --}}
+                            </div>
+                        @endif
+                    </th>
+                    <td scope="row" class="px-6 py-4 font-medium  whitespace-normal dark:text-white">
+                        {{$testimonial->patient->home_address}}
+                    </td>
+                    <td scope="row" class="px-6 py-4 font-medium  whitespace-normal dark:text-white">
+                        {{$testimonial->message}}
                     </td>
                     <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
-                        {{$testimonial->id}}
-                    </td>
-                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
-                        {{$testimonial->name}}
-                    </td>
-                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
-                        {{$testimonial->address}}
-                    </td>
-                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
-                        {{$testimonial->review}}
+                        <div class="rating rating-sm">
+                            <input wire:model='rating' value="1" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 1 ? 'checked' : ''}} @disabled(true) />
+                            <input wire:model='rating' value="2" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 2 ? 'checked' : ''}} @disabled(true) />
+                            <input wire:model='rating' value="3" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 3 ? 'checked' : ''}} @disabled(true) />
+                            <input wire:model='rating' value="4" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 4 ? 'checked' : ''}} @disabled(true) />
+                            <input wire:model='rating' value="5" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 5 ? 'checked' : ''}} @disabled(true) />
+                        </div>
                     </td>
                     <td class="px-6 py-6">
                         <span class="{{ $testimonial->status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                             {{ $testimonial->status ? 'Active' : 'Inactive'}}
                         </span>
                     </td>
-                    <td class="py-6 flex gap-2 items-center">                        
-                        <svg wire:click='editModal({{$testimonial->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>       
+                    <td class="py-6 flex gap-2 items-center">                             
                         <svg wire:click='editStatus({{$testimonial->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                         </svg>

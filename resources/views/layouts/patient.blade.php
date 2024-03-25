@@ -10,6 +10,8 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="shortcut icon" href="{{ asset('assets/Essentials/jcslogo.png') }}" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="css/starability-fade.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/starability/starability-min.js"></script>
         {{-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script> --}}
 
         <!-- Scripts -->

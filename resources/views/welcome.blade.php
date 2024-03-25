@@ -39,6 +39,9 @@
             <section id="about-us">
                 @livewire('admin.landing-page.about-us')
             </section>
+            <section id="testimonials">
+                @livewire('admin.landing-page.testimonials')
+            </section>
             <section id="footer">
                 @livewire('admin.landing-page.footer')
             </section>

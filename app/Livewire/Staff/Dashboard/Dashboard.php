@@ -38,7 +38,7 @@ class Dashboard extends Component
             ->whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])
             ->whereDate('date', '=',  Carbon::today()->toDateString())
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         $total_patient = User::where('role', 0)->count();
 

@@ -4,7 +4,7 @@
 
     <div class="bg-[#B0E1B6] w-full p-12 rounded-lg shadow-lg mb-6">
         <h1 class="text-xl font-bold">Welcome {{$patientName}} !</h1>
-        <p class="text-sm mt-1 font-regular">Transform Your Skin with JC's Skin Works: Unveiling Radiant Beauty through Expert Care and Tailored Treatments.</p>
+        <p class="text-sm mt-1 font-regular text-gray-900">Transform Your Skin with JC's Skin Works: Unveiling Radiant Beauty through Expert Care and Tailored Treatments.</p>
     </div>
 
     <div class="mb-6">
@@ -156,5 +156,73 @@
             </div>
         </div>
     </div>
+
+    <x-dialog-modal wire:model.live="modalReview" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Feedback') }}
+        </x-slot> 
+    
+        <x-slot name="content">
+            <form wire:submit='create'>
+                @csrf
+                <div>
+                    <div class='w-full mb-4'>
+                        <div class="rating rating-lg flex flex-col gap-2 items-center">
+                            <x-label for="rating-4" value="{{ __('Please rate our service') }}" />
+                            <div>
+                                <input wire:model='rating' value="1" type="radio" name="rating-9" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" checked />
+                                <input wire:model='rating' value="2" type="radio" name="rating-9" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" />
+                                <input wire:model='rating' value="3" type="radio" name="rating-9" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" />
+                                <input wire:model='rating' value="4" type="radio" name="rating-9" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" />
+                                <input wire:model='rating' value="5" type="radio" name="rating-9" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class='flex flex-col w-full'>
+                        <div class='w-full'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor'>
+                                <x-label for="" value="{{ __('Message') }}" />
+                                <textarea wire:model='message' cols="30" rows="7" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" ></textarea>
+                                <x-input-error for="message"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                {{ __('Close') }}
+            </x-secondary-button>
+    
+            <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='create'>
+                {{ __('Submit') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    <x-dialog-modal wire:model.live="modalSucess" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Feedback') }}
+        </x-slot>
+    
+        <x-slot name="content">
+            <div class="flex flex-col items-center justify-center gap-4">
+                <div>
+                    <img src="{{asset('assets/Essentials/customer-experience.gif')}}" alt="" class="w-20 h-20">
+                </div>
+                <div>
+                    <h1 class="font-medium text-lg">Feedback submitted</h1>
+                </div>
+            </div>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-button class="flex gap-2 ms-3" wire:click='closeSucess' wire:loading.attr="disabled">              
+                {{ __('Close') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
 
 </div>

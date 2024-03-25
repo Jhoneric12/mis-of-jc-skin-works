@@ -380,7 +380,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                {{-- <div class="w-full">
+                                <div class="w-full">
                                     <x-label for="" value="{{ __('Specialist') }}" />
                                     <select wire:model='specialist_id' class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         <option  value="">- Select Options - </option>
@@ -390,7 +390,7 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                </div> --}}
+                                </div>
                             </div>
                             <div class='w-full flex gap-4'>
                                 <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>

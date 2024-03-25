@@ -21,7 +21,7 @@
 
     <form class="bg-white rounded-lg shadow-md p-16 border-t-4 border-t-solid border-t-[green]" wire:submit='update'>
         <x-label for="" value="{{ __('Content') }}" />
-        <textarea wire:model='content' cols="30" rows="5" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md p-10" placeholder='Enter Highlight Content' '></textarea>
+        <textarea wire:model='content' cols="30" rows="5" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-md border-gray-300 rounded-md p-10 text-sm" placeholder='Enter Highlight Content' '></textarea>
         <x-input-error for="content"/>
         <div class="flex justify-between mt-8">
             <div></div>

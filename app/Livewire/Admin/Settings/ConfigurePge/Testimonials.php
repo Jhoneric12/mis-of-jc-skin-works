@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Settings\ConfigurePge;
 
 use Livewire\Component;
 use App\Models\ConfigureTestimonials;
+use App\Models\Feedback;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
 
@@ -26,10 +27,10 @@ class Testimonials extends Component
 
     public function render()
     {
-        $query = ConfigureTestimonials::query()
+        $query = Feedback::query()
             ->orderBy('created_at', 'desc');
 
-        $testimonials = $query->paginate(5);
+        $testimonials = $query->paginate(10);
 
         return view('livewire.admin.settings.configure-pge.testimonials', [
             'testimonials' => $testimonials,
@@ -96,14 +97,14 @@ class Testimonials extends Component
 
         $this->testimonial_id = $id;
 
-        $testimonial_id = ConfigureTestimonials::where('id', $id)->first();
+        $testimonial_id = Feedback::where('id', $id)->first();
 
         $this->name = $testimonial_id->name;
     }
 
     public function updateStatus()
     {
-        $updateStatus = ConfigureTestimonials::where('id', $this->testimonial_id);
+        $updateStatus = Feedback::where('id', $this->testimonial_id);
         
         $status = $this->status == 'Active' ? 1 : 0;
 
@@ -126,7 +127,7 @@ class Testimonials extends Component
             'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
         ]);
 
-        $updateTestimonial = ConfigureTestimonials::where('id', $this->testimonial_id);
+        $updateTestimonial = Feedback::where('id', $this->testimonial_id);
 
         $image =  $this->image->store('photos', 'public');
 

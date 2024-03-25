@@ -395,7 +395,7 @@
                                                 </table>
                                             </div>
                                             <div class="mt-6">
-                                                {{$appointments->links()}}
+                                                {{$pending_appointments->links()}}
                                             </div>
                                         </div>
                                     </div>

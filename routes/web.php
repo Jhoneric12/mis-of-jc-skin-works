@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\Settings\ConfigurePage\HighlighContent;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\Dermatologist;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\AboutUs;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\Testimonials;
+use App\Http\Controllers\Admin\Settings\ConfigurePage\ClinicDetails;
 use App\Http\Controllers\Admin\Settings\ConfigurePage\Banner;
 use App\Http\Controllers\Admin\Settings\Accounts\UserAccounts;
 use App\Http\Controllers\Admin\Settings\Accounts\Patient;
@@ -142,6 +143,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('dermatologist', [Dermatologist::class, 'index'])->name('dermatologist');
             Route::get('about-us', [AboutUs::class, 'index'])->name('about-us');
             Route::get('testimonials', [Testimonials::class, 'index'])->name('testimonials');
+            Route::get('clinic-details', [ClinicDetails::class, 'index'])->name('clinic-details');
             Route::get('banner', [Banner::class, 'index'])->name('banner');
             Route::get('user-accounts', [UserAccounts::class, 'index'])->name('user-accounts');
             Route::get('patient-accounts', [Patient::class, 'index'])->name('patient-accounts');

@@ -51,21 +51,12 @@
             </x-slot>
         </x-Essentials.card>
 
-        <x-Essentials.card>
+        <x-Essentials.card :link="route('clinic-details')">
             <x-slot name='img'>
                 <img src="{{asset('assets/Essentials/list.png')}}" alt="">
             </x-slot>
             <x-slot name='title'>
                 <h1>Clinic Details</h1>
-            </x-slot>
-        </x-Essentials.card>
-
-        <x-Essentials.card>
-            <x-slot name='img'>
-                <img src="{{asset('assets/Essentials/search.png')}}" alt="">
-            </x-slot>
-            <x-slot name='title'>
-                <h1>Services Overview</h1>
             </x-slot>
         </x-Essentials.card>
 

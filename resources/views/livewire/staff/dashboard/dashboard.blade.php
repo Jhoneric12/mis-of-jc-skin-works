@@ -262,7 +262,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="mt-6">
-                                                    {{$appointments->links()}}
+                                                    {{$appointments_today->links()}}
                                                 </div>
                                             </div>
                                         </div>

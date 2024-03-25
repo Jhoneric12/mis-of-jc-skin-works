@@ -8,6 +8,7 @@ USE Livewire\Attributes\Url;
 use App\Models\Appointment;
 use App\Models\AppointmentSession;
 use App\Models\AuditTrail;
+use App\Models\OpenRateUs;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,11 @@ class SessionProgress extends Component
          if ($this->no_of_progress == $this->no_of_session->service->nno_of_sessions)
          {
              $updateStatus = Appointment::where('id', $this->appointment_id)->first();
+             $review = OpenRateUs::latest()->first();
+             
+             $review->update([
+                'isOpen' => 1
+             ]);
  
              $updateStatus->update([
                  'status' => 'Completed'

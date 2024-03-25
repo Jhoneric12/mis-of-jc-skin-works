@@ -30,5 +30,10 @@ export default {
           },
     },
 
-    plugins: [forms, typography,  require('flowbite/plugin')],
+    daisyui: {
+        themes: ["light"],
+      },
+
+    plugins: [forms, typography,  require('flowbite/plugin'),
+                require("daisyui")],
 };

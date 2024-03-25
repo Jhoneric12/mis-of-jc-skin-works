@@ -216,7 +216,7 @@
                     </tbody>
                 </table>
                 <div class="mt-6">
-                    {{$appointments->links()}}
+                    {{$appointments->appends(['doctor_id' => $doctor_id])->links()}}
                 </div>
             </div>
         </div>

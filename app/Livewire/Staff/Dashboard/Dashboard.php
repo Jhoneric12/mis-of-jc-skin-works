@@ -32,7 +32,7 @@ class Dashboard extends Component
         $appointments = Appointment::where('status', 'Scheduled')
                         ->where('specialist_id', Auth::id())
                         ->orderBy('date', 'asc')
-                        ->paginate(5);
+                        ->get();
 
         $appointments_today = Appointment::where('specialist_id', Auth::user()->id)
             ->whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])

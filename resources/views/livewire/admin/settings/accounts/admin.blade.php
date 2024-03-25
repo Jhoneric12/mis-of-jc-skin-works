@@ -70,14 +70,6 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <div class="20%">
-                <x-button class="flex gap-2 bg-red-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
-                    </svg>                                       
-                    {{ __('Export') }}
-                </x-button>
-            </div>
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sm:rounded-lg shadow-xl py-6 border border-solid">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-b-solid">
@@ -87,6 +79,9 @@
                     </th>
                     <th scope="col" class="px-6 py-6">
                         Admin
+                    </th>
+                    <th scope="col" class="px-6 py-6">
+                        License Number
                     </th>
                     <th scope="col" class="px-6 py-6">
                         Username
@@ -119,6 +114,9 @@
                             </div>
                         @endif
                     </th>
+                    <td class="px-6 py-6">
+                        {{$admin->license_number}}
+                    </td>
                     <td class="px-6 py-6">
                         {{$admin->username}}
                     </td>
@@ -192,6 +190,13 @@
                                 <x-input-error for="email"/>
                             </div>
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                                <x-label for="" value="{{ __('License Number') }}" />
+                                <input wire:model="LN" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <x-input-error for="LN"/>
+                            </div>
+                        </div>
+                        <div class='flex gap-4 mb-4 w-full'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Username') }}" />
                                 <input wire:model="username" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="username"/>
@@ -251,6 +256,12 @@
                         <div class='text-sm flex justify-between font-medium'>
                             <h1>Username</h1>
                             <h1 class="text-gray-500 font-regular">{{$username}}</h1>
+                        </div>
+                    </div>
+                    <div class='px-6 py-2'> 
+                        <div class='text-sm flex justify-between font-medium'>
+                            <h1>License Number</h1>
+                            <h1 class="text-gray-500 font-regular">{{$license_number}}</h1>
                         </div>
                     </div>
                 </div>

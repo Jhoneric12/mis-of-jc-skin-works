@@ -24,6 +24,7 @@ class ViewStaff extends Component
         $staff = User::where('id', $this->staff_id)->first();
 
         $appointments = Appointment::where('specialist_id', $this->staff_id)
+                                    ->whereIn('status', ['Completed', 'Cancelled', 'On-going', 'Confirmed'])
                                     ->whereDate('date', '=',  Carbon::today()->toDateString())->paginate(3);
 
         return view('livewire.admin.settings.accounts.view-staff', [

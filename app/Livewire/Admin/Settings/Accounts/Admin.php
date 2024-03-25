@@ -40,6 +40,8 @@ class Admin extends Component
     public $password;
     public $password_confirmation;
     public $status;
+    public $license_number;
+    public $LN;
 
     public function render()
     {
@@ -87,7 +89,8 @@ class Admin extends Component
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'LN' => 'required'
         ]);
 
         User::create([
@@ -97,6 +100,7 @@ class Admin extends Component
             'email' => $this->email,
             'username' => $this->username,
             'password' => Hash::make($this->password),
+            'license_number' => $this->LN,
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name),
             'role' => 1
         ]);
@@ -162,6 +166,7 @@ class Admin extends Component
         $this->email = $staff_id->email;
         $this->username = $staff_id->username;
         $this->status = $staff_id->status;
+        $this->license_number = $staff_id->license_number;
         $this->image = $staff_id->profile_photo_url;
     } 
 }

@@ -36,7 +36,7 @@ class Dashboard extends Component
         $pending_appointments = Appointment::where('status', 'Scheduled')
                         ->where('specialist_id', Auth::id())
                         ->orderBy('date', 'asc')
-                        ->paginate(10);
+                        ->get();
 
         $appointment_today = $appointments->count();
 

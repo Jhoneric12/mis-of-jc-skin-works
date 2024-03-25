@@ -9,7 +9,7 @@
             @foreach ($testimonials as $testimonial)
                 <div class="flex flex-col items-center px-20 py-10 bg-white shadow-md rounded-lg">
                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $testimonial->patient )
-                        <div class="flex-shrink-0 w-[8rem] h-[8rem] border border-gray-300 border-solid rounded-full shadow-md"> <img class="w-full h-full rounded-full" src="{{ $testimonial->patient->profile_photo_url }}" alt="{{ $testimonial->patient->name }}"> </div>
+                        <div class="flex-shrink-0 w-[6rem] h-[6rem] border border-gray-300 border-solid rounded-full shadow-md"> <img class="w-full h-full rounded-full" src="{{ $testimonial->patient->profile_photo_url }}" alt="{{ $testimonial->patient->name }}"> </div>
                         <div class="mb-auto">
                             <div class="text-xs font-medium text-gray-900 mt-6"> "{{ $testimonial->message }}" </div>
                             <div class="rating rating-sm mt-2 flex gap-1 justify-center">

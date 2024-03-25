@@ -65,7 +65,7 @@ class AddPatient extends Component
         // Logs
         AuditTrail::create([
             'user_id' => Auth::user()->id,
-            'log_name' => 'APPOINTMENTS',
+            'log_name' => 'PATIENT',
             'user_type' => 'DOCTOR',
             'description' => 'ADDED PATIENT'
         ]);

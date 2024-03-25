@@ -7,23 +7,63 @@ ini_set('max_execution_time', 18000);
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Models\AuditTrail;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ActivityLog extends Component
 {
+    use WithPagination;
+
+    public $search = '';
+    public $startDate = '';
+    public $endDate = '';
+
     public function render()
     {
-        $logs = AuditTrail::orderBy('created_at', 'desc')->paginate(10);
-
+        $query = AuditTrail::query()
+            ->where(function ($query) {
+                $query->where('user_id',  $this->search)
+                      ->orWhere('user_type', 'like', '%' . $this->search . '%')
+                      ->orWhere('description', 'like', '%' . $this->search . '%');
+            })
+            ->when(!empty($this->startDate) && !empty($this->endDate), function ($query) {
+                $startDate = Carbon::parse($this->startDate)->startOfDay();
+                $endDate = Carbon::parse($this->endDate)->endOfDay();
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })
+            ->latest();
+    
+        $auditTrailRecords = $query->paginate(10);
+    
         return view('livewire.admin.activity-log.activity-log', [
-            'logs' => $logs
+            'logs' => $auditTrailRecords
         ]);
+    }
+
+    public function filterByDate()
+    {
+        $this->resetPage();
     }
 
     public function export()
     {
-        $data = AuditTrail::latest()->get();
+        $query = AuditTrail::query()
+            ->where(function ($query) {
+                $query->where('user_id',  $this->search)
+                      ->orWhere('user_type', $this->search)
+                      ->orWhere('description', 'like', '%' . $this->search . '%');
+            })
+            ->when(!empty($this->startDate) && !empty($this->endDate), function ($query) {
+                $startDate = Carbon::parse($this->startDate)->startOfDay();
+                $endDate = Carbon::parse($this->endDate)->endOfDay();
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })
+            ->latest();
+    
+        $data = $query->get();
+        
         $pdf = PDF::loadView('Admin.Dompdf.ActivityLog.activity-log', ['data' => $data]);
 
         // Generate a temporary file path for the PDF

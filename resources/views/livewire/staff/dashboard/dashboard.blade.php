@@ -158,7 +158,7 @@
                                                                     Date & Time
                                                                 </th>
                                                                 <th scope="col" class="px-6 py-6">
-                                                                    Specialist
+                                                                    Service
                                                                 </th>
                                                                 <th scope="col" class="px-6 py-6">
                                                                     Status
@@ -395,9 +395,9 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="mt-6">
+                                            {{-- <div class="mt-6">
                                                 {{$appointments->links()}}
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>

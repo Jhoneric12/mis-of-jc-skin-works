@@ -1,9 +1,10 @@
 <div>
-    <x-Essentials.page-title>Activity Log</x-Essentials.page-title>
+    <x-Essentials.page-title>Inventory Report</x-Essentials.page-title>
 
     <div class="relative overflow-x-auto sm:rounded-lg shadow-md px-6 py-8 border-2 border-solid">
         <div class="mb-4 flex gap-2 items-center justify-between">
             <div class="flex gap-2 items-center w-[80%]">
+
                 <div class="w-[30%]">   
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
@@ -12,20 +13,19 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input wire:model.live='search' type='search' id="default-search" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" autocomplete="off">
+                        <input wire:model.live='search' type='search' id="default-search" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Product" autocomplete="off">
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="flex gap-2 items-center">
-                        <label for="start_date" class="text-sm">From:</label>
-                        <input wire:model="startDate" wire:change="filterByDate" type="date" id="start_date" class="text-sm w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm p-3">
-                    </div>
-                   <div class="flex gap-2 items-center">
-                        <label for="end_date" class="text-sm">To:</label>
-                        <input wire:model="endDate" wire:change="filterByDate" type="date" id="end_date" class=" text-sm w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm p-3">
-                   </div>
-                </div>
+                {{-- <div class="w-[20%]">
+                    <select wire:model.live='category' name="status" id="status" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm p-3">
+                        <option value="All" selected>All Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                        @endforeach
+                    </select> 
+                </div> --}}
+                   
 
                 <div role="status" wire:loading>
                     <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,54 +48,57 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-b-solid">
                 <tr>
                     <th scope="col" class="px-6 py-6">
-                        ID
+                        Product
                     </th>
                     <th scope="col" class="px-6 py-6">
-                        User
+                        Category
                     </th>
                     <th scope="col" class="px-6 py-6">
-                        Log Name
+                        Price
                     </th>
                     <th scope="col" class="px-6 py-6">
-                        Description
+                        Expiration Date
                     </th>
                     <th scope="col" class="px-6 py-6">
-                        Date & Time
+                        Quantity
                     </th>
+                    {{-- <th scope="col" class="px-6 py-6">
+                        Action
+                    </th> --}}
+                    
                 </tr>
             </thead>
             <tbody>
-                @forelse ($logs as $log)
+                @forelse ($products as $product)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg">
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{$log->id}}
-                    </td>
                     <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $log->user )
-                        <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $log->user->profile_photo_url }}" alt="{{ $log->user->name }}"> </div>
-                        <div class="ml-4">
-                            <div class="text-xs font-medium text-gray-900"> {{ $log->user->first_name .  " " . $log->user->last_name }} </div>
-                            <div class="text-xs text-gray-500"> {{ $log->user_type }} </div>
+                        <img src="{{ asset('storage/' . $product->product->product_image_path) }}" alt="{{ $product->product->product_name }}" class="rounded-full h-10 w-10 object-cover">  
+                        <div class="ps-3">
+                            <div class="text-xs font-semibold">{{$product->product->product_name}}</div>
+                            <div class="text-xs font-normal text-gray-500">{{$product->id}}</div>
                         </div>
-                        @else
-                            <div>
-                                <div class="text-sm font-medium text-gray-900"> {{ $log->user->first_name . " " . $log->user->last_name }} </div>
-                                {{-- <div class="text-xs text-gray-500"> {{ $appointment->email }} </div> --}}
-                            </div>
-                        @endif
                     </th>
                     <td class="px-6 py-6">
-                        {{$log->log_name}}
+                        {{$product->product->category->category_name}}
                     </td>
                     <td class="px-6 py-6">
-                        {{$log->description}}
+                        {{$product->product->price}}
                     </td>
                     <td class="px-6 py-6">
-                        <div>
-                            <div class="text-xs font-medium text-gray-900"> {{\Carbon\Carbon::parse($log->created_at)->format('M, d, Y')}} </div>
-                            <div class="text-xs text-gray-500">{{\Carbon\Carbon::parse($log->created_at)->diffForHumans()}} </div>
-                        </div>
+                        {{\Carbon\Carbon::parse($product->expiration_date)->format('M, d, Y')}}
                     </td>
+                    <td class="px-6 py-6">
+                        {{$product->product->total_qty}}
+                        @if($product->total_qty < $product->min_qty)
+                            <span class="text-red-700 font-bold">!</span>
+                        @endif
+                    </td>
+                    {{-- <td class="py-6 flex gap-2">
+                        <svg wire:click='view({{$product->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>                          
+                    </td> --}}
                 </tr>
                 @empty
                     <tr class="w-full">
@@ -111,7 +114,7 @@
         </table>
 
         <div class="mt-6">
-            {{$logs->links()}}
+            {{$products->links()}}
         </div>
     </div>
 </div>

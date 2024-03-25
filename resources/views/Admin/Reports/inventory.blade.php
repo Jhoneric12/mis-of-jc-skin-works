@@ -3,5 +3,5 @@
 @section('title', 'Inventory Report')
 
 @section('main-content')
-    @livewire('admin.reports.inventory')
+    @livewire('admin.reports.inventory-report')
 @endsection

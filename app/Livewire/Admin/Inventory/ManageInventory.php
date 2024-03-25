@@ -79,7 +79,7 @@ class ManageInventory extends Component
         $this->validate([
             'product_id' => 'required',
             'total_quantity' => 'required',
-            'exp_date' => 'required',
+            'exp_date' => ['required', $this->notInPreviousYear(),]
         ]);
 
        // Find existing inventory for the product
@@ -111,6 +111,16 @@ class ManageInventory extends Component
 
         $this->resetFields();
         $this->dispatch('created');
+    }
+
+    protected function notInPreviousYear()
+    {
+        return function ($attribute, $value, $fail) {
+            $expDate = \Carbon\Carbon::parse($value);
+            if ($expDate->lt(\Carbon\Carbon::now()->startOfYear()->subYear())) {
+                $fail("The expiration date must not be in the previous year.");
+            }
+        };
     }
 
     public function export()

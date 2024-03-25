@@ -102,7 +102,8 @@ class Sales extends Component
         $endDate = Carbon::parse($this->endDate)->endOfDay();
 
         $data = Orders::whereBetween('created_at', [$startDate, $endDate])->get();
-        $pdf = PDF::loadView('Admin.Dompdf.Sales.sales', ['data' => $data]);
+        $totalSum = $data->sum('amount');
+        $pdf = PDF::loadView('Admin.Dompdf.Sales.sales', ['data' => $data, 'total_amount' => $totalSum]);
 
         // Generate a temporary file path for the PDF
         $tempFilePath = tempnam(sys_get_temp_dir(), 'patients');

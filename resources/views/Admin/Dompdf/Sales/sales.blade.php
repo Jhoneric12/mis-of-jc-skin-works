@@ -86,15 +86,26 @@
                 <th>Payment Mode</th>
                 <th>Date</th>
             </tr>
+            @php
+                $totalAmount = 0; // Initialize total amount variable
+            @endphp
             @foreach($data as $item)
             <tr>
-                    <td>{{ $item->id}}</td>
-                    <td>{{ $item->patient->first_name . " " . $item->patient->last_name}}</td>
-                    <td>{{ $item->total_amount}}</td>
-                    <td>{{ $item->payment_mode}}</td>
-                    <td>{{ $item->created_at}}</td>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->patient->first_name . " " . $item->patient->last_name }}</td>
+                    <td>{{ $item->total_amount }}</td>
+                    <td>{{ $item->payment_mode }}</td>
+                    <td>{{ $item->created_at }}</td>
             </tr>
+            @php
+                $totalAmount += $item->total_amount; // Add to total amount
+            @endphp
             @endforeach
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+                <td class="total">Total: P {{number_format($totalAmount, 0, ',', '.');}}</td>
+            </tr>
         </table>
     
         <div class="footer">

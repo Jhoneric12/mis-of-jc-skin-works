@@ -22,6 +22,7 @@ class ViewDoctor extends Component
         $doctor = User::where('id', $this->doctor_id)->first();
 
         $appointments = Appointment::where('specialist_id', $this->doctor_id)
+                                    ->whereIn('status', ['Completed', 'Cancelled', 'On-going', 'Confirmed'])
                                     ->whereDate('date', '=',  Carbon::today()->toDateString())->paginate(3);
 
         return view('livewire.admin.settings.accounts.view-doctor', [

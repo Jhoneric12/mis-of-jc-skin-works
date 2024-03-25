@@ -48,6 +48,10 @@ class Dashboard extends Component
             ->whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])
             ->latest()
             ->paginate(5);
+        
+        $pending_appointments = Appointment::where('status', 'Scheduled')
+            ->orderBy('date', 'asc')
+            ->get();
 
         // Top 3 selling products
         $topSellingProducts = OrderItem::selectRaw('item_id, SUM(quantity) as total_quantity')
@@ -67,27 +71,27 @@ class Dashboard extends Component
 
         $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')->where('status', 1)->count();
 
-        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments', 'topSellingProducts'));
+        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments', 'topSellingProducts', 'pending_appointments'));
     }
 
     public function mount()
     {
-        if (!Cache::has('critical_products_notified')) {
+        $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')
+            ->where('status', 1)
+            ->get();
 
-            $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')
-                ->where('status', 1)
-                ->get();
-
-        
-            foreach ($critical_products as $product) {
+        foreach ($critical_products as $product) {
+            $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
+                                                ->where('description', 'like', '%'.$product->product_name.'%')
+                                                ->exists();
+            
+            if (!$existing_notification) {
                 ClinicNotif::create([
                     'user_id' => Auth::user()->id,
                     'description' => 'Product "'.$product->product_name.'" is in low stock. Manage the product before the stock reaches zero',
                     'type' => 'admin'
                 ]);
             }
-
-            Cache::put('critical_products_notified', true, now()->addHours(24)); 
         }
 
         // Fetch and aggregate sales data by month

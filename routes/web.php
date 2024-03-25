@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\Reports\Sales;
 use App\Http\Controllers\Admin\Reports\Products;
 use App\Http\Controllers\Admin\Reports\Services;
 use App\Http\Controllers\Admin\Reports\Inventory;
+use App\Http\Controllers\Admin\Prescription\GeneratePrescription;
 use App\Http\Controllers\Admin\LandingPage\Services as ServicesOffered;
 
 // PATIENT
@@ -163,6 +164,8 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('products-report', [Products::class, 'index'])->name('products-report');
             Route::get('services-report', [Services::class, 'index'])->name('services-report');
             Route::get('inventory-report', [Inventory::class, 'index'])->name('inventory-report');
+            Route::get('generate-prescription', [GeneratePrescription::class, 'index'])->name('generate-prescription');
+
 
         })->name('admin-routes');
 

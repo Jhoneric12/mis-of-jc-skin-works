@@ -47,7 +47,8 @@ class GeneratePrescription extends Component
             'skin_type' => $prescription->patient->skin_type,
             'age' => $prescription->patient->age,
             'medication' => $prescription->medication,
-            'description' => $prescription->description
+            'description' => $prescription->description,
+            'license_number' => $prescription->specialist->license_number
         ];
 
         $pdf = PDF::loadView('Admin.Dompdf.Prescription.prescription', ['data' => $data]);

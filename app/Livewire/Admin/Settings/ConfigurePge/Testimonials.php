@@ -101,7 +101,7 @@ class Testimonials extends Component
 
         $testimonial_id = Feedback::where('id', $id)->first();
 
-        $this->name = $testimonial_id->name;
+        $this->name = $testimonial_id->patient->first_name . " " . $testimonial_id->patient->last_name;
     }
 
     public function updateStatus()

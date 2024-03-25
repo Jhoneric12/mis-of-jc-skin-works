@@ -11,7 +11,7 @@
                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $testimonial->patient )
                         <div class="flex-shrink-0 w-[6rem] h-[6rem] border border-gray-300 border-solid rounded-full shadow-md"> <img class="w-full h-full rounded-full" src="{{ $testimonial->patient->profile_photo_url }}" alt="{{ $testimonial->patient->name }}"> </div>
                         <div class="mb-auto">
-                            <div class="text-xs font-medium text-gray-900 mt-6"> "{{ $testimonial->message }}" </div>
+                            <div class="text-xs font-medium text-gray-900 mt-6 max-w-[10rem]"> {{ $testimonial->message }} </div>
                             <div class="rating rating-sm mt-2 flex gap-1 justify-center">
                                 <input wire:model='rating' value="1" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 1 ? 'checked' : ''}} @disabled(true) />
                                 <input wire:model='rating' value="2" type="radio" name="rating-{{$testimonial->id}}" class="mask mask-star-2 bg-primary-green focus:text-primary-green text-primary-green" {{$testimonial->rating == 2 ? 'checked' : ''}} @disabled(true) />

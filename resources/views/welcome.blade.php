@@ -24,15 +24,15 @@
             <section class="h-screen flex justify-center items-center">
                 @livewire('admin.landing-page.hero')
             </section>
+            <section id="banner">
+                @livewire('admin.landing-page.carouse-banner ')
+            </section>
             <section id="featured-products">
                 @livewire('admin.landing-page.carousel')
             </section>
             <section id="dermatologist">
                 @livewire('admin.landing-page.dermatologist')
             </section>
-            {{-- <section id="banner">
-                @livewire('admin.landing-page.register ')
-            </section> --}}
             <section id="services">
                 @livewire('admin.landing-page.services')
             </section>

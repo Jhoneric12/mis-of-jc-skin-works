@@ -32,11 +32,16 @@ class SessionProgress extends Component
     public $full_name;
     public $date;
     public $time;
+    public $appointment_date;
 
     public function render()
     {
 
         $sessions = AppointmentSession::where('appointment_id', $this->appointment_id)->get();
+
+        $appointment = Appointment::where('id', $this->appointment_id)->first();
+
+        $this->appointment_date = $appointment->date;
 
         $this->no_of_session = Appointment::where('id', $this->appointment_id)->first();
 
@@ -59,7 +64,7 @@ class SessionProgress extends Component
             }
          }
 
-        return view('livewire.admin.patient.session-progress', ['sessions' => $sessions, 'specialists' => User::where('account_status', 1)->get(), 'services' => Service::where("status", 1 )]);
+        return view('livewire.doctor.patient.session-progress', ['sessions' => $sessions, 'specialists' => User::where('account_status', 1)->get(), 'services' => Service::where("status", 1 )]);
     }
 
     public function openModal()

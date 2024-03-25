@@ -1,6 +1,6 @@
 <div>
     <div class="flex gap-4">
-         <a href="{{route('manage-patients')}}">
+         <a href="{{route('staff-manage-patients')}}">
              <x-Essentials.page-title class="text-[#9D9D9D]">Patients</x-Essentials.page-title>
          </a>
          <x-Essentials.page-title> > </x-Essentials.page-title>

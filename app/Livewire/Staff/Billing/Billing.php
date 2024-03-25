@@ -69,7 +69,7 @@ class Billing extends Component
 
         if($this->appointment_id)
         {
-            $patient = Appointment::find($this->appointment_id)->first();
+            $patient = Appointment::where('id', $this->appointment_id)->first();
             $this->patient_id = $patient->patient->id;
             $this->patient_name = $patient->patient->first_name . " " .  $patient->patient->middle_name . " " .   $patient->patient->last_name;
         }
@@ -113,7 +113,7 @@ class Billing extends Component
            $promos = $promosQuery->get();
        }
 
-        return view('livewire.admin.billing.billing', [
+        return view('livewire.staff.billing.billing', [
             'services' => $services,
             'products' => $products,
             'promos' => $promos,
@@ -183,69 +183,6 @@ class Billing extends Component
         }
 
     }
-
-    // private function addAppointmentServicesToCart()
-    // {
-    //     // Fetch appointment services associated with the appointment_id
-    //     $appointment = Appointment::find($this->appointment_id);
-    //     if ($appointment) {
-    //         $services = $appointment->service;
-
-    //         foreach ($services as $service) {
-    //             $this->cart[] = [
-    //                 'id' => $service->service->id,
-    //                 'name' => $service->service->service_name,
-    //                 'type' => 'Service',
-    //                 'quantity' => 1, 
-    //                 'total' => $service->service->price, 
-    //             ];
-    //         }
-    //     }
-    // }
-
-    // public function addToCart($itemId, $type)
-    // {
-    //     //Check if the quantity is null
-    //     $this->validate([
-    //         'quantity' => 'required|numeric|min:1',
-    //     ]);
-
-    //     $existingIndex = null;
-
-    //     // Check if the selected ID already exists in the cart
-    //     foreach ($this->cart as $index => $item) {
-    //         if ($item['id'] == $itemId) {
-    //             $existingIndex = $index;
-    //             break;
-    //         }
-    //     }
-
-    //     if ($type == 'product') {
-    //         $item = Product::find($itemId);
-    //     } elseif ($type == 'service') {
-    //         $item = Service::find($itemId);
-    //     } else {
-    //         return;
-    //     }
-
-    //     $total = $this->quantity * $item->price;
-    //     // $formattedTotal = number_format($total, 2);
-
-    //     if ($existingIndex !== null) {
-    //         // If the selected ID already exists in the cart, update the quantity and total
-    //         $this->cart[$existingIndex]['quantity'] += $this->quantity;
-    //         $this->cart[$existingIndex]['total'] += $total;
-    //     } else {
-    //         // If the selected ID doesn't exist in the cart, add it as a new item
-    //         $this->cart[] = [
-    //             'id' => $itemId,
-    //             'name' => $item->product_name ?? $item->service_name,
-    //             'type' => ucfirst($type),
-    //             'quantity' => $this->quantity,
-    //             'total' => $total,
-    //         ];
-    //     }
-    // }
 
     public function addToCart($itemId, $type)
     {

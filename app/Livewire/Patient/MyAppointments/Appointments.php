@@ -15,8 +15,10 @@ use App\Mail\AppointmentExpired;
 use App\Mail\AppointmentTomorrow;
 use App\Models\AuditTrail;
 use App\Models\ClinicNotif;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Appointments extends Component
 {
@@ -133,24 +135,72 @@ class Appointments extends Component
 
     public function create()
     {
-        Validator::extend('not_earlier_than_today', function ($attribute, $value, $parameters, $validator) {
-            $providedDate = Carbon::parse($value)->startOfDay();
-            $today = Carbon::now()->startOfDay();
+       // Fetch the latest schedule
+        $latestSchedule = Schedule::latest()->first();
 
-            return $providedDate->greaterThanOrEqualTo($today);
-        });
-
-        Validator::replacer('not_earlier_than_today', function ($message, $attribute, $rule, $parameters) {
-            return str_replace(':date', Carbon::now()->toDateString(), $message);
-        });
-
+        // Validate inputs
         $this->validate([
             'specialist_id' => 'required',
             'service_id' => 'required',
-            'date' => 'required|date|not_earlier_than_today',
-            'time' => 'required|date_format:H:i|after:09:59|before:18:01',
+            'date' => [
+                'required',
+                'date',
+                // Check if the selected date is not earlier than today
+                function ($attribute, $value, $fail) {
+                    $selectedDate = Carbon::parse($value)->startOfDay(); 
+                    $today = Carbon::now()->startOfDay();
+
+                    // Check if the selected date is not earlier than today
+                    if ($selectedDate->lt($today)) {
+                        $fail("The selected date must not be earlier than today.");
+                    }
+                },
+                // Custom rule to check if the selected date matches any day in the weekly schedule
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedDay = strtolower(Carbon::parse($value)->format('l'));
+                
+                    $weeklySchedule = array_map('strtolower', unserialize($latestSchedule->weekly_schedule));
+                
+                    // Check if the selected day matches any day in the weekly schedule
+                    if (!in_array($selectedDay, $weeklySchedule)) {
+                        $fail("The clinic is closed on your selected date.");
+                    }
+                },
+            ],
+            'time' => [
+                'required',
+                'date_format:H:i',
+                // Check if the selected time is in weekly schdeule
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedTime = Carbon::parse($value)->format('H:i'); 
+
+                    if ($selectedTime < $latestSchedule->open_time || $selectedTime > $latestSchedule->closing_time) {
+                        $fail("The clinic is closed at your selected time");
+                    }
+                },
+                // Check for overlapping appointments within the same hour
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedTime = Carbon::parse($value); 
+                    $startHour = $selectedTime->copy()->startOfHour(); 
+                    $endHour = $selectedTime->copy()->endOfHour(); 
+                
+                    // Check if there are any existing appointments within the same hour range
+                    $existingAppointments = Appointment::where('date', $this->date)
+                        ->where(function ($query) use ($startHour, $endHour) {
+                            $query->whereBetween('time', [$startHour, $endHour])
+                                ->orWhereBetween('time', [$startHour->addMinute(), $endHour->subMinute()]);
+                        })
+                        ->count();
+                
+                    if ($existingAppointments > 0) {
+                        $fail("There is already an appointment scheduled within this hour.");
+                    }
+                },
+            ],
         ],[
             'date.not_earlier_than_today' => 'The :attribute must be today or a future date.',
+            'time.after_or_equal' => 'The :attribute must be after or equal to the opening time of the clinic.',
+            'time.before_or_equal' => 'The :attribute must be before or equal to the closing time of the clinic.',
         ]);
 
         $appointmentsCount = Appointment::where('date', $this->date)->count();
@@ -216,24 +266,70 @@ class Appointments extends Component
 
     public function update()
     {
-        Validator::extend('not_earlier_than_today', function ($attribute, $value, $parameters, $validator) {
-            $providedDate = Carbon::parse($value)->startOfDay();
-            $today = Carbon::now()->startOfDay();
-
-            return $providedDate->greaterThanOrEqualTo($today);
-        });
-
-        Validator::replacer('not_earlier_than_today', function ($message, $attribute, $rule, $parameters) {
-            return str_replace(':date', Carbon::now()->toDateString(), $message);
-        });
+        // Fetch the latest schedule
+        $latestSchedule = Schedule::latest()->first();
 
         $this->validate([
             'specialist_id' => 'required',
             'service_id' => 'required',
-            'date' => 'required|date|not_earlier_than_today',
-            'time' => 'required|after:09:59|before:18:01',
+            'date' => [
+                'required',
+                'date',
+                // Check if the selected date is not earlier than today
+                function ($attribute, $value, $fail) {
+                    $selectedDate = Carbon::parse($value)->startOfDay(); 
+                    $today = Carbon::now()->startOfDay(); 
+
+                    if ($selectedDate->lt($today)) {
+                        $fail("The selected date must not be earlier than today.");
+                    }
+                },
+                // Check if the selected date matches any day in the weekly schedule
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedDay = strtolower(Carbon::parse($value)->format('l')); 
+                
+                    $weeklySchedule = array_map('strtolower', unserialize($latestSchedule->weekly_schedule));
+                
+                    if (!in_array($selectedDay, $weeklySchedule)) {
+                        $fail("The clinic is closed on your selected date.");
+                    }
+                },
+            ],
+            'time' => [
+                'required',
+                'date_format:H:i',
+                // Check if the selected tiem is in schedule
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedTime = Carbon::parse($value)->format('H:i'); // Get the time of the selected date
+
+                    if ($selectedTime < $latestSchedule->open_time || $selectedTime > $latestSchedule->closing_time) {
+                        $fail("The clinic is closed at your selected time");
+                    }
+                },
+
+                // Check for overlapping appointments within the same hour
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedTime = Carbon::parse($value); 
+                    $startHour = $selectedTime->copy()->startOfHour(); 
+                    $endHour = $selectedTime->copy()->endOfHour(); 
+                
+                    // Check if there are any existing appointments within the same hour range
+                    $existingAppointments = Appointment::where('date', $this->date)
+                        ->where(function ($query) use ($startHour, $endHour) {
+                            $query->whereBetween('time', [$startHour, $endHour])
+                                ->orWhereBetween('time', [$startHour->addMinute(), $endHour->subMinute()]);
+                        })
+                        ->count();
+                
+                    if ($existingAppointments > 0) {
+                        $fail("There is already an appointment scheduled within this hour.");
+                    }
+                },
+            ],
         ],[
             'date.not_earlier_than_today' => 'The :attribute must be today or a future date.',
+            'time.after_or_equal' => 'The :attribute must be after or equal to the opening time of the clinic.',
+            'time.before_or_equal' => 'The :attribute must be before or equal to the closing time of the clinic.',
         ]);
 
         $appointmentsCount = Appointment::where('date', $this->date)->count();
@@ -254,7 +350,6 @@ class Appointments extends Component
             'specialist_id' => $this->specialist_id,
             'date' => $this->date,
             'time' => $this->time,
-            'status' => $this->status
         ]);
 
         // Notification

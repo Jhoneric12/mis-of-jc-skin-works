@@ -71,7 +71,7 @@ class Billing extends Component
 
         if($this->appointment_id)
         {
-            $patient = Appointment::find($this->appointment_id)->first();
+            $patient = Appointment::where('id', $this->appointment_id)->first();
             $this->patient_id = $patient->patient->id;
             $this->patient_name = $patient->patient->first_name . " " .  $patient->patient->middle_name . " " .   $patient->patient->last_name;
         }

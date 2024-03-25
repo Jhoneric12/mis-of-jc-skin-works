@@ -12,15 +12,17 @@ use App\Models\ServiceCategory;
 use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class ManageServices extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     public $modalAdd = false;
     public $modalUpdate = false;
     public $modalView = false;
+    public $modalImage = false;
     public $modalStatus = false;
     public $search = '';
     public $filter = 'Active';
@@ -33,6 +35,7 @@ class ManageServices extends Component
     public $price;
     public $status;
     public $sessions;
+    public $image;
 
     public function render()
     {
@@ -81,20 +84,24 @@ class ManageServices extends Component
             'service_name' => 'required|unique:services',
             'description' => 'required',
             'price' => 'required',
-            'sessions' => 'required'
+            'sessions' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        $image =  $this->image->store('photos', 'public');
 
         Service::create([
             'service_name' => strtoupper($this->service_name),
             'service_category_id' => $this->service_category_id,
             'description' => strtoupper($this->description),
             'price' => $this->price,
-            'nno_of_sessions' => $this->sessions
+            'nno_of_sessions' => $this->sessions,
+            'image_path' => $image
         ]);
 
+        $this->resetFields();
         $this->dispatch('created');
         $this->modalAdd = false;
-        $this->resetFields();
     }
 
     public function editModal($id)
@@ -123,6 +130,35 @@ class ManageServices extends Component
         $service_id = Service::where('id', $id)->first();
 
         $this->service_name = $service_id->service_name;
+    }
+
+    public function editImage($id)
+    {
+        $this->modalImage = true;
+
+        $this->service_id = $id;
+
+        $service_id = Service::where('id', $id)->first();
+
+        $this->service_name = $service_id->service_name;
+    }
+
+    public function updateImage()
+    {
+        $this->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $updateImage = Service::where('id', $this->service_id)->first();
+
+        $image =  $this->image->store('photos', 'public');
+
+        $updateImage->update([
+            'image_path' => $image
+        ]);
+
+        $this->resetFields();
+        $this->dispatch('updated');
     }
 
     public function updateStatus()

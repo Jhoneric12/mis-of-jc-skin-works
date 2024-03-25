@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center bg-[#C7F2A4] px-10">
+<div class="flex flex-col items-center bg-[#e8eae5] px-10">
     <div class="py-10 text-center flex flex-col items-center">
         <h1 class="text-primary-green text-base font-extrabold md:text-lg">About Us</h1>
         <p class="font-semibold text-lg md:text-xl">{{$title}}</p>

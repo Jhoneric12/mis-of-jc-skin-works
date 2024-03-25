@@ -12,6 +12,7 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
+use App\Models\Promo;
 use App\Models\Promotion;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -22,6 +23,7 @@ class Billing extends Component
 
     public $search;
     public $serviceSearch;
+    public $promoSearch;
     public $quantity = 1;
 
     public $modalAdd = false;
@@ -29,6 +31,7 @@ class Billing extends Component
     public $modalView = false;
     public $modalStatus = false;
     public $modalSucess = false;
+    public $modalError = false;
 
     #[URL]
     public $appointment_id;
@@ -41,6 +44,8 @@ class Billing extends Component
     public $patient_name;
     public $ref_no;
     public $promo_id;
+    public $cartTotal;
+    public $discount;
 
     public $cart = [];
     protected $listeners = ['addToCart'];
@@ -54,15 +59,18 @@ class Billing extends Component
     {
         $products = [];
         $services = [];
+        $promos = [];
 
+        $this->cartTotal = number_format(array_sum(array_map(function($item) { return (float) $item['total']; }, $this->cart)), 2);
         $this->total_amount = array_sum(array_column($this->cart, 'total'));
+        $this->computeDiscount();
 
         $latestOrderId = Orders::max('id');
         $this->order_no = $latestOrderId + 1;
 
         if($this->appointment_id)
         {
-            $patient = Appointment::find($this->appointment_id)->first();
+            $patient = Appointment::where('id', $this->appointment_id)->first();
             $this->patient_id = $patient->patient->id;
             $this->patient_name = $patient->patient->first_name . " " .  $patient->patient->middle_name . " " .   $patient->patient->last_name;
         }
@@ -95,9 +103,21 @@ class Billing extends Component
             $services = $serviceQuery->get();
         }
 
-        return view('livewire.admin.billing.billing', [
+        // Check if promoSearch property has value
+        if($this->promoSearch) {
+            // Modify service query to include pagination
+            $promosQuery = Promo::query()
+            ->where('promo_name', 'like', '%' . $this->promoSearch . '%')
+            ->where('status', 1)
+            ->orderBy('created_at', 'desc');
+
+           $promos = $promosQuery->get();
+       }
+
+        return view('livewire.doctor.billing.billing', [
             'services' => $services,
             'products' => $products,
+            'promos' => $promos,
             'categories' => ProductCategory::all(),
             'items' => Product::all(),
         ]);
@@ -144,68 +164,26 @@ class Billing extends Component
         }
     }
 
-    // private function addAppointmentServicesToCart()
-    // {
-    //     // Fetch appointment services associated with the appointment_id
-    //     $appointment = Appointment::find($this->appointment_id);
-    //     if ($appointment) {
-    //         $services = $appointment->service;
+    public function computeDiscount()
+    {
+        if($this->discount)
+        {
+            $this->total_amount = (array_sum(array_column($this->cart, 'total'))) - ($this->discount);
 
-    //         foreach ($services as $service) {
-    //             $this->cart[] = [
-    //                 'id' => $service->service->id,
-    //                 'name' => $service->service->service_name,
-    //                 'type' => 'Service',
-    //                 'quantity' => 1, 
-    //                 'total' => $service->service->price, 
-    //             ];
-    //         }
-    //     }
-    // }
+             // Subtract discount from total
+            $total = array_sum(array_map(function($item) {
+                return (float) $item['total'];
+            }, $this->cart));
+    
+            $this->cartTotal = number_format(max($total - $this->discount, 0), 2);
+            
+        }
+        else 
+        {
+            $this->total_amount = array_sum(array_column($this->cart, 'total'));
+        }
 
-    // public function addToCart($itemId, $type)
-    // {
-    //     //Check if the quantity is null
-    //     $this->validate([
-    //         'quantity' => 'required|numeric|min:1',
-    //     ]);
-
-    //     $existingIndex = null;
-
-    //     // Check if the selected ID already exists in the cart
-    //     foreach ($this->cart as $index => $item) {
-    //         if ($item['id'] == $itemId) {
-    //             $existingIndex = $index;
-    //             break;
-    //         }
-    //     }
-
-    //     if ($type == 'product') {
-    //         $item = Product::find($itemId);
-    //     } elseif ($type == 'service') {
-    //         $item = Service::find($itemId);
-    //     } else {
-    //         return;
-    //     }
-
-    //     $total = $this->quantity * $item->price;
-    //     // $formattedTotal = number_format($total, 2);
-
-    //     if ($existingIndex !== null) {
-    //         // If the selected ID already exists in the cart, update the quantity and total
-    //         $this->cart[$existingIndex]['quantity'] += $this->quantity;
-    //         $this->cart[$existingIndex]['total'] += $total;
-    //     } else {
-    //         // If the selected ID doesn't exist in the cart, add it as a new item
-    //         $this->cart[] = [
-    //             'id' => $itemId,
-    //             'name' => $item->product_name ?? $item->service_name,
-    //             'type' => ucfirst($type),
-    //             'quantity' => $this->quantity,
-    //             'total' => $total,
-    //         ];
-    //     }
-    // }
+    }
 
     public function addToCart($itemId, $type)
     {
@@ -231,11 +209,9 @@ class Billing extends Component
             $item = Service::find($itemId);
             $unitPrice = $item->price;
         }
-        elseif($type == 'promo') {
-            $item = Service::find($itemId);
-            // If the type is "promo", set its price to 0
-            $unitPrice = 0;
-            $this->quantity = 1;
+        elseif($type == 'promotion') {
+            $item = Promo::find($itemId);
+            $unitPrice = $item->price;
         } else {
             return;
         }
@@ -252,7 +228,7 @@ class Billing extends Component
             // If the selected ID doesn't exist in the cart, add it as a new item
             $this->cart[] = [
                 'id' => $itemId,
-                'name' => $item->product_name ?? $item->service_name,
+                'name' => $item->product_name ?? $item->service_name ?? $item->promo_name,
                 'type' => ucfirst($type),
                 'quantity' => $this->quantity,
                 'unit_price' => $unitPrice,
@@ -376,7 +352,7 @@ class Billing extends Component
         {
             $this->modalSucess = true;
         }
-        
+
         else 
         {
             Session::flash('checkout', 'Transaction Completed.');
@@ -388,7 +364,7 @@ class Billing extends Component
 
         // Print Invoice 
 
-        $pdf = PDF::loadView('Admin.Dompdf.Invoice.invoice', ['cart' => $this->cart, 'total_amount' => $this->total_amount, 'order_no' => $this->order_no, 'patient_id'=> $this->patient_id, 'patient_name' => $this->patient_name, 'order_no' => $this->order_no]);
+        $pdf = PDF::loadView('Admin.Dompdf.Invoice.invoice', ['cart' => $this->cart, 'total_amount' => $this->total_amount, 'order_no' => $this->order_no, 'patient_id'=> $this->patient_id, 'patient_name' => $this->patient_name, 'order_no' => $this->order_no, 'discount' => $this->discount, 'payment_mode' => $this->payment_mode]);
     
         // Generate a temporary file path for the PDF
         $tempFilePath = tempnam(sys_get_temp_dir(), 'patients');

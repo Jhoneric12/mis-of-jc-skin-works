@@ -16,6 +16,7 @@ class Service extends Model
         'description',
         'status',
         'nno_of_sessions',
+        'image_path'
     ];
 
     protected $table = 'services';

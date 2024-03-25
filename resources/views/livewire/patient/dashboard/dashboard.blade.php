@@ -122,6 +122,10 @@
                                                         <span class="bg-blue-300 text-white text-xs px-2 py-1 rounded-full">
                                                             {{ $appointment->status }}
                                                         </span>
+                                                    @elseif($appointment->status == 'On-going')
+                                                        <span class="bg-[#C7A7EA] text-white text-xs px-2 py-1 rounded-full">
+                                                            {{ $appointment->status }}
+                                                        </span>
                                                     @else
                                                         <span class="bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
                                                             {{ $appointment->status }}

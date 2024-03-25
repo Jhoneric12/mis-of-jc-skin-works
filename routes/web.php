@@ -39,10 +39,12 @@ use App\Http\Controllers\Admin\Patient\ViewMedicalRecord;
 use App\Http\Controllers\Admin\AuditTrail\AuditTrail;
 use App\Http\Controllers\Admin\Settings\Accounts\ViewAccount as ViewAccounts;
 use App\Http\Controllers\Admin\Settings\Accounts\ViewDoctor;
+use App\Http\Controllers\Admin\Settings\Schedule\ManageSchedule;
 use App\Http\Controllers\Admin\Reports\Sales;
 use App\Http\Controllers\Admin\Reports\Products;
 use App\Http\Controllers\Admin\Reports\Services;
 use App\Http\Controllers\Admin\Reports\Inventory;
+use App\Http\Controllers\Admin\LandingPage\Services as ServicesOffered;
 
 // PATIENT
 use App\Http\Controllers\Patient\MyAppointments\Appointments;
@@ -104,11 +106,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
-//     Route::get('/home', function () {
-//         return view('dashboard');
-//     })->name('dashboard');
-// });
+// Landing Pge
+Route::get('services-offered', [ServicesOffered::class, 'index'])->name('services-offered');
 
 // ROUTES FOR AUTHENTICATED USERS ONLY
 Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -151,6 +150,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('admin-accounts', [Admin::class, 'index'])->name('admin-accounts');
             Route::get('view-staff', [ViewAccounts::class, 'index'])->name('view-staff');
             Route::get('view-doctor', [ViewDoctor::class, 'index'])->name('view-doctor');
+            Route::get('manage-schedule', [ManageSchedule::class, 'index'])->name('manage-schedule');
             Route::get('billing', [Billing::class, 'index'])->name('billing');
             Route::get('transactions', [Transactions::class, 'index'])->name('transactions');
             Route::get('medical-record', [MedicalRecord::class, 'index'])->name('medical-record');

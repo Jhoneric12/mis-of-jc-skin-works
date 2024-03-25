@@ -56,7 +56,7 @@ class SessionProgress extends Component
 
             if ($this->isProceed)
             {
-                $this->redirectRoute('staffview-appointments', ['appointment_id' => $this->appointment_id]);
+                $this->redirectRoute('staff-view-appointments', ['appointment_id' => $this->appointment_id]);
             }
          }
 

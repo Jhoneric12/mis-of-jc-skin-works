@@ -210,7 +210,6 @@ class ManageAppointents extends Component
             'specialist_id' => $this->specialist_id,
             'date' => $this->date,
             'time' => $this->time,
-            'status' => 'Confirmed'
         ]);
 
         Mail::to($updateAppointment->patient->email)

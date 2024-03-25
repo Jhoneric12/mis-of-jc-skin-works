@@ -60,7 +60,7 @@
         @forelse ($appointments as $appointment)
             <div class="bg-white px-10 py-8 rounded-md shadow-lg w-full">
                 <div class="py-3 border-b border-b-solid border-b-[green] flex justify-between items-center">
-                    <h1 class="text-lg font-bold">{{$appointment->service->service_name}}</h1>
+                    <h1 class="text-base font-bold">{{$appointment->service->service_name}}</h1>
                     <span>
                         @if($appointment->status == 'Scheduled')
                             <span class="bg-gray-300 text-white text-xs px-2 py-1 rounded-full">
@@ -91,26 +91,26 @@
                 </div>
                 <div class="py-6 flex flex-col gap-4">
                     <div>
-                        <div class="font-semibold text-md">{{$appointment->id}}</div>
+                        <div class="font-semibold text-sm">{{$appointment->id}}</div>
                         <div class="text-xs">Appointment No.</div>
                     </div>
                     <div class="flex gap-40 items-center">
                         <div>
-                            <div class="font-semibold text-md">Dr. {{$appointment->specialist->last_name}}</div>
+                            <div class="font-semibold text-sm">Dr. {{$appointment->specialist->last_name}}</div>
                             <div class="text-xs">Doctor/Staff</div>
                         </div>
                         <div>
-                            <div class="font-semibold text-md">{{$appointment->service->service_name}}</div>
+                            <div class="font-semibold text-sm">{{$appointment->service->service_name}}</div>
                             <div class="text-xs">Service Name</div>
                         </div>
                     </div>
                     <div class="flex gap-40 items-center">
                         <div>
-                            <div class="font-semibold text-md">{{\Carbon\Carbon::parse($appointment->time)->format('g: i a')}}</div>
+                            <div class="font-semibold text-sm">{{\Carbon\Carbon::parse($appointment->time)->format('g: i a')}}</div>
                             <div class="text-xs">Time</div>
                         </div>
                         <div>
-                            <div class="font-semibold text-md">{{\Carbon\Carbon::parse($appointment->date)->format('M, d, Y')}}</div>
+                            <div class="font-semibold text-sm">{{\Carbon\Carbon::parse($appointment->date)->format('M, d, Y')}}</div>
                             <div class="text-xs">Date</div>
                         </div>
                     </div>
@@ -121,8 +121,8 @@
                 </div>
             </div>
         @empty
-            <div class='text-center bg-white rounded-lg p-4 shadow-md'>
-                <div class="flex flex-col items-center justify-center">
+            <div class='text-center p-4 flex flex-col items-center justify-center w-full'>
+                <div class="">
                     <img src="{{ asset('assets/Essentials/No data-cuate.png') }}" alt="" class="h-40 w-40">
                     <h1 class="text-md font-semibold mb-2">No Appointment Found</h1>
                 </div>

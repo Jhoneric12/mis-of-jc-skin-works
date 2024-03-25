@@ -75,16 +75,16 @@
                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <img src="{{ asset('storage/' . $testimonial->image_path) }}" alt="" class="w-14 h-14">
                     </td>
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
                         {{$testimonial->id}}
                     </td>
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
                         {{$testimonial->name}}
                     </td>
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
                         {{$testimonial->address}}
                     </td>
-                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td scope="row" class="px-6 py-4 font-medium  whitespace-nowrap dark:text-white">
                         {{$testimonial->review}}
                     </td>
                     <td class="px-6 py-6">

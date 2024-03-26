@@ -2,12 +2,11 @@
 
 namespace App\Livewire\Staff\Patient;
 
-use App\Http\Controllers\Admin\AuditTrail\AuditTrail;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
 use App\Models\AppointmentSession;
-use App\Models\AuditTrail as ModelsAuditTrail;
+use App\Models\AuditTrail;
 use App\Models\OpenRateUs;
 use App\Models\Service;
 use App\Models\User;
@@ -109,6 +108,14 @@ class SessionProgress extends Component
             'specialist' => $specialist->specialist->last_name,
             'image_path' => $image
         ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SESSION',
+            'user_type' => 'STAFF',
+            'description' => 'ADDED SESSION'
+        ]);
             
 
         $this->resetFields();
@@ -160,7 +167,7 @@ class SessionProgress extends Component
         ]);
 
          // Logs
-         ModelsAuditTrail::create([
+         AuditTrail::create([
             'user_id' => Auth::user()->id,
             'log_name' => 'SESSION',
             'user_type' => 'STAFF',

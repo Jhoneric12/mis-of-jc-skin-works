@@ -205,6 +205,14 @@ class ManageAppointments extends Component
             'status' => $this->status,
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'STAFF',
+            'description' => 'ADDED APPOINTMENT'
+        ]);
+
         Mail::to($patient->email)
         ->send(new AppointmentCreated($appointment));
 
@@ -310,6 +318,14 @@ class ManageAppointments extends Component
             'specialist_id' => $this->specialist_id,
             'date' => $this->date,
             'time' => $this->time,
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'STAFF',
+            'description' => 'UPDATED AN APPOINTMENT'
         ]);
 
         Mail::to($updateAppointment->patient->email)

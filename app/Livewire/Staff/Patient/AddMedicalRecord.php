@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Staff\Patient;
 
+use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\MedicalRecord;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Facades\Session;
 
@@ -37,6 +39,14 @@ class AddMedicalRecord extends Component
             'medication_allergies' => strtoupper($this->medication_allergies),
             'findings' => strtoupper($this->findings),
             'prescription' => strtoupper($this->prescription),
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'MEDICAL RECORD',
+            'user_type' => 'STAFF',
+            'description' => 'ADDED MEDICAL RECORD'
         ]);
 
         Session::flash('created', 'Added Successfully.');

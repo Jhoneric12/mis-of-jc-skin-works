@@ -4,6 +4,7 @@ namespace App\Livewire\Doctor\Prescription;
 
 ini_set('max_execution_time', 18000);
 
+use App\Models\AuditTrail;
 use App\Models\Prescription;
 use App\Models\User;
 use Livewire\Component;
@@ -35,6 +36,14 @@ class GeneratePrescription extends Component
             'doctor_id' => Auth::user()->id,
             'medication' => strtoupper($this->medication),
             'description' => strtoupper($this->description),
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PRESCRIPTIOJ',
+            'user_type' => 'DOCTOR',
+            'description' => 'GENERATED PRESCRIPTION'
         ]);
 
        // Retrieve the most recent prescription

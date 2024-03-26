@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\Settings\Accounts\Staff;
 use App\Http\Controllers\Admin\Settings\Accounts\Doctors;
 use App\Http\Controllers\Admin\Settings\Accounts\Admin;
 use App\Http\Controllers\Admin\Settings\Promotions\ManagePromotions;
+use App\Http\Controllers\Admin\Settings\BackUp\BackUpDatabase;
 use App\Http\Controllers\Admin\Patient\MedicalRecord;
 use App\Http\Controllers\Admin\Patient\ViewMedicalRecord;
 use App\Http\Controllers\Admin\AuditTrail\AuditTrail;
@@ -172,6 +173,7 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('inventory-report', [Inventory::class, 'index'])->name('inventory-report');
             Route::get('patient-report', [PatientReport::class, 'index'])->name('patient-report');
             Route::get('generate-prescription', [GeneratePrescription::class, 'index'])->name('generate-prescription');
+            Route::get('backup', [BackUpDatabase::class, 'index'])->name('backup');
 
 
         })->name('admin-routes');

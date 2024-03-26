@@ -90,6 +90,14 @@ class ManagePatients extends Component
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name)
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'DOCTOR',
+            'description' => 'ADDED PATIENT'
+        ]);
+
         $this->modalAdd = false;
         $this->reset();
         $this->resetValidation();

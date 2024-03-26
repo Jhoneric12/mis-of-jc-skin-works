@@ -56,79 +56,80 @@
         </div>
     </div>
 
-    <div class="mt-8 grid grid-cols-2 grid-rows-2 gap-6">
-        @forelse ($appointments as $appointment)
-            <div class="bg-white px-10 py-8 rounded-md shadow-lg w-full">
-                <div class="py-3 border-b border-b-solid border-b-[green] flex justify-between items-center">
-                    <h1 class="text-base font-bold">{{$appointment->service->service_name}}</h1>
-                    <span>
+    <div class="container mx-auto">
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 grid-rows-auto gap-6">
+            @forelse ($appointments as $appointment)
+                <div class="bg-white px-6 py-6 md:py-8 rounded-md shadow-lg w-full">
+                    <div class="py-3 border-b border-b-solid border-b-[green] flex justify-between items-center">
+                        <h1 class="text-sm md:text-base lg:text-lg font-bold">{{$appointment->service->service_name}}</h1>
                         @if($appointment->status == 'Scheduled')
-                            <span class="bg-gray-300 text-white text-xs px-2 py-1 rounded-full">
-                                {{ $appointment->status }}
-                            </span>
-                        @elseif($appointment->status == 'Cancelled')
-                            <span class="bg-red-300 text-white text-xs px-2 py-1 rounded-full">
-                                {{ $appointment->status }}
-                            </span>
-                        @elseif($appointment->status == 'Completed')
-                            <span class="bg-green-300 text-white text-xs px-2 py-1 rounded-full">
-                                {{ $appointment->status }}
-                            </span>
-                        @elseif($appointment->status == 'Confirmed')
-                            <span class="bg-blue-300 text-white text-xs px-2 py-1 rounded-full">
-                                {{ $appointment->status }}
-                            </span>
-                        @elseif($appointment->status == 'On-going')
-                            <span class="bg-[#C7A7EA] text-white text-xs px-2 py-1 rounded-full">
-                                {{ $appointment->status }}
-                            </span>
-                        @else
-                            <span class="bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
-                                {{ $appointment->status }}
-                            </span>
-                        @endif
-                    </span>
-                </div>
-                <div class="py-6 flex flex-col gap-4">
-                    <div>
-                        <div class="font-semibold text-sm">{{$appointment->id}}</div>
-                        <div class="text-xs">Appointment No.</div>
+                                <span class="bg-gray-300 text-white text-xs px-2 py-1 rounded-full">
+                                    {{ $appointment->status }}
+                                </span>
+                                @elseif($appointment->status == 'Cancelled')
+                                    <span class="bg-red-300 text-white text-xs px-2 py-1 rounded-full">
+                                        {{ $appointment->status }}
+                                    </span>
+                                @elseif($appointment->status == 'Completed')
+                                    <span class="bg-green-300 text-white text-xs px-2 py-1 rounded-full">
+                                        {{ $appointment->status }}
+                                    </span>
+                                @elseif($appointment->status == 'Confirmed')
+                                    <span class="bg-blue-300 text-white text-xs px-2 py-1 rounded-full">
+                                        {{ $appointment->status }}
+                                    </span>
+                                @elseif($appointment->status == 'On-going')
+                                    <span class="bg-[#C7A7EA] text-white text-xs px-2 py-1 rounded-full">
+                                        {{ $appointment->status }}
+                                    </span>
+                                @else
+                                    <span class="bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
+                                        {{ $appointment->status }}
+                                    </span>
+                                @endif
                     </div>
-                    <div class="flex gap-40 items-center">
+                    <div class="py-6 flex flex-col gap-4">
                         <div>
-                            <div class="font-semibold text-sm">Dr. {{$appointment->specialist->last_name}}</div>
-                            <div class="text-xs">Doctor/Staff</div>
+                            <div class="font-semibold text-xs md:text-sm">{{$appointment->id}}</div>
+                            <div class="text-xs md:text-sm">Appointment No.</div>
                         </div>
-                        <div>
-                            <div class="font-semibold text-sm">{{$appointment->service->service_name}}</div>
-                            <div class="text-xs">Service Name</div>
+                        <div class="flex gap-8 md:gap-40 items-center">
+                            <div>
+                                <div class="font-semibold text-xs md:text-sm">Dr. {{$appointment->specialist->last_name}}</div>
+                                <div class="text-xs md:text-sm">Doctor/Staff</div>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-xs md:text-sm">{{$appointment->service->service_name}}</div>
+                                <div class="text-xs md:text-sm">Service Name</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-8 md:gap-40 items-center">
+                            <div>
+                                <div class="font-semibold text-xs md:text-sm">{{\Carbon\Carbon::parse($appointment->time)->format('g: i a')}}</div>
+                                <div class="text-xs md:text-sm">Time</div>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-xs md:text-sm">{{\Carbon\Carbon::parse($appointment->date)->format('M, d, Y')}}</div>
+                                <div class="text-xs md:text-sm">Date</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex gap-40 items-center">
-                        <div>
-                            <div class="font-semibold text-sm">{{\Carbon\Carbon::parse($appointment->time)->format('g: i a')}}</div>
-                            <div class="text-xs">Time</div>
-                        </div>
-                        <div>
-                            <div class="font-semibold text-sm">{{\Carbon\Carbon::parse($appointment->date)->format('M, d, Y')}}</div>
-                            <div class="text-xs">Date</div>
-                        </div>
+                    <div class="flex flex-col md:flex-row w-full gap-4 mt-auto">
+                        <x-Essentials.button class="w-full bg-green-300 font-bold text-xs md:text-xs" wire:click='editModal({{$appointment->id}})'>Re-Schedule</x-Essentials.button>
+                        <x-Essentials.button class="w-full bg-red-300 text-[#FD4949] font-bold text-xs md:text-xs" wire:click='editStatus({{$appointment->id}})'>Cancel booking</x-Essentials.button>
                     </div>
                 </div>
-                <div class="flex w-full gap-4 mt-auto">
-                    <x-Essentials.button class="w-full bg-green-300 font-bold text-xs" wire:click='editModal({{$appointment->id}})'>Re-Schedule</x-Essentials.button>
-                    <x-Essentials.button class="w-full bg-red-300 text-[#FD4949] font-bold text-xs" wire:click='editStatus({{$appointment->id}})'>Cancel booking</x-Essentials.button>
+            @empty
+                <div class='text-center p-4 flex flex-col items-center justify-center w-full'>
+                    <div class="">
+                        <img src="{{ asset('assets/Essentials/No data-cuate.png') }}" alt="" class="h-40 w-40">
+                        <h1 class="text-md md:text-lg font-semibold mb-2">No Appointment Found</h1>
+                    </div>
                 </div>
-            </div>
-        @empty
-            <div class='text-center p-4 flex flex-col items-center justify-center w-full'>
-                <div class="">
-                    <img src="{{ asset('assets/Essentials/No data-cuate.png') }}" alt="" class="h-40 w-40">
-                    <h1 class="text-md font-semibold mb-2">No Appointment Found</h1>
-                </div>
-            </div>
-        @endforelse
+            @endforelse
+        </div>
     </div>
+    
 
     {{-- Add Modal --}}
     <x-dialog-modal wire:model.live="modalAdd" maxWidth='4xl'>

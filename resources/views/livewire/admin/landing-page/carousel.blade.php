@@ -13,10 +13,10 @@
             @foreach ($products as $index => $product)
                 <!-- Item -->
                 <div class="duration-700 ease-in-out" data-carousel-item>
-                    <div class="flex flex-col items-center px-4 gap-4  md:flex-row md:items-center md:justify-center md:h-full">
+                    <div class="flex flex-col items-center px-4 gap-4 md:flex-row md:items-center md:justify-center md:h-full">
                         <div class="w-full flex flex-col justify-center md:w-1/2">
                             <p class="font-semibold text-base md:text-xl mt-6">{{$product->product_name}}</p>
-                            <img src="{{ asset('storage/' . $product->product_image_path) }}" class=" md:hidden inset-0 w-[15rem] h-[15rem] mt-6 text-center" alt="Product Image">
+                            <img src="{{ asset('storage/' . $product->product_image_path) }}" class="md:hidden inset-0 w-[15rem] h-[15rem] mt-6 text-center object-cover" alt="Product Image">
                             <p class="text-sm mt-6 font-normal leading-6">{{$product->description}}</p>
                         </div>
                         <img src="{{ asset('storage/' . $product->product_image_path) }}" class="hidden md:block inset-0 object-cover w-[15rem] h-[15rem] mt-6" alt="Product Image">
@@ -51,14 +51,19 @@
 </div>
 @else
 <div class="relative w-full bg-[#EBF7DD] h-screen md:h-[30rem] z-10 ">
-
+    <div class="py-10 text-center flex flex-col items-center">
+        <h1 class="text-primary-green text-base font-extrabold md:text-lg">Featured Products</h1>
+        <p class="font-semibold text-lg md:text-xl">Quality ingredients. Real results.</p>
+        <div class="mt-2">
+            <img src="{{asset('assets/Essentials/line-title.png')}}" alt="">
+        </div>
+    </div>
     <div class="flex justify-center gap-4 items-center overflow-hidden rounded-lg h-full">
         @foreach ($products as $product)
-            <div class="flex flex-col items-center px-4 gap-4  md:flex-row md:items-center md:justify-center md:h-full">
+            <div class="flex flex-col items-center px-4 gap-4 md:flex-row md:items-center md:justify-center md:h-full">
                 <div class="w-full flex flex-col justify-center md:w-1/2">
-                    <h1 class="text-primary-green font-extrabold text-xl mt-6 md:text-2xl">Featured Products</h1>
-                    <p class="text-base font-medium md:text-xl">Quality ingredients. Real results</p>
-                    <img src="{{ asset('storage/' . $product->product_image_path) }}" class=" md:hidden inset-0 w-[20rem] h-[20rem] mt-6 text-center" alt="Product Image">
+                    <p class="font-semibold text-base md:text-xl mt-6">{{$product->product_name}}</p>
+                    <img src="{{ asset('storage/' . $product->product_image_path) }}" class="md:hidden inset-0 w-[20rem] h-[20rem] mt-6 text-center object-cover" alt="Product Image">
                     <p class="text-sm mt-6 font-normal">{{$product->description}}</p>
                 </div>
                 <img src="{{ asset('storage/' . $product->product_image_path) }}" class="hidden md:block inset-0 object-cover w-[20rem] h-[20rem] mt-6" alt="Product Image">

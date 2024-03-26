@@ -6,9 +6,11 @@ use App\Mail\AppointmentEdited;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\Service;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -136,6 +138,14 @@ class ViewAppointments extends Component
             'date' => $this->app_date,
             'time' => $this->app_time,
             'status' => $this->app_status   
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'DOCTOR',
+            'description' => 'UPDATED APPOINTMENTS'
         ]);
 
         Mail::to($updateAppointment->patient->email)

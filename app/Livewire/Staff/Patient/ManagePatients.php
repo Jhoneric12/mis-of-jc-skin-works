@@ -90,6 +90,14 @@ class ManagePatients extends Component
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name)
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'STAFF',
+            'description' => 'ADDED PATIENT'
+        ]);
+
         $this->modalAdd = false;
         $this->reset();
         $this->resetValidation();
@@ -167,6 +175,13 @@ class ManagePatients extends Component
             // 'email' => $this->email,
             'skin_type' => strtoupper($this->skin_type),
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name)
+        ]);
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'STAFF',
+            'description' => 'UPDATED PATIENT'
         ]);
 
        $this->resetFields();

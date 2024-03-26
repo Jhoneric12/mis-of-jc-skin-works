@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Mail\AppointmentCreated;
 use App\Mail\AppointmentExpired;
 use App\Mail\AppointmentTomorrow;
+use App\Models\AuditTrail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
@@ -83,6 +84,14 @@ class AddAppointment extends Component
             'time' => $this->time,
             'setting' => $this->setting,
             'status' => $this->status,
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENT',
+            'user_type' => 'PATIENT',
+            'description' => 'SET AN APPOINTMENT'
         ]);
 
         // Send email to the patient

@@ -19,37 +19,37 @@
         </div>
     </x-action-message>
 
-    <form wire:submit.prevent='update' class='bg-gray-50 p-10 border border-solid border-t-4 border-t-[#5FC26C] border-t-solid shadow-md rounded-lg'>
+    <form wire:submit.prevent='update' class='bg-gray-50 p-6 md:p-10 border border-solid border-t-4 border-t-[#5FC26C] border-t-solid shadow-md rounded-lg'>
         @csrf
-        <div class='flex gap-4 w-full'>
-            <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
+        <div class='flex flex-col md:flex-row gap-4 w-full'>
+            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full md:w-[50%]'>
                 <x-label for="firstname" value="{{ __('First Name') }}" />
                 <x-input readonly wire:model='firstname' id="firstname" class="block mt-1 w-full" type="text" name="firstname" :value="old('firstname')"  autofocus autocomplete="firstname" />
                 <x-input-error for="firstname"/>
             </div>
-            <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
+            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full md:w-[50%]'>
                 <x-label for="middlename" value="{{ __('Middle Name') }}" />
                 <x-input readonly wire:model='middlename' id="middlename" class="block mt-1 w-full" type="text" name="middlename" :value="old('middlename')"  autofocus autocomplete="middlename" />
                 <x-input-error for="middlename"/>
             </div>
-            <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
+            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full md:w-[50%]'>
                 <x-label for="lastname" value="{{ __('Last Name') }}" />
                 <x-input readonly wire:model='lastname' id="lastname" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')"  autofocus autocomplete="lastname" />
                 <x-input-error for="lastname"/>
             </div>
         </div>
-        <div class='flex gap-4 items-center'>
-            <div class='flex flex-col gap-1 mb-4 w-[33.33%]'>
+        <div class='flex flex-col md:flex-row gap-4 items-center w-full'>
+            <div class='flex flex-col gap-1 mb-4 w-full md:w-[33.33%]'>
                 <x-label for="birthdate" value="{{ __('Birth Date') }}" />
                 <x-input wire:model='bDate' id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('bDate')"  autofocus autocomplete="birthdate" />
                 <x-input-error for="bDate"/>
             </div>
-            <div class='flex flex-col gap-1 mb-4 w-[33.33%]'>
+            <div class='flex flex-col gap-1 mb-4 w-full md:w-[33.33%]'>
                 <x-label for="age" value="{{ __('Age') }}" />
                 <x-input wire:model='age' id="age" class="block mt-1 w-full" type="text" name="age" :value="old('age')"  autofocus autocomplete="age" />
                 <x-input-error for="age"/>
             </div>
-            <div class='flex flex-col gap-1 mb-4 w-[33.33%]'>
+            <div class='flex flex-col gap-1 mb-4 w-full md:w-[33.33%]'>
                 <x-label for="" value="{{ __('Gender') }}" />
                 <select wire:model='gender' name="gender" id="gender" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm'">
                     <option value="">- Select Options -</option>
@@ -59,8 +59,8 @@
                 <x-input-error for="gender"/>
             </div>
         </div>
-        <div class='flex gap-4 w-full items-center'>
-            <div class='flex flex-col gap-1 mb-4 w-[50%]'>
+        <div class='flex flex-col md:flex-row gap-4 items-center w-full'>
+            <div class='flex flex-col gap-1 mb-4 w-full md:w-[50%]'>
                 <x-label for="" value="{{ __('Civil Status') }}" />
                 <select wire:model='civilstatus' name="civilstatus" id="civilstatus" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm'">
                     <option value="">- Select Options -</option>
@@ -71,7 +71,7 @@
                 </select>
                 <x-input-error for="civilstatus"/>
             </div>
-            <div class='flex flex-col gap-1 mb-4 w-[50%]'>
+            <div class='flex flex-col gap-1 mb-4 w-full md:w-[50%]'>
                 <x-label for="religion" value="{{ __('Religion') }}" />
                 <x-input wire:model='religion' id="religion" class="block mt-1 w-full" type="text" name="religion" :value="old('religion')"  autofocus autocomplete="religion" />
                 <x-input-error for="religion"/>
@@ -80,17 +80,17 @@
         <div class='w-full'>
             <div class='flex flex-col gap-1 mb-4 text-fontColor'>
                 <x-label for="" value="{{ __('Home Address') }}" />
-                <textarea wire:model='homeaddress' cols="30" rows="3" name="homeaddress" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm" placeholder='Enter Home Address' '></textarea>
+                <textarea wire:model='homeaddress' cols="30" rows="3" name="homeaddress" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm" placeholder='Enter Home Address'></textarea>
                 <x-input-error for="homeaddress"/>
             </div>
         </div>
-        <div class='flex gap-4 w-full'>
-            <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
+        <div class='flex flex-col md:flex-row gap-4 w-full'>
+            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full md:w-[50%]'>
                 <x-label for="contactnumber" value="{{ __('Contact Number') }}" />
                 <x-input wire:model='contactnumber' id="contactnumber" class="block mt-1 w-full" type="text" name="contactnumber" :value="old('contactnumber')"  autofocus autocomplete="contactnumber" />
                 <x-input-error for="contactnumber"/>
             </div>
-            <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
+            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full md:w-[50%]'>
                 <x-label for="emailaddress" value="{{ __('Email Address') }}" />
                 <x-input wire:model='emailaddress' readonly id="emailaddress" class="block mt-1 w-full" type="text" name="emailaddress" :value="old('emailaddress')"  autofocus autocomplete="emailaddress" />
                 <x-input-error for="emailaddress"/>
@@ -99,7 +99,7 @@
         <div class='w-full'>
             <div class='flex flex-col gap-1 mb-4 text-fontColor'>
                 <x-label for="" value="{{ __('Skin Type') }}" />
-                <textarea wire:model='skintype' cols="30" rows="3" name="skintype" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm" placeholder='Enter Skin Type' '></textarea>
+                <textarea wire:model='skintype' cols="30" rows="3" name="skintype" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm" placeholder='Enter Skin Type'></textarea>
                 <x-input-error for="skintype"/>
             </div>
         </div>
@@ -115,8 +115,10 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
+    
             <button type="submit" class="text-sm text-center bg-[#4FBD5E] hover:opacity-90 text-white px-10 py-3 rounded-[8px]">Save Changes</button>
         </div>
     </form>
+    
+    
 </div>

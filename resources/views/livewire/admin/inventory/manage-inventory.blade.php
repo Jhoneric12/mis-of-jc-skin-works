@@ -12,6 +12,18 @@
             </div>
         </div>
     </x-action-message>
+
+     {{-- Updated Message --}}
+     <x-action-message on="updated" class="w-full text-white bg-green-500 rounded-lg mb-4">
+        <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                </svg>
+                <p class="mx-3 text-white">Updated successfully.</p>
+            </div>
+        </div>
+    </x-action-message>
     
     <div class="relative overflow-x-auto sm:rounded-lg shadow-md px-6 py-8 border-2 border-solid">
         <div class="mb-4 flex gap-2 items-center justify-between">
@@ -80,6 +92,9 @@
                     <th scope="col" class="px-6 py-6">
                         Quantity
                     </th>
+                    <th scope="col" class="px-6 py-6">
+                        Action
+                    </th>
                     {{-- <th scope="col" class="px-6 py-6">
                         Action
                     </th> --}}
@@ -111,12 +126,11 @@
                             <span class="text-red-700 font-bold">!</span>
                         @endif
                     </td>
-                    {{-- <td class="py-6 flex gap-2">
-                        <svg wire:click='view({{$product->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>                          
-                    </td> --}}
+                    <td class="py-6 flex gap-2 text-center">
+                        <svg wire:click='editExpiration({{$product->product_id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>                        
+                    </td>
                 </tr>
                 @empty
                     <tr class="w-full">
@@ -182,6 +196,38 @@
 
         <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='create'>
             {{ __('Add') }}
+        </x-button>
+    </x-slot>
+</x-dialog-modal>
+
+{{-- Update Expiration Modal --}}
+<x-dialog-modal wire:model.live="modalExpiration" maxWidth='lg'>
+    <x-slot name="title">
+        {{ __('Edit Expiration') }}
+    </x-slot> 
+
+    <x-slot name="content">
+        <form wire:submit='create'>
+            @csrf
+            <div>
+                <div class='flex flex-col w-full'>
+                    <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                        <x-label for="" value="{{ __('Expiration Date') }}" />
+                        <input wire:model="exp_date" type="date"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <x-input-error for="exp_date"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </x-slot>
+
+    <x-slot name="footer">
+        <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+            {{ __('Cancel') }}
+        </x-secondary-button>
+
+        <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='updateExpiration'>
+            {{ __('Save') }}
         </x-button>
     </x-slot>
 </x-dialog-modal>

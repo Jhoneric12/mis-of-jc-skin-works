@@ -7,6 +7,7 @@ use App\Mail\AppointmentDeclined;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Prescription;
@@ -82,6 +83,14 @@ class Dashboard extends Component
             'status' => 'Confirmed'
         ]);
 
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'DOCTOR',
+            'description' => 'APPROVED APPOINTMENT'
+        ]);
+
         // Send confirmation email to the patient
         Mail::to($updateStatus->patient->email)->send(new AppointmentConfirmed($updateStatus));
 
@@ -95,6 +104,14 @@ class Dashboard extends Component
 
         $updateStatus->update([
             'status' => 'Cancelled'
+        ]);
+
+        // Logs
+        AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'APPOINTMENTS',
+            'user_type' => 'DOCTOR',
+            'description' => 'DECLINED APPOINTMENT'
         ]);
 
         // Send confirmation email to the patient

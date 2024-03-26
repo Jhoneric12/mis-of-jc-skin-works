@@ -12,7 +12,7 @@
         </div>
         <div class="flex flex-col items-center justify-center lg:items-start lg:w-1/2">
             <div class="mt-6 lg:mt-0">
-                <p class="text-left text-sm md:text-base lg:text-left leading-6 lg:leading-8 ">{{$content}}</p>
+                <p class="text-center lg:text-left text-sm md:text-base lg:text-base leading-6 lg:leading-8">{{$content}}</p>
             </div>
             <a href="{{url('register')}}" class="mt-6">
                 <x-Essentials.button class="font-semibold py-2">Make Appointment</x-Essentials.button>

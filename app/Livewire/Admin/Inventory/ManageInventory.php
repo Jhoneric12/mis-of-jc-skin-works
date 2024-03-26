@@ -25,6 +25,7 @@ class ManageInventory extends Component
     public $modalUpdate = false;
     public $modalView = false;
     public $modalStatus = false;
+    public $modalExpiration = false;
     public $search = '';
     public $filter = 'Active';
     public $category = 'All';
@@ -36,6 +37,8 @@ class ManageInventory extends Component
     public $price;
     public $exp_date;
     public $total_quantity;
+
+    public $inventory_id;
 
     public function render()
     {
@@ -65,6 +68,7 @@ class ManageInventory extends Component
     {
         $this->modalAdd = false;
         $this->modalUpdate = false;
+        $this->modalExpiration = false;
         $this->resetFields();
     }
 
@@ -102,12 +106,24 @@ class ManageInventory extends Component
         }
 
         // Logs
-        AuditTrail::create([
-            'user_id' => Auth::user()->id,
-            'log_name' => 'INVENTORY',
-            'user_type' => 'ADMINISTRATOR',
-            'description' => 'ADDED STOCKS'
-        ]);
+        if(Auth::user()->role == 1)
+        {
+            AuditTrail::create([
+                'user_id' => Auth::user()->id,
+                'log_name' => 'INVENTORY',
+                'user_type' => 'ADMINISTRATOR',
+                'description' => 'ADDED STOCKS'
+            ]);
+        }
+        elseif(Auth::user()->role == 2)
+        {
+            AuditTrail::create([
+                'user_id' => Auth::user()->id,
+                'log_name' => 'INVENTORY',
+                'user_type' => 'STAFF',
+                'description' => 'ADDED STOCKS'
+            ]);
+        }
 
         $this->resetFields();
         $this->dispatch('created');
@@ -121,6 +137,53 @@ class ManageInventory extends Component
                 $fail("The expiration date must not be in the previous year.");
             }
         };
+    }
+
+    public function editExpiration($id)
+    {
+        $this->modalExpiration = true;
+
+        $this->inventory_id = $id;
+
+        $inventory_id = Inventory::where('product_id', $id)->first();
+
+        $this->exp_date = $inventory_id->expiration_date;
+    }
+
+    public function updateExpiration()
+    {
+        $this->validate([
+            'exp_date' => ['required', $this->notInPreviousYear(),]
+        ]);
+
+        $updateExpiration = Inventory::where('product_id', $this->inventory_id)->first();
+
+        $updateExpiration->update([
+            'expiration_date' => $this->exp_date
+        ]);
+
+        // Logs
+        if(Auth::user()->role == 1)
+        {
+            AuditTrail::create([
+                'user_id' => Auth::user()->id,
+                'log_name' => 'INVENTORY',
+                'user_type' => 'ADMINISTRATOR',
+                'description' => 'UPDATED INVENTORY'
+            ]);
+        }
+        elseif(Auth::user()->role == 2)
+        {
+            AuditTrail::create([
+                'user_id' => Auth::user()->id,
+                'log_name' => 'INVENTORY',
+                'user_type' => 'STAFF',
+                'description' => 'UPDATED INVENTORY'
+            ]);
+        }
+
+        $this->resetFields();
+        $this->dispatch('updated');
     }
 
     public function export()

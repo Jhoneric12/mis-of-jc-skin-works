@@ -93,9 +93,9 @@
                     <th scope="col" class="px-6 py-6">
                         Birthdate
                     </th>
-                    <th scope="col" class="px-6 py-6">
+                    {{-- <th scope="col" class="px-6 py-6">
                         Status
-                    </th>
+                    </th> --}}
                     <th scope="col" class="px-6 py-6">
                         Action
                     </th>
@@ -127,11 +127,11 @@
                     <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                         {{\Carbon\Carbon::parse($patient->birth_date)->format('M, d, Y')}}
                     </td>
-                    <td class="px-6 py-6">
+                    {{-- <td class="px-6 py-6">
                         <span class="{{ $patient->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                             {{ $patient->account_status ? 'Active' : 'Inactive'}}
                         </span>
-                    </td>
+                    </td> --}}
                     <td class="px-6 py-6 flex gap-2 items-center">
                         <a href="{{route('staff-view-profile', ['patient_id' => $patient->id])}}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">

@@ -96,7 +96,7 @@ class ManageProducts extends Component
 
         Product::create([
             'product_name' => strtoupper($this->product_name),
-            'description' => strtoupper($this->description),
+            'description' => $this->description,
             'min_qty' => $this->min_qty,
             // 'max_qty' => $this->max_qty,
             'product_category_id' => $this->product_category_id,
@@ -221,7 +221,7 @@ class ManageProducts extends Component
 
         $updateProduct->update([
             'product_name' => strtoupper($this->product_name),
-            'description' => strtoupper($this->description),
+            'description' => $this->description,
             'min_qty' => $this->min_qty,
             'total_qty' => $this->onhand,
             'product_category_id' => $this->product_category_id,

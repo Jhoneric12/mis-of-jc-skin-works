@@ -175,17 +175,17 @@ class FeaturedProducts extends Component
         $this->validate([
             'product_name' => 'required',
             'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
         ]);
 
         $updateProduct = FeaturedProduct::where('id', $this->feature_id);
 
-        $image =  $this->image->store('photos', 'public');
+        // $image =  $this->image->store('photos', 'public');
 
         $updateProduct->update([
             'product_name' => $this->product_name,
             'description' => $this->description,
-            'product_image_path' => $image
+            // 'product_image_path' => $image
         ]);
 
         // Logs

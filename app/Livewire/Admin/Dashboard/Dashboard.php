@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentConfirmed;
 use App\Mail\AppointmentDeclined;
 use App\Models\ClinicNotif;
+use App\Models\Inventory;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -89,6 +90,24 @@ class Dashboard extends Component
                 ClinicNotif::create([
                     'user_id' => Auth::user()->id,
                     'description' => 'Product "'.$product->product_name.'" is in low stock. Manage the product before the stock reaches zero',
+                    'type' => 'admin'
+                ]);
+            }
+        }
+
+        // Check for expiring items
+        $expiring_items = Inventory::where('expiration_date', '<=', now()->addMonth())
+                                    ->get();
+
+                foreach ($expiring_items as $item) {
+                $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
+                            ->where('description', 'like', '%'.$item->product->product_name.'%')
+                            ->exists();
+
+                if (!$existing_notification) {
+                    ClinicNotif::create([
+                    'user_id' => Auth::user()->id,
+                    'description' => 'Product "'.$item->product->product_name.'" is expiring soon. Manage the product before it expires.',
                     'type' => 'admin'
                 ]);
             }

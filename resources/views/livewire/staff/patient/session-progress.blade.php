@@ -18,6 +18,18 @@
              </div>
          </div>
      </x-action-message>
+
+     {{-- Updated Message --}}
+    <x-action-message on="updated" class="w-full text-white bg-green-500 rounded-lg mb-4">
+        <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                </svg>
+                <p class="mx-3 text-white">Updated successfully.</p>
+            </div>
+        </div>
+    </x-action-message>
  
     <div class="flex justify-between items-center ">
      <div class="flex gap-2 items-center">
@@ -62,9 +74,16 @@
          @endphp
          @forelse ($sessions as $session)
              <div class="rounded-lg shadow-md bg-white">
-                 <div class="w-full p-6 border-b border-solid border-b-gray-300 font-semibold">
-                     {{ $sessionNumber === 1 ? 'First' : ($sessionNumber === 2 ? 'Second' : ($sessionNumber === 3 ? 'Third' : ($sessionNumber . 'th'))) }} Session
-                 </div>
+                <div class="flex justify-between items-center w-full p-6 border-b border-solid border-b-gray-300 font-semibold">
+                    <div>
+                        {{ $sessionNumber === 1 ? 'First' : ($sessionNumber === 2 ? 'Second' : ($sessionNumber === 3 ? 'Third' : ($sessionNumber . 'th'))) }} Session
+                    </div>
+                    <div>
+                        <svg wire:click='editImage({{$session->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-green">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                          </svg>                          
+                    </div>
+                </div>
                  <div class="p-6 flex gap-4">
                      <div><img src="{{ asset('storage/' . $session->image_path) }}" alt="" class="rounded-md w-[20rem] h-[15rem]"></div>
                      <div class="flex gap-4 flex-col">
@@ -159,6 +178,40 @@
              </x-button>
          </x-slot>
      </x-dialog-modal>
+
+     {{-- Update Image --}}
+    <x-dialog-modal wire:model.live="modalImage" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Edit session image') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <form wire:submit='updateStatus'>
+                @csrf
+                <div>
+                    <div class='flex flex-col w-full'>
+                        <div class="flex gap-4">
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                                <x-label for="" value="{{ __('Image') }}" />
+                                <input wire:model="image" type="file"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <x-input-error for="image"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='updateImage'>
+                {{ __('Save') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
  
  </div>
  

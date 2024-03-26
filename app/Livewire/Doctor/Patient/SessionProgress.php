@@ -7,9 +7,11 @@ use Livewire\Attributes\Url;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use App\Models\AppointmentSession;
 use App\Models\Appointment;
+use App\Models\AuditTrail;
 use App\Models\OpenRateUs;
 use App\Models\Service;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class SessionProgress extends Component
 {
@@ -24,6 +26,7 @@ class SessionProgress extends Component
     public $modalUpdate = false;
     public $modalComplete = false;
     public $reSchedule = false;
+    public $modalImage = false;
 
     public $specialist_id;
     public $image;
@@ -33,6 +36,7 @@ class SessionProgress extends Component
     public $full_name;
     public $date;
     public $time;
+    public $session_id;
     public $appointment_date;
 
     public function render()
@@ -82,12 +86,14 @@ class SessionProgress extends Component
     {
         $this->modalAdd = false;
         $this->modalUpdate = false;
+        $this->modalImage = false;
         $this->reSchedule = false;
     }
 
     public function resetFields()
     {
         $this->modalAdd = false;
+        $this->modalImage = false;
         $this->resetValidation();
     }
 
@@ -134,5 +140,38 @@ class SessionProgress extends Component
     public function openReSchedule()
     {
         $this->reSchedule = true;
+    }
+
+    public function editImage($id)
+    {
+        $this->modalImage = true;
+
+         $this->session_id = $id;
+    }
+
+    public function updateImage()
+    {
+        $this->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1048',
+        ]);
+
+        $updateImage = AppointmentSession::where('id', $this->session_id);
+
+        $image =  $this->image->store('photos', 'public');
+
+        $updateImage->update([
+            'image_path' => $image
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'SESSION',
+            'user_type' => 'DOCTOR',
+            'description' => 'UPDATED SESSION IMAGE'
+        ]);
+
+        $this->resetFields();
+        $this->dispatch('updated');
     }
 }

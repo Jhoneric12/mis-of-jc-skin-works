@@ -363,7 +363,7 @@
                                                                 {{-- <td class="px-6 py-6">
                                                                     {{$appointment->setting}}
                                                                 </td> --}}
-                                                            <td class="px-6 py-6">
+                                                            <td class="px-6 py-6 whitespace-normal">
                                                                 {{$appointment->service->service_name}}
                                                             </td>
                                                             {{-- <td class="px-6 py-6">

@@ -93,7 +93,7 @@ class ManageServices extends Component
         Service::create([
             'service_name' => strtoupper($this->service_name),
             'service_category_id' => $this->service_category_id,
-            'description' => strtoupper($this->description),
+            'description' => $this->description,
             'price' => $this->price,
             'nno_of_sessions' => $this->sessions,
             'image_path' => $image
@@ -215,7 +215,7 @@ class ManageServices extends Component
         $updateService->update([
             'service_name' => strtoupper($this->service_name),
             'service_category_id' => $this->service_category_id,
-            'description' => strtoupper($this->description),
+            'description' => $this->description,
             'price' => $this->price,
             'nno_of_sessions' => $this->sessions,
         ]);

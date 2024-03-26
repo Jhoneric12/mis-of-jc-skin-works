@@ -20,6 +20,7 @@ class ManagePatients extends Component
     public $filter = 'All';
     public $modalAdd = false;
     public $modalUpdate = false;
+    public $modalStatus = false;
 
     // Patient Fields
     public $first_name;
@@ -35,8 +36,10 @@ class ManagePatients extends Component
     public $email;
     public $skin_type; 
     public $patient_id; 
+    public $status;
 
     public $patient;
+    public $patient_name;
     
     public function render()
     {
@@ -141,6 +144,39 @@ class ManagePatients extends Component
         $this->contact_number = $patientId->contact_number;
         $this->email = $patientId->email;
         $this->skin_type = $patientId->skin_type;
+    }
+
+    public function editStatus($id)
+    {
+        $this->modalStatus = true;
+
+        $this->patient_id = $id;
+
+        $patient_id = User::where('id', $id)->first();
+
+        $this->patient_name = $patient_id->first_name . " " . $patient_id->last_name;
+    }
+
+    public function updateStatus()
+    {
+        $updateStatus = User::where('id', $this->patient_id);
+        
+        $status = $this->status == 'Active' ? 1 : 0;
+
+        $updateStatus->update([
+            'account_status' => $status
+        ]);
+
+         // Logs
+         AuditTrail::create([
+            'user_id' => Auth::user()->id,
+            'log_name' => 'PATIENT',
+            'user_type' => 'ADMINISTRATOR',
+            'description' => 'UPDATED PATIENT STATUS'
+        ]);
+
+        $this->resetFields();
+        $this->dispatch('updated');
     }
     
     public function updatePatient () 

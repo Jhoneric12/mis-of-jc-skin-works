@@ -11,6 +11,8 @@ use App\Models\Appointment;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AppointmentConfirmed;
 use App\Mail\AppointmentDeclined;
+use App\Models\ClinicNotif;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
@@ -56,6 +58,45 @@ class Dashboard extends Component
         $treated_patients = Appointment::where('status', 'Completed')->where('specialist_id', Auth::user()->id)->count();
 
         return view('livewire.staff.dashboard.dashboard', compact('appointments_today', 'total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments', 'treated_patients'));
+    }
+
+    public function mount()
+    {
+        $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')
+            ->where('status', 1)
+            ->get();
+
+        foreach ($critical_products as $product) {
+            $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
+                                                ->where('description', 'like', '%'.$product->product_name.'%')
+                                                ->exists();
+            
+            if (!$existing_notification) {
+                ClinicNotif::create([
+                    'user_id' => Auth::user()->id,
+                    'description' => 'Product "'.$product->product_name.'" is in low stock. Manage the product before the stock reaches zero',
+                    'type' => 'staff'
+                ]);
+            }
+        }
+
+        // Check for expiring items
+        $expiring_items = Inventory::where('expiration_date', '<=', now()->addMonth())
+                                    ->get();
+
+                foreach ($expiring_items as $item) {
+                $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
+                            ->where('description', 'like', '%'.$item->product->product_name.'%')
+                            ->exists();
+
+                if (!$existing_notification) {
+                    ClinicNotif::create([
+                    'user_id' => Auth::user()->id,
+                    'description' => 'Product "'.$item->product->product_name.'" is expiring soon. Manage the product before it expires.',
+                    'type' => 'staff'
+                ]);
+            }
+        }
     }
 
     public function editStatus($id)

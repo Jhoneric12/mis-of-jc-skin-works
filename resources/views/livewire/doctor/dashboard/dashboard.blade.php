@@ -157,7 +157,7 @@
                                                                     Date & Time
                                                                 </th>
                                                                 <th scope="col" class="px-6 py-6">
-                                                                    Specialist
+                                                                    Service
                                                                 </th>
                                                                 <th scope="col" class="px-6 py-6">
                                                                     Status
@@ -196,7 +196,7 @@
                                                                         <div class="text-xs text-gray-500"> {{\Carbon\Carbon::parse($appointment->time)->format('g: i a')}} </div>
                                                                     </div>
                                                                 </td>
-                                                                <td class=" px-6 py-6">
+                                                                <td class=" px-6 py-6  whitespace-normal">
                                                                     {{-- @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $appointment->patient )
                                                                     <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $appointment->specialist->profile_photo_url }}" alt="{{ $appointment->specialist->name }}"> </div>
                                                                     <div class="ml-4">
@@ -344,7 +344,7 @@
                                                                 {{-- <td class="px-6 py-6">
                                                                     {{$appointment->setting}}
                                                                 </td> --}}
-                                                            <td class="px-6 py-6">
+                                                            <td class="px-6 py-6 whitespace-normal">
                                                                 {{$appointment->service->service_name}}
                                                             </td>
                                                             {{-- <td class="px-6 py-6">

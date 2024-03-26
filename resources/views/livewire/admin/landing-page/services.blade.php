@@ -12,7 +12,7 @@
             @foreach ($services as $index => $service)
                 <!-- Item -->
                 <div class="duration-700 ease-in-out" data-carousel-item>
-                    <div class="flex flex-col items-center px-4 md:flex-row md:items-center md:justify-center md:h-full">
+                    <div class="flex flex-col gap-10 items-center px-4 md:flex-row md:items-center md:justify-center md:h-full">
                         <div class="w-full flex flex-col justify-center md:w-1/2 py-10">
                             <p class="font-semibold text-base md:text-xl mt-6">{{$service->service_name}}</p>
                             <img src="{{ asset('storage/' . $service->image_path) }}" class=" md:hidden inset-0 w-[15rem] h-[15rem] mt-6 text-center" alt="Product Image">

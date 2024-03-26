@@ -12,9 +12,9 @@
         <div class="flex justify-between px-6 py-4 border-b-2 border-b-[#D0D0D0] font-bold text-center">
             <div class="flex justify-between gap-4">
                 <h1 class="text-md">Patient Information</h1>
-                <span class="{{ $patient->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
+                {{-- <span class="{{ $patient->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                     {{ $patient->account_status ? 'Active' : 'Inactive'}}
-                </span>
+                </span> --}}
             </div>
         </div>
         <div class="flex justify-center p-4 mt-4">
@@ -193,9 +193,9 @@
                                 <th scope="col" class="px-6 py-6">
                                     Date Created
                                 </th>
-                                <th scope="col" class="px-6 py-6">
+                                {{-- <th scope="col" class="px-6 py-6">
                                     Findings
-                                </th>
+                                </th> --}}
                                 <th scope="col" class="px-6 py-6">
                                     Action
                                 </th>
@@ -210,9 +210,9 @@
                                 <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                     {{\Carbon\Carbon::parse($record->created_at)->format('M, d, Y')}}
                                 </td>
-                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{-- <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{$record->findings}}
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-6 flex gap-2 items-center">
                                     <a href="{{route('doctor-view-medical-record', ['record_id' => $record->id])}}" class="hover:cursor-pointer text-[#5FC26C]">
                                         Full Details

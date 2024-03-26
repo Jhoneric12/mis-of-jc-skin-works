@@ -1,5 +1,5 @@
 @if (count($products) > 1)
-<div class="bg-gradient-to-bl from-[#EBF7DD] to-[#a6eead]">
+<div class="bg-gradient-to-bl from-[#EBF7DD] to-[#a6eead] ">
     <div class="py-10 text-center flex flex-col items-center">
         <h1 class="text-primary-green text-base font-extrabold md:text-lg">Featured Products</h1>
         <p class="font-semibold text-lg md:text-xl">Quality ingredients. Real results.</p>

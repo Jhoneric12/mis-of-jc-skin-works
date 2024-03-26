@@ -96,7 +96,7 @@
                                                         </div>
                                                     @endif
                                                 </th>
-                                                <td class="px-6 py-6">
+                                                <td class="px-6 py-6 whitespace-normal">
                                                     <div>
                                                         <div class="text-xs font-medium text-gray-900"> {{\Carbon\Carbon::parse($appointment->date)->format('M, d, Y')}} </div>
                                                         <div class="text-xs text-gray-500"> {{\Carbon\Carbon::parse($appointment->time)->format('g: i a')}} </div>

@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-col justify-center lg:flex-row gap-10 mt-10 py-10">
             @foreach ($testimonials as $testimonial)
-                <div class="flex flex-col items-center px-8 lg:px-20 py-8 lg:py-10 bg-white shadow-md rounded-lg">
+                <div class="flex flex-col items-center px-8 lg:px-20 py-8 lg:py-10 bg-white shadow-md rounded-lg max-w-lg">
                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $testimonial->patient )
                         <div class="flex-shrink-0 w-[6rem] h-[6rem] border border-gray-300 border-solid rounded-full shadow-md">
                             <img class="w-full h-full rounded-full" src="{{ $testimonial->patient->profile_photo_url }}" alt="{{ $testimonial->patient->name }}">
@@ -25,7 +25,7 @@
                             <div class="text-sm font-medium text-gray-900">{{ $testimonial->first_name . " " . $testimonial->last_name }}</div>
                         </div>
                     @endif
-                    <div class="mt-6 text-center">
+                    <div class="mt-6 text-center max-w-xs">
                         <p class="text-primary-green font-semibold text-sm">{{ $testimonial->patient->first_name . " " . $testimonial->patient->last_name }}</p>
                         <p class="text-xs">{{ $testimonial->patient->home_address }}</p>
                     </div>

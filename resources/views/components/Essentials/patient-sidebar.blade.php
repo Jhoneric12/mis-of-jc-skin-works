@@ -15,6 +15,8 @@
           </a>
         </div>
         <div class="flex items-center">
+
+          @livewire('notification.patient')
           <div>
             <div class="text-center">
               <h1 class="text-gray-900 text-xs">{{Auth::user()->first_name . " " . Auth::user()->last_name}}</h1>

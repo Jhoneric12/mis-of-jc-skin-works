@@ -15,6 +15,7 @@ use App\Mail\AppointmentExpired;
 use App\Mail\AppointmentTomorrow;
 use App\Models\AuditTrail;
 use App\Models\ClinicNotif;
+use App\Models\PatientNotif;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -46,12 +47,6 @@ class Appointments extends Component
 
     public function render()
     {
-        // Email Reminders
-        $this->tommorowAppointments();
-
-        //Expired Appointments
-        $this->appointmentExpired();
-
         $appointments = Appointment::where('patient_id', Auth::user()->id)
                                 ->whereIn('status', ['Confirmed', 'Scheduled', 'On-going'])
                                 ->orderBy('date', 'asc')
@@ -63,57 +58,6 @@ class Appointments extends Component
             'specialists' => User::where('account_status', 1)->get()
         ]);
     }
-
-    public function tommorowAppointments()
-    {
-        $tomorrowAppointments = Appointment::whereDate('date', Carbon::tomorrow())
-        ->where('status', 'Confirmed')
-        ->where('patient_id', Auth::user()->id)
-        ->whereNull('reminders_sent_at')
-        ->latest()
-        ->get();
-
-        foreach ($tomorrowAppointments as $appointment) {
-            Mail::to($appointment->patient->email)
-                ->send(new AppointmentTomorrow($appointment));
-
-                $appointment->update(['reminders_sent_at' => Carbon::now()]);
-        }
-    }
-
-    public function appointmentExpired()
-    {
-        $expiredAppointments = Appointment::whereDate('date', '<', Carbon::today())
-            ->whereIn('status', ['Scheduled', 'Confirmed'])
-            // ->whereNull('expired_email_sent_at')
-            ->latest()
-            ->get();
-
-        foreach ($expiredAppointments as $appointment) {
-            Mail::to($appointment->patient->email)
-                ->send(new AppointmentExpired($appointment));
-
-            // Update appointment status to "Cancelled"
-            $appointment->update([
-                'status' => 'Cancelled',
-                // 'expired_email_sent_at' => Carbon::now()
-            ]);
-        }
-    }
-
-    // public function mount()
-    // {
-    //     $tomorrowAppointments = Appointment::whereDate('date', Carbon::tomorrow())
-    //     ->where('status', 'Scheduled')
-    //     ->where('patient_id', Auth::user()->id)
-    //     ->latest()
-    //     ->get();
-
-    //     foreach ($tomorrowAppointments as $appointment) {
-    //         Mail::to($appointment->patient->email)
-    //             ->send(new AppointmentTomorrow($appointment));
-    //     }
-    // }
 
     public function openModal()
     {

@@ -111,6 +111,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ClinicNotif::class);
     }
 
+    public function patientNotif()
+    {
+        return $this->hasMany(PatientNotif::class);
+    }
+
     public function logs()
     {
         return $this->hasMany(AuditTrail::class);

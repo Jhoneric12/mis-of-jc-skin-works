@@ -2,12 +2,16 @@
 
 namespace App\Livewire\Patient\Dashboard;
 
+use App\Mail\AppointmentExpired;
+use App\Mail\AppointmentTomorrow;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Appointment;
 use App\Models\Feedback;
 use App\Models\OpenRateUs;
+use App\Models\PatientNotif;
+use Illuminate\Support\Facades\Mail;
 
 class Dashboard extends Component
 {
@@ -35,6 +39,69 @@ class Dashboard extends Component
             ->paginate(5);
 
         return view('livewire.patient.dashboard.dashboard', ['appointments' => $appointments]);
+    }
+
+    public function mount()
+    {
+        // Email Reminders
+        $this->tommorowAppointments();
+
+        //Expired Appointments
+        $this->appointmentExpired();
+    }
+
+    public function tommorowAppointments()
+    {
+        $tomorrowAppointments = Appointment::whereDate('date', Carbon::tomorrow())
+            ->where('status', 'Confirmed')
+            ->where('patient_id', Auth::user()->id)
+            ->whereNull('reminders_sent_at')
+            ->latest()
+            ->get();
+
+        foreach ($tomorrowAppointments as $appointment) {
+            $existing_notification = PatientNotif::where('user_id', $appointment->patient_id)
+                ->where('description',  'like', '%' . $appointment->service->service_name . '%')
+                ->exists();
+
+            if (!$existing_notification) {
+                Mail::to($appointment->patient->email)
+                    ->send(new AppointmentTomorrow($appointment));
+
+                PatientNotif::create([
+                    'user_id' => 3,
+                    'description' => 'You have an appointment scheduled for tomorrow for ' . $appointment->service->service_name
+                ]);
+
+                $appointment->update(['reminders_sent_at' => Carbon::now()]);
+            }
+        }
+    }
+
+    public function appointmentExpired()
+    {
+        $expiredAppointments = Appointment::whereDate('date', '<', Carbon::today())
+            ->whereIn('status', ['Scheduled', 'Confirmed'])
+            ->latest()
+            ->get();
+
+        foreach ($expiredAppointments as $appointment) {
+            $existing_notification = PatientNotif::where('user_id', $appointment->patient_id)
+                ->where('description', 'like', '%' . $appointment->id . '%')
+                ->exists();
+
+            if (!$existing_notification) {
+                Mail::to($appointment->patient->email)
+                    ->send(new AppointmentExpired($appointment));
+
+                PatientNotif::create([
+                    'user_id' => 3,
+                    'description' => 'Your appointment has expired for Appointment No. ' . $appointment->id
+                ]);
+
+                $appointment->update(['status' => 'Cancelled']);
+            }
+        }
     }
 
     public function closeModal()

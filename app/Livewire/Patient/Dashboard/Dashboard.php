@@ -36,7 +36,7 @@ class Dashboard extends Component
             ->whereIn('status', ['Cancelled', 'Completed', 'On-going', 'Confirmed'])
             ->whereDate('date', '=',  Carbon::today()->toDateString())
             ->latest()
-            ->paginate(5);
+            ->paginate(10);
 
         return view('livewire.patient.dashboard.dashboard', ['appointments' => $appointments]);
     }

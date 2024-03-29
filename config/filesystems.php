@@ -29,6 +29,11 @@ return [
     */
 
     'disks' => [
+ 
+        'pc_disk' => [
+            'driver' => 'local',
+            'root' => 'C:/Backup Database'
+        ],
 
         'local' => [
             'driver' => 'local',

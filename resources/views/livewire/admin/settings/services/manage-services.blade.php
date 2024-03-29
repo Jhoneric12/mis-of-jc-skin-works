@@ -383,13 +383,13 @@
                             <h1 class="">Service Name : <span class="text-gray-400" wire:model='service_name'>{{$service_name}}</span></h1>
                             <h1 class="">Category : <span class="text-gray-400" wire:model='service_category_id'>{{$service_category_id}}</span></h1>
                             <h1 class="">Price : <span class="text-gray-400"     wire:model='price'>{{$price}}</span></h1>
-                            <h1 class="">Description : <span class="text-gray-400" wire:model='description'>{{$description}}</span></h1>
                             <h1 class="">No of Sessions : <span class="text-gray-400" wire:model='description'>{{$sessions}}</span></h1>
                             <h1>Status : 
                                 <span class="{{ $status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                                     {{ $status ? 'Active' : 'Inactive'}}
                                 </span>
                             </h1>
+                            <h1 class="">Description : <span class="text-gray-400" wire:model='description'>{{$description}}</span></h1>
                         </div>
                     </div>
                 </div>

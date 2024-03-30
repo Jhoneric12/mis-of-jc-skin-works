@@ -194,7 +194,7 @@
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('License Number') }}" />
                                 <input wire:model="LN" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="LN"/>
+                                {{-- <x-input-error for="LN"/> --}}
                             </div>
                         </div>
                         <div class='flex gap-4 mb-4 w-full'>

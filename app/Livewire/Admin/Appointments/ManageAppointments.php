@@ -54,7 +54,7 @@ class ManageAppointments extends Component
     public function render()
     {
         $appointments = Appointment::query()
-        ->where('date', '>=', Carbon::today() )
+        // ->where('date', '>=', Carbon::today() )
         ->whereIn('status', ['Confirmed', 'Completed', 'Cancelled', 'On-going'])
         // ->where('id', Auth::user()->id)
         ->where(function ($query) {

@@ -55,7 +55,8 @@ class Transactions extends Component
     public function export()
     {
         $data = Orders::latest()->get();
-        $pdf = PDF::loadView('Admin.Dompdf.Transaction.transaction', ['data' => $data]);
+        $totalSum = $data->sum('total_amount');
+        $pdf = PDF::loadView('Admin.Dompdf.Transaction.transaction', ['data' => $data, 'total_amount' => $totalSum]);
 
         // Generate a temporary file path for the PDF
         $tempFilePath = tempnam(sys_get_temp_dir(), 'patients');

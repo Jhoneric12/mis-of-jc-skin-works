@@ -89,7 +89,7 @@ class Doctors extends Component
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
             'password' => 'required|min:8',
-            'LN' => 'required'
+            // 'LN' => 'required'
         ]);
 
         User::create([

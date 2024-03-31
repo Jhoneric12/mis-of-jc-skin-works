@@ -50,7 +50,7 @@
                 </div>
             </div>
         
-            <div class="flex justify-between" @if($status != 'Cancelled' && $status != 'Confirmed') style="display:none" @endif >
+            <div class="flex justify-between" @if($status != 'Cancelled' && $status != 'Confirmed' && $status != 'On-going') style="display:none" @endif >
                 <div></div>
                 <div>
                     <x-button wire:click='editModal({{$appointment_id}})' class="flex gap-2 bg-red-500 focus:bg-red-500 focus:outline-red-500" wire:loading.attr="disabled">

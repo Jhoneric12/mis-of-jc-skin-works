@@ -46,6 +46,7 @@ class ManageInventory extends Component
         $query = Inventory::query()
             ->leftJoin('products', 'inventories.product_id', '=', 'products.id')
             ->where('products.product_name', 'like', '%' . $this->search . '%')
+            ->where('products.status', 1) 
             ->orWhere('inventories.product_id', $this->search)
             ->distinct()
             ->orderBy('inventories.created_at', 'desc');

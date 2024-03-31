@@ -275,6 +275,12 @@ class Billing extends Component
     {
         $patient = User::where('id', $this->patient_id)->where('role', 0)->first();
 
+        // Check if patient exists
+        if (!$patient) {
+            $this->addError('patient_id', 'No patient found.');
+            return;
+        }
+
         $this->patient_name =  $patient->first_name . " " . $patient->middle_name . " " .  $patient->last_name;
     }
 

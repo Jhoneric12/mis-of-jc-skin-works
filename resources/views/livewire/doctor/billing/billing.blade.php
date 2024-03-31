@@ -33,6 +33,7 @@
                         </div>
                         <input wire:model.live='patient_id' wire:keydown.enter='searchPatient' type='search' id="default-search-services"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ps-10" autocomplete="off">
                     </div>
+                    <x-input-error for="patient_id"/>
                 </div>
                 <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                     <x-label for="" value="{{ __('Patient Name') }}" />

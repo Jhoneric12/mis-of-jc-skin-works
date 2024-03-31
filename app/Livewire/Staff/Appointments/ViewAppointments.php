@@ -127,16 +127,30 @@ class ViewAppointments extends Component
 
         $updateAppointment = Appointment::where('id', $this->appointment_id)->first();
 
+        if ($updateAppointment->status == 'On-going')
+        {
+            $this->app_status = 'On-going';
+        }
+        elseif ($updateAppointment->status == 'Confirmed')
+        {
+            $this->app_status = 'Confirmed';
+        }
+        elseif ($updateAppointment->status == 'Cancelled')
+        {
+            $this->app_status = 'Confirmed';
+        }
+
         $updateAppointment->update([
             'first_name' => strtoupper($this->first_name),
             'middle_name' => strtoupper($this->middle_name),
             'last_name' => strtoupper($this->last_name),
             'service_id' => $this->service_id,
             'specialist_id' => $this->specialist_id,
-            'date' => $this->app_date,
-            'time' => $this->app_time,
-            'status' => $this->app_status   
+            'date' => $this->date,
+            'time' => $this->time,
+            'status' => $this->app_status
         ]);
+
 
         Mail::to($updateAppointment->patient->email)
         ->send(new AppointmentEdited($updateAppointment));

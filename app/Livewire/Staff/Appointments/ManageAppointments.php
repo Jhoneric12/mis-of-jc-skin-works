@@ -310,6 +310,19 @@ class ManageAppointments extends Component
 
         $updateAppointment = Appointment::where('id', $this->appointment_id)->first();
 
+        if ($updateAppointment->status == 'On-going')
+        {
+            $this->status = 'On-going';
+        }
+        elseif ($updateAppointment->status == 'Confirmed')
+        {
+            $this->status = 'Confirmed';
+        }
+        elseif ($updateAppointment->status == 'Cancelled')
+        {
+            $this->status = 'Confirmed';
+        }
+
         $updateAppointment->update([
             'first_name' => strtoupper($this->first_name),
             'middle_name' => strtoupper($this->middle_name),
@@ -318,7 +331,9 @@ class ManageAppointments extends Component
             'specialist_id' => $this->specialist_id,
             'date' => $this->date,
             'time' => $this->time,
+            'status' => $this->status
         ]);
+
 
         // Logs
         AuditTrail::create([

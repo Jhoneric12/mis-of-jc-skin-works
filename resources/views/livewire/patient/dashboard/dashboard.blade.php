@@ -28,7 +28,7 @@
             </a>
     
             <a href="{{route('services')}}" class="flex items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 p-6 flex-grow">
-                <img class="object-cover w-20 h-20 md:w-24 md:h-24 rounded-t-lg md:rounded-r-lg" src="{{asset('assets/Essentials/avatar Doctor.png')}}" alt="">
+                <img class="object-cover w-20 h-20 md:w-24 md:h-24 rounded-t-lg md:rounded-r-lg" src="{{asset('assets/Essentials/avatar doctor.png')}}" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h5 class="mb-2 text-sm md:text-base font-bold tracking-tight text-gray-900 dark:text-white">Services</h5>
                     <p class="mb-3 text-xs md:text-sm font-normal text-gray-700 dark:text-gray-400">View our services</p>

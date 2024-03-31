@@ -18,7 +18,7 @@
             <div class="bg-white rounded-lg p-6 flex flex-col gap-2 shadow-md">
                 <img src="{{asset('storage/'. $service->image_path)}}" alt="" class="w-full h-[10rem]">
                 <p class="font-semibold text-xs ">{{$service->service_name}}</p>
-                <h1 class="mt-auto text-[#4FBD5E] font-bold text-base">P{{$service->price}}</h1>
+                <h1 class="mt-auto text-[#4FBD5E] font-bold text-base">P {{ number_format($service->price, 2)}}</h1>
                 <p class="text-xs">{{$service->description}}</p>
                 <button wire:click='add({{$service->id}})' class="bg-[#4FBD5E] text-white rounded-md mt-auto py-2 hover:opacity-90 text-center text-xs ">Book Appointment</button>
             </div>

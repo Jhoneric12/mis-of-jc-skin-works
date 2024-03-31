@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Inventory;
 
 ini_set('max_execution_time', 18000);
 
+use App\Http\Controllers\Admin\Reports\Products;
 use App\Models\AuditTrail;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -102,6 +103,12 @@ class ManageInventory extends Component
                 'product_id' => $this->product_id,
                 'total_quantity' => $this->total_quantity,
                 'expiration_date' => $this->exp_date,
+            ]);
+
+            $updateProduct = Product::where('id', $this->product_id);
+
+            $updateProduct->update([
+                'total_qty' => $this->total_quantity
             ]);
         }
 

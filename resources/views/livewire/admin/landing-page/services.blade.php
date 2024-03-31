@@ -16,7 +16,7 @@
                         <div class="w-full flex flex-col justify-center md:w-1/2 lg:w-1/2 py-10">
                             <p class="font-semibold text-base md:text-xl mt-6">{{$service->service_name}}</p>
                             <img src="{{ asset('storage/' . $service->image_path) }}" class=" md:hidden inset-0 w-[15rem] h-[15rem] mt-6 text-center" alt="Product Image">
-                            <p class="text-lg mt-2 font-bold leading-6 text-primary-green">P {{$service->price}}</p>
+                            <p class="text-lg mt-2 font-bold leading-6 text-primary-green">P {{ number_format($service->price, 2)}}</p>
                             <p class="text-sm mt-6 leading-6 ">{{$service->description}}</p>
                         </div>
                         <img src="{{ asset('storage/' . $service->image_path) }}" class="hidden md:block inset-0 object-cover w-[30rem] h-[15rem] mt-6 shadow-lg" alt="Product Image">

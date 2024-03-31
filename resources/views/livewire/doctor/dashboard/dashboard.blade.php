@@ -9,7 +9,7 @@
                     <div class="col-span-12 mt-8">
                         <div class="grid grid-cols-12 gap-6 mt-5">
                             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                                href="{{route('manage-product-table')}}">
+                                href="#">
                                 <div class="p-5">
                                     <div class="flex justify-between">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-400"
@@ -50,7 +50,7 @@
                                 </div>
                             </a>
                             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                                href="{{route('manage-patients')}}">
+                                href="#">
                                 <div class="p-5">
                                     <div class="flex justify-between">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-400"
@@ -70,7 +70,7 @@
                                 </div>
                             </a>
                             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                                href="{{route('manage-product-table')}}">
+                                href="#">
                                 <div class="p-5">
                                     <div class="flex justify-between">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-pink-600"

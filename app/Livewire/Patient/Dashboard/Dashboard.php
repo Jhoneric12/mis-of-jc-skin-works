@@ -110,6 +110,7 @@ class Dashboard extends Component
             'isOpen' => 0
         ]);
 
+        $this->modalReview = false;
         $this->reset();
     }
     

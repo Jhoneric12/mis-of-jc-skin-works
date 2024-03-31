@@ -48,7 +48,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{number_format($total_sales, 0, ',', '.');}}</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($total_sales, 2)}}</div>
 
                             <div class="mt-1 text-base text-gray-600">Total Revenue</div>
                         </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="ml-2 w-full flex-1">
                     <div>
-                        <div class="mt-3 text-3xl font-bold leading-8">₱ {{number_format($product_sales, 0, ',', '.');}}</div>
+                        <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($product_sales, 2)}}</div>
 
                         <div class="mt-1 text-base text-gray-600">Product Sales</div>
                     </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{number_format($service_sales, 0, ',', '.');}}</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($service_sales, 2)}}</div>
 
                             <div class="mt-1 text-base text-gray-600">Service Sales</div>
                         </div>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{number_format($monthly_sales, 0, ',', '.');}}</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($monthly_sales, 2)}}</div>
 
                             <div class="mt-1 text-base text-gray-600">Monthly Sales</div>
                         </div>

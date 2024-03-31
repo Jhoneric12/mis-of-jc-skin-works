@@ -142,24 +142,7 @@
                 @csrf
                 <div>
                     <div class='flex flex-col w-full'>
-                        {{-- <div class="flex gap-4">
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('First Name') }}" />
-                                <input wire:model="first_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="first_name"/>
-                            </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('Middle Name') }}" />
-                                <input wire:model="middle_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="middle_name"/>
-                            </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('Last Name') }}" />
-                                <input wire:model="last_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="last_name"/>
-                            </div>
-                        </div> --}}
-                        <div class='flex gap-4 mb-4 w-full'>
+                        <div class='flex flex-col gap-4 mb-4 w-full sm:flex-row sm:gap-8'>
                             <div class="w-full">
                                 <x-label for="" value="{{ __('Service Name') }}" />
                                 <select wire:model='service_id' class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -185,13 +168,13 @@
                                 <x-input-error for="specialist_id"/>
                             </div>
                         </div>
-                        <div class='w-full flex gap-4'>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                        <div class='w-full flex flex-col gap-4 sm:flex-row sm:gap-8'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full sm:w-1/2'>
                                 <x-label for="" value="{{ __('Date') }}" />
                                 <input wire:model="date" type="date"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="date"/>
                             </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full sm:w-1/2'>
                                 <x-label for="" value="{{ __('Time') }}" />
                                 <input wire:model="time" type="time"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="time"/>
@@ -219,36 +202,20 @@
             </x-button>
         </x-slot>
     </x-dialog-modal>
+    
 
     {{-- Update Modal --}}
     <x-dialog-modal wire:model.live="modalUpdate" maxWidth='4xl'>
         <x-slot name="title">
             {{ __('Edit Appointment') }}
         </x-slot>
-    
+
         <x-slot name="content">
             <form wire:submit='update'>
                 @csrf
                 <div>
                     <div class='flex flex-col w-full'>
-                        {{-- <div class="flex gap-4">
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('First Name') }}" />
-                                <input wire:model="first_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="first_name"/>
-                            </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('Middle Name') }}" />
-                                <input wire:model="middle_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="middle_name"/>
-                            </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                <x-label for="" value="{{ __('Last Name') }}" />
-                                <input wire:model="last_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="last_name"/>
-                            </div>
-                        </div> --}}
-                        <div class='flex gap-4 mb-4 w-full'>
+                        <div class='flex flex-col gap-4 mb-4 w-full sm:flex-row sm:gap-8'>
                             <div class="w-full">
                                 <x-label for="" value="{{ __('Service Name') }}" />
                                 <select wire:model='service_id' class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -272,13 +239,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class='w-full flex gap-4'>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                        <div class='w-full flex flex-col gap-4 sm:flex-row sm:gap-8'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full sm:w-1/2'>
                                 <x-label for="" value="{{ __('Date') }}" />
                                 <input wire:model="date" type="date"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="date"/>
                             </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full sm:w-1/2'>
                                 <x-label for="" value="{{ __('Time') }}" />
                                 <input wire:model="time" type="time"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="time"/>
@@ -288,7 +255,7 @@
                 </div>
             </form>
         </x-slot>
-    
+
         <x-slot name="footer">
             <div role="status" wire:loading class="mr-2">
                 <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -300,12 +267,13 @@
             <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-secondary-button>
-    
+
             <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='update'>
                 {{ __('Save') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>
+
 
     {{-- Update Status --}}
     <x-dialog-modal wire:model.live="modalStatus" maxWidth='lg'>

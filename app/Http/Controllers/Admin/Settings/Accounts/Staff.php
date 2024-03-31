@@ -9,6 +9,6 @@ class Staff extends Controller
 {
     public function index()
     {
-        return view('Admin.Settings.Accounts.Staff');
+        return view('Admin.Settings.Accounts.staff');
     }
 }

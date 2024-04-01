@@ -136,7 +136,7 @@ class Appointments extends Component
                         })
                         ->count();
                 
-                    if ($existingAppointments > 0) {
+                    if ($existingAppointments > 1) {
                         $fail("There is already an appointment scheduled within this hour.");
                     }
                 },

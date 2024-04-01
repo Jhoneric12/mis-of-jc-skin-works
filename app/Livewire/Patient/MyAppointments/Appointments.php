@@ -150,10 +150,10 @@ class Appointments extends Component
         $appointmentsCount = Appointment::where('date', $this->date)->count();
 
         // Check if the limit of 6 appointments for the day has been reached
-        if ($appointmentsCount >= 6) {
-            $this->addError('date', 'The maximum number of appointments for this date has been reached.');
-            return;
-        }
+        // if ($appointmentsCount >= 6) {
+        //     $this->addError('date', 'The maximum number of appointments for this date has been reached.');
+        //     return;
+        // }
 
         $appointment = Appointment::create([
             'first_name' => Auth::user()->first_name,

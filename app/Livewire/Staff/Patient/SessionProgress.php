@@ -2,15 +2,19 @@
 
 namespace App\Livewire\Staff\Patient;
 
+use App\Mail\AppointmentEdited;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Appointment;
 use App\Models\AppointmentSession;
 use App\Models\AuditTrail;
 use App\Models\OpenRateUs;
+use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class SessionProgress extends Component
@@ -92,6 +96,41 @@ class SessionProgress extends Component
         $this->resetValidation();
     }
 
+    private function validateDateNotEarlierThanToday($attribute, $value, $fail) {
+        $selectedDate = Carbon::parse($value)->startOfDay(); 
+        $today = Carbon::now()->startOfDay();
+    
+        // Check if the selected date is not earlier than today
+        if ($selectedDate->lt($today)) {
+            $fail("The selected date must not be earlier than today.");
+        }
+    }
+    
+    private function validateTimeWithinWeeklySchedule($attribute, $value, $fail, $latestSchedule) {
+        $selectedTime = Carbon::parse($value)->format('H:i'); 
+    
+        if ($selectedTime < $latestSchedule->open_time || $selectedTime > $latestSchedule->closing_time) {
+            $fail("The clinic is closed at your selected time");
+        }
+    }
+    
+    private function validateNoOverlappingAppointments($attribute, $value, $fail, $date) {
+        $selectedTime = Carbon::parse($value); 
+    
+        // Calculate the start and end of the selected hour
+        $startHour = $selectedTime->copy()->startOfHour(); 
+        $endHour = $selectedTime->copy()->endOfHour(); 
+    
+        // Check if there are any existing appointments within the same hour
+        $existingAppointments = Appointment::where('date', $date)
+            ->whereBetween('time', [$startHour, $endHour])
+            ->count();
+    
+        if ($existingAppointments > 0) {
+            $fail("This time is not available.");
+        }
+    }
+
     public function create()
     {
         $this->validate([
@@ -125,9 +164,45 @@ class SessionProgress extends Component
 
     public function reschedule()
     {
+        // Fetch the latest schedule
+        $latestSchedule = Schedule::latest()->first();
+
+        // Validate inputs
         $this->validate([
-            'date' => 'required',
-            'time' => 'required'
+            'date' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    $this->validateDateNotEarlierThanToday($attribute, $value, $fail);
+                },
+                // Custom rule to check if the selected date matches any day in the weekly schedule
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $selectedDay = strtolower(Carbon::parse($value)->format('l'));
+                
+                    $weeklySchedule = array_map('strtolower', unserialize($latestSchedule->weekly_schedule));
+                
+                    // Check if the selected day matches any day in the weekly schedule
+                    if (!in_array($selectedDay, $weeklySchedule)) {
+                        $fail("The clinic is closed on your selected date.");
+                    }
+                },
+            ],
+            'time' => [
+                'required',
+                'date_format:H:i',
+                // Check if the selected time is in weekly schedule
+                function ($attribute, $value, $fail) use ($latestSchedule) {
+                    $this->validateTimeWithinWeeklySchedule($attribute, $value, $fail, $latestSchedule);
+                },
+                // Check for overlapping appointments within the same hour
+                function ($attribute, $value, $fail) {
+                    $this->validateNoOverlappingAppointments($attribute, $value, $fail, $this->date);
+                },
+            ],
+        ],[
+            'date.not_earlier_than_today' => 'The :attribute must be today or a future date.',
+            'time.after_or_equal' => 'The :attribute must be after or equal to the opening time of the clinic.',
+            'time.before_or_equal' => 'The :attribute must be before or equal to the closing time of the clinic.',
         ]);
 
         $appointment = Appointment::where('id', $this->appointment_id)->first();
@@ -136,6 +211,9 @@ class SessionProgress extends Component
             'date' => $this->date,
             'time' => $this->time
         ]);
+
+        Mail::to($appointment->patient->email)
+        ->send(new AppointmentEdited($appointment));
 
         $this->redirectRoute('staff-view-appointments', ['appointment_id' => $this->appointment_id]);
     }

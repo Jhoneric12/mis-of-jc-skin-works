@@ -256,12 +256,12 @@
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Date') }}" />
                                 <input wire:model="app_date" type="date"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="date"/>
+                                <x-input-error for="app_date"/>
                             </div>
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Time') }}" />
                                 <input wire:model="app_time" type="time"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                <x-input-error for="time"/>
+                                <x-input-error for="app_time"/>
                             </div>
                         </div>
                     </div>

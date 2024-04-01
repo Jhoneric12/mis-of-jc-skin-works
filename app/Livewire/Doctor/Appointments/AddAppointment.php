@@ -41,84 +41,87 @@ class AddAppointment extends Component
             'specialists' => User::where('account_status', 1)->get()
         ]);
     }
+    private function validateDateNotEarlierThanToday($attribute, $value, $fail) {
+        $selectedDate = Carbon::parse($value)->startOfDay(); 
+        $today = Carbon::now()->startOfDay();
+    
+        // Check if the selected date is not earlier than today
+        if ($selectedDate->lt($today)) {
+            $fail("The selected date must not be earlier than today.");
+        }
+    }
+    
+    private function validateTimeWithinWeeklySchedule($attribute, $value, $fail, $latestSchedule) {
+        $selectedTime = Carbon::parse($value)->format('H:i'); 
+    
+        if ($selectedTime < $latestSchedule->open_time || $selectedTime > $latestSchedule->closing_time) {
+            $fail("The clinic is closed at your selected time");
+        }
+    }
+    
+    private function validateNoOverlappingAppointments($attribute, $value, $fail, $date) {
+        $selectedTime = Carbon::parse($value); 
+    
+        // Calculate the start and end of the selected hour
+        $startHour = $selectedTime->copy()->startOfHour(); 
+        $endHour = $selectedTime->copy()->endOfHour(); 
+    
+        // Check if there are any existing appointments within the same hour
+        $existingAppointments = Appointment::where('date', $date)
+            ->whereBetween('time', [$startHour, $endHour])
+            ->count();
+    
+        if ($existingAppointments > 0) {
+            $fail("This time is not available.");
+        }
+    }
 
     public function create()
     {
-        // Fetch the latest schedule
-        $latestSchedule = Schedule::latest()->first();
+         // Fetch the latest schedule
+       $latestSchedule = Schedule::latest()->first();
 
-        // Validate inputs
-        $this->validate([
-            'specialist_id' => 'required',
-            'service_id' => 'required',
-            'date' => [
-                'required',
-                'date',
-                // Check if the selected date is not earlier than today
-                function ($attribute, $value, $fail) {
-                    $selectedDate = Carbon::parse($value)->startOfDay(); 
-                    $today = Carbon::now()->startOfDay();
-
-                    // Check if the selected date is not earlier than today
-                    if ($selectedDate->lt($today)) {
-                        $fail("The selected date must not be earlier than today.");
-                    }
-                },
-                // Custom rule to check if the selected date matches any day in the weekly schedule
-                function ($attribute, $value, $fail) use ($latestSchedule) {
-                    $selectedDay = strtolower(Carbon::parse($value)->format('l'));
-                
-                    $weeklySchedule = array_map('strtolower', unserialize($latestSchedule->weekly_schedule));
-                
-                    // Check if the selected day matches any day in the weekly schedule
-                    if (!in_array($selectedDay, $weeklySchedule)) {
-                        $fail("The clinic is closed on your selected date.");
-                    }
-                },
-            ],
-            'time' => [
-                'required',
-                'date_format:H:i',
-                // Check if the selected time is in weekly schdeule
-                function ($attribute, $value, $fail) use ($latestSchedule) {
-                    $selectedTime = Carbon::parse($value)->format('H:i'); 
-
-                    if ($selectedTime < $latestSchedule->open_time || $selectedTime > $latestSchedule->closing_time) {
-                        $fail("The clinic is closed at your selected time");
-                    }
-                },
-                // Check for overlapping appointments within the same hour
-                function ($attribute, $value, $fail) use ($latestSchedule) {
-                    $selectedTime = Carbon::parse($value); 
-                    $startHour = $selectedTime->copy()->startOfHour(); 
-                    $endHour = $selectedTime->copy()->endOfHour(); 
-                
-                    // Check if there are any existing appointments within the same hour range
-                    $existingAppointments = Appointment::where('date', $this->date)
-                        ->where(function ($query) use ($startHour, $endHour) {
-                            $query->whereBetween('time', [$startHour, $endHour])
-                                ->orWhereBetween('time', [$startHour->addMinute(), $endHour->subMinute()]);
-                        })
-                        ->count();
-                
-                    if ($existingAppointments > 0) {
-                        $fail("There is already an appointment scheduled within this hour.");
-                    }
-                },
-            ],
+       // Validate inputs
+       $this->validate([
+        'patient_id' => 'required|exists:users,id',
+        'specialist_id' => 'required',
+        'service_id' => 'required',
+        'date' => [
+            'required',
+            'date',
+            function ($attribute, $value, $fail) {
+                $this->validateDateNotEarlierThanToday($attribute, $value, $fail);
+            },
+            // Custom rule to check if the selected date matches any day in the weekly schedule
+            function ($attribute, $value, $fail) use ($latestSchedule) {
+                $selectedDay = strtolower(Carbon::parse($value)->format('l'));
+            
+                $weeklySchedule = array_map('strtolower', unserialize($latestSchedule->weekly_schedule));
+            
+                // Check if the selected day matches any day in the weekly schedule
+                if (!in_array($selectedDay, $weeklySchedule)) {
+                    $fail("The clinic is closed on your selected date.");
+                }
+            },
+        ],
+        'time' => [
+            'required',
+            'date_format:H:i',
+            // Check if the selected time is in weekly schedule
+            function ($attribute, $value, $fail) use ($latestSchedule) {
+                $this->validateTimeWithinWeeklySchedule($attribute, $value, $fail, $latestSchedule);
+            },
+            // Check for overlapping appointments within the same hour
+            function ($attribute, $value, $fail) {
+                $this->validateNoOverlappingAppointments($attribute, $value, $fail, $this->date);
+            },
+        ],
         ],[
             'date.not_earlier_than_today' => 'The :attribute must be today or a future date.',
             'time.after_or_equal' => 'The :attribute must be after or equal to the opening time of the clinic.',
             'time.before_or_equal' => 'The :attribute must be before or equal to the closing time of the clinic.',
+            'patient_id.exists' => 'Patient id not found'
         ]);
-
-        $appointmentsCount = Appointment::where('date', $this->date)->count();
-
-        // Check if the limit of 6 appointments for the day has been reached
-        if ($appointmentsCount >= 6) {
-            $this->addError('date', 'The maximum number of appointments for this date has been reached.');
-            return;
-        }
 
         $patient = User::where('id',$this->patient_id)->first();
 

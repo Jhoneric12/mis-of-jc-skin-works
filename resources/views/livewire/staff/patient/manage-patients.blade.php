@@ -40,7 +40,7 @@
                     </x-button>
                 </a>
 
-                <div class="w-[30%]">   
+                <div class="w-[40%]">   
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -52,14 +52,14 @@
                     </div>
                 </div>
     
-                <div class="w-[13%]">
+                {{-- <div class="w-[13%]">
                     <select wire:model.live='filter' name="status" id="status" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm p-3">
                         <option value="All" selected>All</option>
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
                     
-                </div>    
+                </div>     --}}
 
                 <div role="status" wire:loading>
                     <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

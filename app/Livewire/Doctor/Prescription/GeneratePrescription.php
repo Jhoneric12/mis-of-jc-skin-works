@@ -26,10 +26,10 @@ class GeneratePrescription extends Component
     public function generate()
     {
         $this->validate([
-            'patient_id' => 'required',
+            'patient_id' => 'required|exists:users,id',
             'medication' => 'required',
             'description' => 'required'
-        ]);
+        ],['patient_id.exists' => 'Patient id not found']);
 
         Prescription::create([
             'patient_id' => $this->patient_id,

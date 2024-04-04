@@ -216,7 +216,7 @@
     {{-- View Modal --}}
     <x-dialog-modal wire:model.live="modalView" maxWidth='lg'>
         <x-slot name="title">
-            {{ __('Product Category Details') }}
+            {{ __('Service Category Details') }}
         </x-slot>
 
         <x-slot name="content">

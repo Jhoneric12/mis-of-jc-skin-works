@@ -30,7 +30,7 @@ class Sales extends Component
         
         $transactions = Orders::latest()->paginate(10);
 
-        $total_sales = Orders::sum('total_amount');
+        $annual_sales = Orders::whereYear('created_at', Carbon::now()->year)->sum('total_amount');;
 
         $service_sales = OrderItem::where('item_type', 'service')->sum('price');
 
@@ -45,7 +45,7 @@ class Sales extends Component
 
         return view('livewire.admin.reports.sales', [
             'transactions' => $transactions,
-            'total_sales' => $total_sales,
+            'total_sales' => $annual_sales,
             'monthly_sales' => $monthly_sales,
             'service_sales' => $service_sales,
             'product_sales' => $product_sales

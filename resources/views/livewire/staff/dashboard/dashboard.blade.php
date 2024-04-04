@@ -21,9 +21,9 @@
                                     </div>
                                     <div class="ml-2 w-full flex-1">
                                         <div>
-                                            <div class="mt-3 text-3xl font-bold leading-8">{{$total_products}}</div>
+                                            <div class="mt-3 text-3xl font-bold leading-8">{{$appointments_today_count}}</div>
 
-                                            <div class="mt-1 text-base text-gray-600">Products</div>
+                                            <div class="mt-1 text-base text-gray-600">Appointments Today</div>
                                         </div>
                                     </div>
                                 </div>

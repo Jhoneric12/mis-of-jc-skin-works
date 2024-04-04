@@ -45,6 +45,8 @@ class Dashboard extends Component
 
         $total_patient = User::where('role', 0)->count();
 
+        $todays_sales = Orders::whereDate('created_at', Carbon::today())->sum('total_amount');
+
         $appointments_today = Appointment::whereDate('date', '=',  Carbon::today()->toDateString())
             ->whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])
             ->latest()
@@ -72,7 +74,7 @@ class Dashboard extends Component
 
         $critical_products = Product::whereColumn('total_qty', '<', 'min_qty')->where('status', 1)->count();
 
-        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments', 'topSellingProducts', 'pending_appointments'));
+        return view('livewire.admin.dashboard.dashboard', compact('total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments_today', 'appointments', 'topSellingProducts', 'pending_appointments', 'todays_sales'));
     }
 
     public function mount()

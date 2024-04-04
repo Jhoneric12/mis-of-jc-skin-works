@@ -50,7 +50,7 @@
                         <div>
                             <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($total_sales, 2)}}</div>
 
-                            <div class="mt-1 text-base text-gray-600">Total Revenue</div>
+                            <div class="mt-1 text-base text-gray-600">Annual Sales</div>
                         </div>
                     </div>
                 </div>

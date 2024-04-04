@@ -64,14 +64,14 @@
                     </div>
                 </div>
     
-                {{-- <div class="w-[13%]">
+                <div class="w-[13%]">
                     <select wire:model.live='filter' name="status" id="status" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm p-3">
                         <option value="All" selected>All</option>
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
                     
-                </div>     --}}
+                </div>    
 
                 <div role="status" wire:loading>
                     <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,9 +105,9 @@
                     <th scope="col" class="px-6 py-6">
                         Birthdate
                     </th>
-                    {{-- <th scope="col" class="px-6 py-6">
+                    <th scope="col" class="px-6 py-6">
                         Status
-                    </th> --}}
+                    </th>
                     <th scope="col" class="px-6 py-6">
                         Action
                     </th>
@@ -139,11 +139,11 @@
                     <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                         {{\Carbon\Carbon::parse($patient->birth_date)->format('M, d, Y')}}
                     </td>
-                    {{-- <td class="px-6 py-6">
+                    <td class="px-6 py-6">
                         <span class="{{ $patient->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                             {{ $patient->account_status ? 'Active' : 'Inactive'}}
                         </span>
-                    </td> --}}
+                    </td>
                     <td class="px-6 py-6 flex gap-2 items-center">
                         <a href="{{route('view-profile', ['patient_id' => $patient->id])}}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
@@ -156,9 +156,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                             </svg>
                         </a>
-                        {{-- <svg wire:click='editStatus({{$patient->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                        <svg wire:click='editStatus({{$patient->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                        </svg> --}}
+                        </svg>
                     </td>
                 </tr>
                 @empty

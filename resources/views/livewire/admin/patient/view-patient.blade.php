@@ -12,9 +12,9 @@
         <div class="flex justify-between px-6 py-4 border-b-2 border-b-[#D0D0D0] font-bold text-center">
             <div class="flex justify-between gap-4">
                 <h1 class="text-md">Patient Information</h1>
-                {{-- <span class="{{ $patient->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
+                <span class="{{ $patient->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                     {{ $patient->account_status ? 'Active' : 'Inactive'}}
-                </span> --}}
+                </span>
             </div>
         </div>
         <div class="flex justify-center p-4 mt-4">

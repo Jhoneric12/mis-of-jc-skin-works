@@ -136,7 +136,7 @@
                                     <div id="sales-chart"></div>
                                 </div>
                                 <div class="bg-white p-6 shadow-md rounded-lg">
-                                    <h1 class="font-semibold">Products and Services</h1>
+                                    <h1 class="font-semibold">Products and Services Sales</h1>
                                     <div id="sales-pie-chart"></div>
                                 </div>
                             </div>

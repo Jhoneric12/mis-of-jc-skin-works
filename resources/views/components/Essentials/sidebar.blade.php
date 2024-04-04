@@ -204,7 +204,7 @@
                 <a href="{{route('manage-promotions')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Promotions</a>
               </li>
              <li>
-              <a href="{{route('manage-schedule')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Schedule</a>
+              <a href="{{route('manage-schedule')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Clinic Schedule</a>
              </li>
              {{-- <li>
               <a href="{{route('backup')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Backup database</a>

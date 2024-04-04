@@ -44,6 +44,8 @@ class Dashboard extends Component
 
         $appointments_today_count = $appointments_today->count();
 
+        $todays_sales = Orders::whereBetween('created_at', [Carbon::now()->startOfDay(), Carbon::now()->endOfDay()])->sum('total_amount');
+
         $total_patient = User::where('role', 0)->count();
 
        // Get the current month's start and end dates
@@ -59,7 +61,7 @@ class Dashboard extends Component
 
         $treated_patients = Appointment::where('status', 'Completed')->where('specialist_id', Auth::user()->id)->count();
 
-        return view('livewire.staff.dashboard.dashboard', compact('appointments_today', 'total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments', 'treated_patients', 'appointments_today_count'));
+        return view('livewire.staff.dashboard.dashboard', compact('appointments_today', 'total_patient', 'total_sales', 'total_products', 'critical_products', 'appointments', 'treated_patients', 'appointments_today_count', 'todays_sales'));
     }
 
     public function mount()

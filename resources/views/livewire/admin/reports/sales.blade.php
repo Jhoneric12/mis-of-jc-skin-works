@@ -56,6 +56,30 @@
                 </div>
             </a>
             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
+            href="{{route('manage-inventory')}}">
+            <div class="p-5">
+                <div class="flex justify-between">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-pink-600"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                    </svg>
+                    
+                </div>
+                <div class="ml-2 w-full flex-1">
+                    <div>
+                        <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($monthly_sales, 2)}}</div>
+
+                        <div class="mt-1 text-base text-gray-600">Monthly Sales</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+            <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
             href="{{route('manage-product-table')}}">
             <div class="p-5">
                 <div class="flex justify-between">
@@ -68,9 +92,9 @@
                 </div>
                 <div class="ml-2 w-full flex-1">
                     <div>
-                        <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($product_sales, 2)}}</div>
+                        <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($todays_sales, 2)}}</div>
 
-                        <div class="mt-1 text-base text-gray-600">Product Sales</div>
+                        <div class="mt-1 text-base text-gray-600">Today's Sales</div>
                     </div>
                 </div>
             </div>
@@ -88,33 +112,9 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($service_sales, 2)}}</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($total_revenue, 2)}}</div>
 
-                            <div class="mt-1 text-base text-gray-600">Service Sales</div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                href="{{route('manage-inventory')}}">
-                <div class="p-5">
-                    <div class="flex justify-between">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-pink-600"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                        </svg>
-                        
-                    </div>
-                    <div class="ml-2 w-full flex-1">
-                        <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($monthly_sales, 2)}}</div>
-
-                            <div class="mt-1 text-base text-gray-600">Monthly Sales</div>
+                            <div class="mt-1 text-base text-gray-600">Total Sales</div>
                         </div>
                     </div>
                 </div>
@@ -279,7 +279,11 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "P" + val + "K";
+                        // Format the value as currency
+                        return new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'PHP' 
+                        }).format(val);
                     }
                 }
             },
@@ -309,6 +313,17 @@
             legend: {
                 show: true,
                 position: 'bottom'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        // Format the value as currency
+                        return new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'PHP'
+                        }).format(val);
+                    }
+                }
             },
             responsive: [{
                 breakpoint: 480,
@@ -365,6 +380,17 @@
             },
             stroke: {
                 curve: 'smooth'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        // Format the value as currency
+                        return new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'PHP'
+                        }).format(val);
+                    }
+                }
             },
         };
 

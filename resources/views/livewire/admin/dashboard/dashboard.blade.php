@@ -9,7 +9,7 @@
                     <div class="col-span-12 mt-8">
                         <div class="grid grid-cols-12 gap-6 mt-5">
                             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                                href="{{route('manage-product-table')}}">
+                                href="{{route('manage-appointments')}}">
                                 <div class="p-5">
                                     <div class="flex justify-between">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-400"
@@ -21,9 +21,9 @@
                                     </div>
                                     <div class="ml-2 w-full flex-1">
                                         <div>
-                                            <div class="mt-3 text-3xl font-bold leading-8">{{$total_products}}</div>
+                                            <div class="mt-3 text-3xl font-bold leading-8">{{$appointments_today_count}}</div>
 
-                                            <div class="mt-1 text-base text-gray-600">No. of Products</div>
+                                            <div class="mt-1 text-base text-gray-600">Appointments Today</div>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                 </div>
                             </a>
                             <a class="transform  hover:scale-105 transition duration-300 shadow-xl rounded-lg col-span-12 sm:col-span-6 xl:col-span-3 intro-y bg-white"
-                                href="{{route('manage-patients')}}">
+                                href="{{route('sales-report')}}">
                                 <div class="p-5">
                                     <div class="flex justify-between">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-400"
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="ml-2 w-full flex-1">
                                         <div>
-                                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($total_sales, 2)}}</div>
+                                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($todays_sales, 2)}}</div>
 
                                             <div class="mt-1 text-base text-gray-600">Today's Sales</div>
                                         </div>
@@ -622,12 +622,16 @@
                     categories: months,
                 },
                 tooltip: {
-                    y: {
-                        formatter: function (val) {
-                            return "P" + val;
-                        }
+                y: {
+                    formatter: function (val) {
+                        // Format the value as currency
+                        return new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'PHP'
+                        }).format(val);
                     }
                 }
+            },
             };
     
             var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesChartOptions);
@@ -651,6 +655,17 @@
             legend: {
                 show: true,
                 position: 'bottom'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        // Format the value as currency
+                        return new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'PHP'
+                        }).format(val);
+                    }
+                }
             },
             responsive: [{
                 breakpoint: 480,

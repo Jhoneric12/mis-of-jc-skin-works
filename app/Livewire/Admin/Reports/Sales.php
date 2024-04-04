@@ -30,11 +30,15 @@ class Sales extends Component
         
         $transactions = Orders::latest()->paginate(10);
 
-        $annual_sales = Orders::whereYear('created_at', Carbon::now()->year)->sum('total_amount');;
+        $annual_sales = Orders::whereYear('created_at', Carbon::now()->year)->sum('total_amount');
+
+        $todays_sales = Orders::whereBetween('created_at', [Carbon::now()->startOfDay(), Carbon::now()->endOfDay()])->sum('total_amount');
 
         $service_sales = OrderItem::where('item_type', 'service')->sum('price');
 
         $product_sales = OrderItem::where('item_type', 'product')->sum('price');
+
+        $total_revenue = Orders::sum('total_amount');
 
         // Get the current month's start and end dates
         $currentMonthStart = Carbon::now()->startOfMonth();
@@ -48,7 +52,9 @@ class Sales extends Component
             'total_sales' => $annual_sales,
             'monthly_sales' => $monthly_sales,
             'service_sales' => $service_sales,
-            'product_sales' => $product_sales
+            'product_sales' => $product_sales,
+            'todays_sales' => $todays_sales,
+            'total_revenue' => $total_revenue
         ]);
     }
 

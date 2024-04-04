@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="ml-2 w-full flex-1">
                                         <div>
-                                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{number_format($total_sales, 0, ',', '.');}}</div>
+                                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($total_sales, 2)}}</div>
 
                                             <div class="mt-1 text-base text-gray-600">Monthly Sales</div>
                                         </div>
@@ -62,9 +62,9 @@
                                     </div>
                                     <div class="ml-2 w-full flex-1">
                                         <div>
-                                            <div class="mt-3 text-3xl font-bold leading-8">{{$total_patient}}</div>
+                                            <div class="mt-3 text-3xl font-bold leading-8">₱ {{ number_format($todays_sales, 2)}}</div>
 
-                                            <div class="mt-1 text-base text-gray-600">No. of Patient</div>
+                                            <div class="mt-1 text-base text-gray-600">Today's Sales</div>
                                         </div>
                                     </div>
                                 </div>

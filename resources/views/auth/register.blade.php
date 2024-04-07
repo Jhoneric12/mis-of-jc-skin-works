@@ -47,7 +47,7 @@
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="skintype" value="{{ __('Skin Type') }}" />
-                    <select name="skintype" id="skintype" class="w-full text-base border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm mt-1'">
+                    <select name="skintype" id="skintype" class="w-full mt-1 text-base border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm mt-1'">
                         <option value="">- Select Options - </option>
                         <option value="NORMAL">Normal</option>
                         <option value="OILY">Oily</option>
@@ -99,10 +99,10 @@
                     <x-input id="email" class="block mt-1 w-full text-base" type="email" name="email" :value="old('email')" required autocomplete="username" />
                 </div>
             </div>
-            <div class="w-full mt-2">
+            {{-- <div class="w-full mt-2">
                 <x-label for="username" value="{{ __('Username') }}" />
                 <x-input id="username" class="block mt-1 w-full text-base" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
-            </div>
+            </div> --}}
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="password" value="{{ __('Password') }}" />

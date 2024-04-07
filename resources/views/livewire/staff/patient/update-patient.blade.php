@@ -84,12 +84,18 @@
                 <x-input-error for="emailaddress"/>
             </div>
         </div>
-        <div class='w-full'>
-            <div class='flex flex-col gap-1 mb-4 text-fontColor'>
-                <x-label for="" value="{{ __('Skin Type') }}" />
-                <textarea wire:model='skintype' cols="30" rows="3" name="skintype" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm" placeholder='Enter Skin Type' '></textarea>
-                <x-input-error for="skintype"/>
-            </div>
+        <div class="w-full">
+            <x-label for="skintype" value="{{ __('Skin Type') }}" />
+            <select wire:model="skintype" id="skintype" class="w-full mt-1 text-base border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm mt-1'">
+                <option value="">- Select Options - </option>
+                <option value="NORMAL">Normal</option>
+                <option value="OILY">Oily</option>
+                <option value="DRY">Dry</option>
+                <option value="COMBINATION">Combination</option>
+                <option value="SENSITIVE">Sensitive</option>
+                <option value="ACNE-PRONE">Acne-Prone</option>
+            </select>
+            <x-input-error for="skintype"/>
         </div>
         <div class='mb-4'>
             <p class='text-[red] text-xs'></p>

@@ -37,7 +37,7 @@ class AddPatient extends Component
             'age' => 'required|numeric|min:1',
             'gender' => 'required',
             'civilstatus' => 'required',
-            'religion' => 'required',
+            // 'religion' => 'required',
             'homeaddress' => 'required',
             'contactnumber' => 'required',
             'emailaddress' => 'required|email|unique:users,email',

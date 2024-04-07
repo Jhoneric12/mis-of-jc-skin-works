@@ -83,9 +83,9 @@
                     <th scope="col" class="px-6 py-6">
                         License Number
                     </th>
-                    <th scope="col" class="px-6 py-6">
+                    {{-- <th scope="col" class="px-6 py-6">
                         Username
-                    </th>
+                    </th> --}}
                     <th scope="col" class="px-6 py-6">
                         Status
                     </th>
@@ -117,9 +117,9 @@
                     <td class="px-6 py-6">
                         {{$doctor->license_number}}
                     </td>
-                    <td class="px-6 py-6">
+                    {{-- <td class="px-6 py-6">
                         {{$doctor->username}}
-                    </td>
+                    </td> --}}
                     <td class="px-6 py-6">
                         <span class="{{ $doctor->account_status == false ? 'bg-red-300 text-red-800 text-xs' : 'bg-green-300 text-green-800 text-xs' }} px-2 py-1 rounded-full text-white">
                             {{ $doctor->account_status ? 'Active' : 'Inactive'}}
@@ -185,24 +185,36 @@
                                 <x-input-error for="last_name"/>
                             </div>
                         </div>
-                        <div class='flex gap-4 mb-4 w-full'>
+                        <div class='flex gap-4 w-full'>
+                            {{-- <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                                <x-label for="" value="{{ __('Email') }}" />
+                                <input wire:model="email" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <x-input-error for="email"/>
+                            </div> --}}
+                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                                <x-label for="" value="{{ __('License Number') }}" />
+                                <input wire:model="LN" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <x-input-error for="LN"/>
+                            </div>
+                        </div>
+                        <div class='flex gap-4 w-full'>
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Email') }}" />
                                 <input wire:model="email" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="email"/>
                             </div>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            {{-- <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('License Number') }}" />
                                 <input wire:model="LN" type="email" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                {{-- <x-input-error for="LN"/> --}}
-                            </div>
+                                <x-input-error for="LN"/>
+                            </div> --}}
                         </div>
-                        <div class='flex gap-4 mb-4 w-full'>
-                            <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                        <div class='flex gap-4 w-full'>
+                            {{-- <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Username') }}" />
                                 <input wire:model="username" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 <x-input-error for="username"/>
-                            </div>
+                            </div> --}}
                             <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
                                 <x-label for="" value="{{ __('Password') }}" />
                                 <input wire:model="password" type="password"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">

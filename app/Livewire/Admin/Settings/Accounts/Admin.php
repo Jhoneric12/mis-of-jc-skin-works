@@ -46,10 +46,9 @@ class Admin extends Component
     public function render()
     {
         $admins = User::where('role', '1')
-            ->whereNotNull('username')
             ->where(function ($query) {
-                $query->where('username', 'like', '%' . $this->search . '%')
-                      ->orWhere('email', 'like', '%' . $this->search . '%')
+                $query
+                      ->where('email', 'like', '%' . $this->search . '%')
                       ->orWhere('first_name', 'like', '%' . $this->search . '%')
                       ->orWhere('middle_name', 'like', '%' . $this->search . '%')
                       ->orWhere('last_name', 'like', '%' . $this->search . '%')
@@ -88,7 +87,7 @@ class Admin extends Component
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
+            // 'username' => 'required|unique:users',
             'password' => 'required|min:8',
             // 'LN' => 'required'
         ]);
@@ -98,9 +97,9 @@ class Admin extends Component
             'middle_name' => strtoupper($this->middle_name),
             'last_name' => strtoupper($this->last_name),
             'email' => $this->email,
-            'username' => $this->username,
+            // 'username' => $this->username,
             'password' => Hash::make($this->password),
-            'license_number' => $this->LN,
+            // 'license_number' => $this->LN,
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name),
             'role' => 1
         ]);

@@ -8,11 +8,13 @@
    </div>
 
    <div class="flex justify-between items-center ">
-        <div class="flex gap-2 items-center">
+        <div class="flex flex-col gap-2 items-start md:flex-row">
             <h1 class="font-bold text-md text-gray-700 mr-2">{{$no_of_session->service->service_name}}</h1>
-            <span class="text-green-600 font-bold">( {{$no_of_progress}}</span>
-            <span class="text-green-600 font-bold">/</span>
-            <span class="text-green-600 font-bold">{{$no_of_session->service->nno_of_sessions}} )</span>
+            <div class="flex flex-row gap-1">
+                <span class="text-green-600 text-sm md:text-base font-bold">( {{$no_of_progress}}</span>
+                <span class="text-green-600 text-sm md:text-base font-bold">/</span>
+                <span class="text-green-600 text-sm md:text-base font-bold">{{$no_of_session->service->nno_of_sessions}} )</span>
+            </div>
             {{-- <span class="text-green-600 font-bold">{{$no_of_session->service->nno_of_sessions}}</span> --}}
         </div>
         {{-- <div class="flex gap-2 items-center">

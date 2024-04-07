@@ -83,8 +83,8 @@
         </div>
 
         <div class="doctor">
-            <p><strong>Doctor's Name:</strong> <br>{{ $data['specialist_name'] }}</p>
-            <p><strong>License Number:</strong> <br>{{ $data['license_number'] }}</p>
+            <p>{{ $data['specialist_name'] }}<br><strong>Doctor's Name</strong></p>
+            <p>{{ $data['license_number'] }} <br> <strong>License Number</strong></p>
         </div>
 
         <div class="footer">

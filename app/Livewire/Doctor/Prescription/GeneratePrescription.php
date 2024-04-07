@@ -17,6 +17,7 @@ class GeneratePrescription extends Component
     public $patient_id;
     public $medication;
     public $description;
+    public $patient_name;
 
     public function render()
     {
@@ -25,11 +26,15 @@ class GeneratePrescription extends Component
 
     public function generate()
     {
-        $this->validate([
-            'patient_id' => 'required|exists:users,id',
-            'medication' => 'required',
-            'description' => 'required'
-        ],['patient_id.exists' => 'Patient id not found']);
+        if($this->patient_id != null)
+        {
+            $this->validate([
+                'patient_id' => 'required|exists:users,id',
+                'medication' => 'required',
+                'description' => 'required',
+                'patient_name' => 'required'
+            ],['patient_id.exists' => 'Patient id not found']);
+        }
 
         Prescription::create([
             'patient_id' => $this->patient_id,
@@ -45,6 +50,8 @@ class GeneratePrescription extends Component
             'user_type' => 'DOCTOR',
             'description' => 'GENERATED PRESCRIPTION'
         ]);
+
+        $this->reset();
 
        // Retrieve the most recent prescription
         $prescription = Prescription::with('patient')->latest()->first();
@@ -76,5 +83,18 @@ class GeneratePrescription extends Component
 
         // Return the response to stream the PDF with the specified filename
         return response()->file($tempFilePath, $headers)->deleteFileAfterSend(true);
+    }
+
+    public function searchPatient() 
+    {
+        $patient = User::where('id', $this->patient_id)->where('role', 0)->first();
+
+        // Check if patient exists
+        if (!$patient) {
+            $this->addError('patient_id', 'No patient found.');
+            return;
+        }
+
+        $this->patient_name =  $patient->first_name . " " . $patient->middle_name . " " .  $patient->last_name;
     }
 }

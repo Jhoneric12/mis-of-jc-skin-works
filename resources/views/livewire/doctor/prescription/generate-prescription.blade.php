@@ -6,9 +6,28 @@
         <h1 class="text-[6rem]">℞</h1>
         <div class='w-full'>
             <div class='flex flex-col gap-1 mb-4 text-fontColor'>
-                <x-label for="" value="{{ __('Patient ID') }}" />
-                <input wire:model="patient_id" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                <x-input-error for="patient_id"/>
+                <div class="flex gap-4">
+                    <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <div class="flex gap-4 items-center">
+                                <x-label for="" value="{{ __('Patient ID') }}" />
+                                <span class="text-red-500 text-xs"> *Press enter to search patient</span>
+                            </div>
+                            <div class="relative" >
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input wire:model.live='patient_id' wire:keydown.enter='searchPatient' type='search' id="default-search-services"  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ps-10" autocomplete="off">
+                            </div>
+                            <x-input-error for="patient_id"/>
+                        </div>
+                        <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
+                            <x-label for="" value="{{ __('Patient Name') }}" />
+                            <input readonly wire:model="patient_name" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-input-error for="patient_name"/>
+                        </div>
+                   </div>
             </div>
         </div>
         <div class='w-full'>

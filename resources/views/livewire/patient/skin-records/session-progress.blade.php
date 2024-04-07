@@ -1,7 +1,7 @@
 <div>
     <div class="flex gap-4">
         <a href="{{route('skin-records')}}">
-            <x-Essentials.page-title class="text-[#9D9D9D]">My history</x-Essentials.page-title>
+            <x-Essentials.page-title class="text-[#9D9D9D]">My History</x-Essentials.page-title>
         </a>
         <x-Essentials.page-title> > </x-Essentials.page-title>
         <x-Essentials.page-title>Session Progress</x-Essentials.page-title>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="p-6 flex flex-col sm:flex-row md:flex-col lg:flex-col xl:flex-col gap-4">
-                    <div><img src="{{ asset('storage/' . $session->image_path) }}" alt="" class="rounded-md w-full sm:w-full h-auto sm:h-[15rem]"></div>
+                    <div><img src="{{ asset('storage/' . $session->image_path) }}" alt="" class="rounded-md w-full h-[15rem] sm:w-full"></div>
                     <div class="flex flex-col">
                         <div>
                             <div class="font-semibold text-md">Dr. {{$session->specialist}}</div>

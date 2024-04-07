@@ -111,6 +111,7 @@ class Dashboard extends Component
         ]);
 
         $this->modalReview = false;
+        $this->modalSucess = false;
         $this->reset();
     }
     

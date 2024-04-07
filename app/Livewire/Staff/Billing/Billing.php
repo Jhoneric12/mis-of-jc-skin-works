@@ -237,6 +237,8 @@ class Billing extends Component
             ];
         }
 
+        $this->quantity = 1;
+
          // Update the cart totals
         $this->updateCartTotals();
     }

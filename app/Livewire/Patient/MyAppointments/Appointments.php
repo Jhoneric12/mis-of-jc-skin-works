@@ -44,6 +44,7 @@ class Appointments extends Component
     public $setting = 'Online';
     public $status = 'Scheduled';
     public $cancelStatus = 'Cancelled';
+    public $appointment_calendar;
 
     public function render()
     {

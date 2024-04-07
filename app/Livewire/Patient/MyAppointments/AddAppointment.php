@@ -37,6 +37,8 @@ class AddAppointment extends Component
 
     public function render()
     {
+        $this->appointments = Appointment::whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])->get();
+
         return view('livewire.patient.my-appointments.add-appointment', [
             'services' => Service::where('status', 1)->get(),
             'specialists' => User::where('account_status', 1)->get()

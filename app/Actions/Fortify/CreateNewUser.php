@@ -28,7 +28,7 @@ class CreateNewUser implements CreatesNewUsers
             'civilstatus' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'max:255'],
             'homeaddress' => ['required', 'string'], 
-            'contactnumber' => ['required', 'string', 'max:20'],
+            'contactnumber' => ['required', 'string', 'min:11', 'max:20'],
             'username' => ['required', 'string', 'min:8', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),

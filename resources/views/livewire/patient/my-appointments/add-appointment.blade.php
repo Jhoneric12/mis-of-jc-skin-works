@@ -66,4 +66,80 @@
             <button type="submit" class="text-sm text-center bg-[#4FBD5E] hover:opacity-90 text-white px-10 py-3 rounded-[8px]">Submit</button>
         </div>
     </form>
+
+    <div id="calendar" class="relative bg-white rounded-lg shadow-md p-8 border border-solid w-full h-full mt-6">
+    </div>
+
+    @push('scripts')
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+        <script>
+            document.addEventListener('livewire:init', function() {
+            const calendarEl = document.getElementById('calendar')
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                dayMaxEventRows: true,
+                    views: {
+                        timeGrid: {
+                            dayMaxEventRows: 2,
+                            eventDisplay: 'block'
+                        }
+                    },
+                slotMinTime: '8:00:00',
+                slotMaxTime: '19:00:00',
+                events: @json($appointments),
+                eventContent: renderEventContent,
+                selectable: true,
+                // eventClick: function(info)
+                // {
+                //     window.location.href = "{{ route('view-appointments') }}" + "?appointment_id=" + info.event.id;
+                // }
+            })
+        
+            function renderEventContent(info) {
+                    const backgroundColor = getStatusBackgroundColor(info.event.extendedProps.status);
+                    
+                    return {
+                        html: `<div style="background-color: ${backgroundColor}; padding: 5px; border-color:  ${backgroundColor};">
+                                <div class="text-xs">${info.event.id}  ${info.event.extendedProps.setting}</div>
+                                <div class="text-xs">${info.event.extendedProps.time}</div>
+                            </div>`,
+                    };
+                }
+        
+                function getStatusBackgroundColor(status) {
+                    switch (status) {
+                        case 'Cancelled':
+                            return '#F8B4B4'; 
+                        case 'Completed':
+                            return '#84E1BC'; 
+                        case 'Confirmed':
+                            return '#A4CAFE'
+                        case 'Scheduled':
+                            return '#D1D5DB'; 
+                        case 'On-going':
+                            return '#C7A7EA'; 
+                        default:
+                            return '#0000FF';
+                    }
+                }
+            calendar.render()
+            })
+        </script>
+    @endpush
+
+    @push('styles')
+        <style>
+            #calendar .fc-toolbar button {
+                background-color: white;
+                color: black;
+                border: 1px solid green;
+            }
+        </style>
+    @endpush
+
 </div>

@@ -11,7 +11,7 @@
         <form method="POST" action="{{ route('register') }}" class="py-4">
             <div class="mb-8">
                 <x-section-title>
-                    <x-slot name="title">{{ __('Personal Information') }}</x-slot>
+                    <x-slot name="title">{{ __('Sign Up') }}</x-slot>
                     <x-slot name="description">{{ __('Provide Information that is true and correct for medical purposes only') }}</x-slot>
                 </x-section-title>
             </div>
@@ -19,41 +19,50 @@
             <div class="flex gap-2 flex-col">
                 <div>
                     <x-label for="firstname" value="{{ __('First Name') }}" />
-                    <x-input id="firstname" class="block mt-1 w-full" type="text" name="firstname" :value="old('name')" required autofocus autocomplete="firstname" />
+                    <x-input id="firstname" class="block mt-1 w-full text-base" type="text" name="firstname" :value="old('name')" required autofocus autocomplete="firstname" />
                 </div>
     
                 <div>
                     <x-label for="middlename" value="{{ __('Middle Name') }}" />
-                    <x-input id="middlename" class="block mt-1 w-full" type="text" name="middlename" :value="old('middlename')"  autofocus autocomplete="middlename" />
+                    <x-input id="middlename" class="block mt-1 w-full text-base" type="text" name="middlename" :value="old('middlename')"  autofocus autocomplete="middlename" />
                 </div>
     
                 <div>
                     <x-label for="lastname" value="{{ __('Last Name') }}" />
-                    <x-input id="lastname" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')" required autofocus autocomplete="lastname" />
+                    <x-input id="lastname" class="block mt-1 w-full text-base" type="text" name="lastname" :value="old('lastname')" required autofocus autocomplete="lastname" />
                 </div>
             </div>
             <div class="flex flex-row gap-2 mt-2">
                 <div class="w-[50%]">
                     <x-label for="birthdate" value="{{ __('Birth Date') }}" />
-                    <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required autofocus autocomplete="birthdate" />
+                    <x-input id="birthdate" class="block mt-1 w-full text-base" type="date" name="birthdate" :value="old('birthdate')" required autofocus autocomplete="birthdate" />
                 </div>
     
                 <div class="w-[50%]">
                     <x-label for="age" value="{{ __('Age') }}" />
-                    <x-input id="age" class="block mt-1 w-full" type="text"  name="age" :value="old('age')" required autofocus autocomplete="age" readonly />
+                    <x-input id="age" class="block mt-1 w-full text-base" type="text"  name="age" :value="old('age')" required autofocus autocomplete="age" readonly />
                 </div>
             </div>
             
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="skintype" value="{{ __('Skin Type') }}" />
-                    <x-input id="skintype" class="block mt-1 w-full" type="text" name="skintype" :value="old('skintype')" required autofocus autocomplete="skintype" />
+                    <select name="skintype" id="skintype" class="w-full text-base border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm mt-1'">
+                        <option value="">- Select Options - </option>
+                        <option value="NORMAL">Normal</option>
+                        <option value="OILY">Oily</option>
+                        <option value="DRY">Dry</option>
+                        <option value="COMBINATION">Combination</option>
+                        <option value="SENSITIVE">Sensitive</option>
+                        <option value="ACNE-PRONE">Acne-Prone</option>
+                    </select>
                 </div>
             </div>
             <div class="w-full mt-2 flex gap-2">
                 <div class="w-[50%]">
                     <x-label for="civilstaus" value="{{ __('Civil Status') }}" />
-                    <select name="civilstatus" id="civilstatus" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm'">
+                    <select name="civilstatus" id="civilstatus" class="w-full text-base border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm mt-1'">
+                        <option value="">- Select Options - </option>
                         <option value="Single">Single</option>
                         <option value="Married">Married</option>
                         <option value="Widowed">Widowed</option>
@@ -61,7 +70,8 @@
                 </div>
                 <div class="w-[50%]">
                     <x-label for="gender" value="{{ __('Gender') }}" />
-                    <select name="gender" id="gender" class="w-full border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm'">
+                    <select name="gender" id="gender" class="w-full text-base border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm mt-1'">
+                        <option value="">- Select Options -</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
@@ -70,39 +80,39 @@
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="homeaddress" value="{{ __('Home Address') }}" />
-                    <x-input id="homeaddress" class="block mt-1 w-full" type="text" name="homeaddress" :value="old('homeaddress')" required autofocus autocomplete="homeaddress" />
+                    <x-input id="homeaddress" class="block mt-1 w-full text-base" type="text" name="homeaddress" :value="old('homeaddress')" required autofocus autocomplete="homeaddress" />
                 </div>
             </div>
             <div class="w-full mt-2 flex gap-2">
                 <div class="w-[50%]">
                     <x-label for="contactnumber" value="{{ __('Contact Number') }}" />
-                    <x-input id="contactnumber" class="block mt-1 w-full" type="text" name="contactnumber" :value="old('contactnumber')" required autofocus autocomplete="contactnumber" />
+                    <x-input id="contactnumber" class="block mt-1 w-full text-base" type="text" name="contactnumber" :value="old('contactnumber')" required autofocus autocomplete="contactnumber" />
                 </div>
                 <div class="w-[50%]">
                     <x-label for="religion" value="{{ __('Religion') }}" />
-                    <x-input id="religion" class="block mt-1 w-full" type="text" name="religion" :value="old('religion')" autofocus autocomplete="religion" />
+                    <x-input id="religion" class="block mt-1 w-full text-base" type="text" name="religion" :value="old('religion')" autofocus autocomplete="religion" />
                 </div>
             </div>
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="email" value="{{ __('Email') }}" />
-                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                    <x-input id="email" class="block mt-1 w-full text-base" type="email" name="email" :value="old('email')" required autocomplete="username" />
                 </div>
             </div>
             <div class="w-full mt-2">
                 <x-label for="username" value="{{ __('Username') }}" />
-                <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
+                <x-input id="username" class="block mt-1 w-full text-base" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
             </div>
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="password" value="{{ __('Password') }}" />
-                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                    <x-input id="password" class="block mt-1 w-full text-base" type="password" name="password" required autocomplete="new-password" />
                 </div>
             </div>
             <div class="w-full mt-2">
                 <div class="w-full">
                     <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                    <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                    <x-input id="password_confirmation" class="block mt-1 w-full text-base" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
             </div>
 

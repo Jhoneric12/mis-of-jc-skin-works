@@ -57,6 +57,8 @@ use App\Http\Controllers\Patient\Services\ServiceList;
 use App\Http\Controllers\Patient\Settings\Menu;
 use App\Http\Controllers\Patient\Settings\AccountSettings;
 use App\Http\Controllers\Patient\Settings\ViewAccount;
+use App\Http\Controllers\Patient\SkinRecords\SkinRecords;
+use App\Http\Controllers\Patient\SkinRecords\SessionProgress as PatientSessionProgress;
 
 //STAFF
 use App\Http\Controllers\Staff\Patient\ManagePatient as StaffManagePatient;
@@ -187,6 +189,8 @@ Route::middleware(['auth', config('jetstream.auth_session'), 'verified'])->group
             Route::get('settings', [Menu::class, 'index'])->name('settings');
             Route::get('account-settings', [AccountSettings::class, 'index'])->name('account-settings');
             Route::get('view-account', [ViewAccount::class, 'index'])->name('view-account');
+            Route::get('skin-records', [SkinRecords::class, 'index'])->name('skin-records');
+            Route::get('session-progress', [PatientSessionProgress::class, 'index'])->name('patient-session-progress');
 
         })->name('patient-routes'); 
 

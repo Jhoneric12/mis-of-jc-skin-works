@@ -51,7 +51,7 @@
                         {{ $sessionNumber === 1 ? 'First' : ($sessionNumber === 2 ? 'Second' : ($sessionNumber === 3 ? 'Third' : ($sessionNumber . 'th'))) }} Session
                     </div>
                 </div>
-                <div class="p-6 flex flex-col sm:flex-row md:flex-row lg:flex-col xl:flex-col gap-4">
+                <div class="p-6 flex flex-col sm:flex-row md:flex-col lg:flex-col xl:flex-col gap-4">
                     <div><img src="{{ asset('storage/' . $session->image_path) }}" alt="" class="rounded-md w-full sm:w-full h-auto sm:h-[15rem]"></div>
                     <div class="flex flex-col">
                         <div>

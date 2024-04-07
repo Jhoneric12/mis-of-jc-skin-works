@@ -96,29 +96,6 @@
                         </div>
                     </div>
                     <div class="col-span-12">
-                        {{-- Updated Message --}}
-                        <x-action-message on="confirmed" class="w-full text-white bg-green-500 rounded-lg mb-4">
-                            <div class="container flex items-center justify-between px-6 py-4 mx-auto">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="mx-3 text-white">Appointment approved.</p>
-                                </div>
-                            </div>
-                        </x-action-message>
-
-                        {{-- Cancel Message --}}
-                        <x-action-message on="cancelled" class="w-full text-white bg-red-500 rounded-lg mb-4">
-                            <div class="container flex items-center justify-between px-6 py-4 mx-auto">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
-                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="mx-3 text-white">Appointment declined.</p>
-                                </div>
-                            </div>
-                        </x-action-message>
                         <div class="flex justify-between mb-6">
                             <div role="status" wire:loading>
                                 <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-green-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -280,6 +257,30 @@
                             </div>
                             <div></div>
                         </div>
+
+                        {{-- Updated Message --}}
+                        <x-action-message on="confirmed" class="w-full text-white bg-green-500 rounded-lg mb-4">
+                            <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <p class="mx-3 text-white">Appointment approved.</p>
+                                </div>
+                            </div>
+                        </x-action-message>
+
+                        {{-- Cancel Message --}}
+                        <x-action-message on="cancelled" class="w-full text-white bg-red-500 rounded-lg mb-4">
+                            <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <p class="mx-3 text-white">Appointment declined.</p>
+                                </div>
+                            </div>
+                        </x-action-message>
 
                         <div class="bg-white p-4 shadow-lg rounded-lg ">
                             <h1 class="font-bold text-base text-[#4FBD5E]">Pending Appointments</h1>

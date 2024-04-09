@@ -20,7 +20,7 @@
                                         <div class="flex gap-1 justify-between">
                                             <div class="flex flex-col justify-between">
                                                 <h1 class="text-base">{{$session->service->service_name}}</h1>
-                                                {{-- <span class="text-xs">Appointment No. {{$session->id}}</span> --}}
+                                                <span class="text-xs">Appointment No. {{$session->id}}</span>
                                                 <span class="text-xs">{{\Carbon\Carbon::parse($session->created_at)->format('M, d, Y')}}</span>
                                             </div>
                                             <div>

@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -38,6 +39,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'middle_name' =>  strtoupper($input['middle_name']),
                 'last_name' => strtoupper($input['last_name']),
                 'email' => $input['email'],
+                'license_number' => $input['license_number'],
+                // 'email_verified_at' => Carbon::now()
             ])->save();
         }
     }
@@ -50,10 +53,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     protected function updateVerifiedUser(User $user, array $input): void
     {
         $user->forceFill([
-            'first_name' => $input['firstname'],
-            'middle_name' => $input['middlename'],
-            'last_name' => $input['lastname'],
-            'email_verified_at' => null,
+            'first_name' => $input['first_name'],
+            'middle_name' => $input['middle_name'],
+            'last_name' => $input['last_name'],
+            'email' => $input['email'],
+            'license_number' => $input['license_number'],
+            // 'email_verified_at' => Carbon::now(),
         ])->save();
 
         $user->sendEmailVerificationNotification();

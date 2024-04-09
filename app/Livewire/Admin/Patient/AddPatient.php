@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Patient;
 use App\Models\AuditTrail;
 use Livewire\Component;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -59,6 +60,7 @@ class AddPatient extends Component
             'email' => $this->emailaddress,
             'skin_type' => strtoupper($this->skintype),
             'name' =>  strtoupper($this->firstname . " " . $this->middlename . " " . $this->lastname),
+            'email_verified_at' => Carbon::now(),
             'role' => 0
         ]);
 

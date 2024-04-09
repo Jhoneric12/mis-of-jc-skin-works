@@ -6,6 +6,7 @@ use App\Models\AuditTrail;
 use Livewire\Component;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AddPatient extends Component
@@ -37,7 +38,7 @@ class AddPatient extends Component
             'age' => 'required|numeric|min:1',
             'gender' => 'required',
             'civilstatus' => 'required',
-            'religion' => 'required',
+            // 'religion' => 'required',
             'homeaddress' => 'required',
             'contactnumber' => 'required',
             'emailaddress' => 'required|email|unique:users,email',
@@ -59,6 +60,7 @@ class AddPatient extends Component
             'email' => $this->emailaddress,
             'skin_type' => strtoupper($this->skintype),
             'name' =>  strtoupper($this->firstname . " " . $this->middlename . " " . $this->lastname),
+            'email_verified_at' => Carbon::now(),
             'role' => 0
         ]);
 

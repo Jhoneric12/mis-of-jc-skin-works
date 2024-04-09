@@ -52,6 +52,7 @@ class ManagePatients extends Component
                       ->orWhere('id', $this->search);
                     //   ->orWhereNotNull('gender');
             })
+            ->whereNotNull('email_verified_at')
             ->when($this->filter !== 'All', function ($query) {
                 $query->where('account_status', $this->filter === 'Active');
             })

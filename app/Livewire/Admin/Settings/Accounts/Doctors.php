@@ -6,6 +6,7 @@ use App\Models\AuditTrail;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -102,6 +103,7 @@ class Doctors extends Component
             'password' => Hash::make($this->password),
             'license_number' => $this->LN,
             'name' => strtoupper($this->first_name . " " . $this->middle_name . " " . $this->last_name),
+            'email_verified_at' => Carbon::now(),
             'role' => 3
         ]);
 

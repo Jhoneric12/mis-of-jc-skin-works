@@ -44,10 +44,12 @@ class Appointments extends Component
     public $setting = 'Online';
     public $status = 'Scheduled';
     public $cancelStatus = 'Cancelled';
-    public $appointment_calendar;
+    public $appointment_calendar = [];
 
     public function render()
     {
+        $this->appointment_calendar = Appointment::whereIn('status', ['Confirmed', 'On-going', 'Cancelled', 'Completed'])->get();
+        
         $appointments = Appointment::where('patient_id', Auth::user()->id)
                                 ->whereIn('status', ['Confirmed', 'Scheduled', 'On-going'])
                                 ->orderBy('date', 'asc')

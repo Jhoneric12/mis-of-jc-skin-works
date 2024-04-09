@@ -27,6 +27,18 @@
         </div>
     @endif
 
+    {{-- Updated Message --}}
+    <x-action-message on="updated" class="w-full text-white bg-green-500 rounded-lg mb-4">
+        <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                </svg>
+                <p class="mx-3 text-white">Updated successfully.</p>
+            </div>
+        </div>
+    </x-action-message>
+
     {{-- PATIENT TABLE --}}
     <div class="relative overflow-x-auto sm:rounded-lg shadow-md px-6 py-8 border-2 border-solid">
         <div class="mb-4 flex gap-2 items-center justify-between">
@@ -144,6 +156,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                             </svg>
                         </a>
+                        <svg wire:click='editStatus({{$patient->id}})' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                        </svg>
                     </td>
                 </tr>
                 @empty
@@ -265,6 +280,43 @@
 
             <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='createPatient'>
                 {{ __('Add') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
+     {{-- Update Status --}}
+     <x-dialog-modal wire:model.live="modalStatus" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Edit Status for ' . $patient_name) }}
+        </x-slot>
+
+        <x-slot name="content">
+            <form wire:submit='updateStatus'>
+                @csrf
+                <div>
+                    <div class='flex flex-col w-full'>
+                        <div class="flex gap-4">
+                            <div class='flex flex-col gap-1 mb-4 w-full'>
+                                <x-label for="" value="{{ __('Status') }}" />
+                                <select wire:model='status' class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <option  value="">- Select Options - </option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-button class="ms-3" wire:loading.attr="disabled" type='submit' wire:click='updateStatus'>
+                {{ __('Save') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>

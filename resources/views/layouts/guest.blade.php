@@ -18,7 +18,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="bg-gradient-to-tr from-transparent to-[#ebf7dd] py-10 px-4">
+    <body class="bg-gradient-to-tr from-transparent to-[#ebf7dd] px-4 selection:bg-green-500 selection:text-[white]">
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>

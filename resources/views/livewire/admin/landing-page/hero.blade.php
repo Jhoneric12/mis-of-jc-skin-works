@@ -1,7 +1,7 @@
 <div class="w-full bg-cover bg-center bg-gradient-to-tr from-transparent to-[#ebf7dd]">
     <div class="flex justify-around items-center text-left h-screen">
         <div class="lg:w-[40%] w-full flex flex-col items-center md:items-center lg:items-start gap-4">
-            <h1 class="text-gray-900 md:text-3xl lg:text-4xl md:text-center lg:text-left text-center text-xl md:leading-[4rem] lg:leading-[3rem] font-extrabold">{{$heroText}}</h1>
+            <h1 class="text-gray-900 md:text-3xl lg:text-4xl md:text-center lg:text-left text-center text-xl md:leading-[4rem] lg:leading-[3rem] font-extrabold px-10 md:px-0">{{$heroText}}</h1>
             <div class="w-full justify-between lg:flex lg:justify-between hidden">
                 <div class="first flex gap-2 lg:w-full">
                     <img src="{{asset('assets/Essentials/calendar-icon.png')}}" alt="" class="w-[1rem] h-[1rem]">

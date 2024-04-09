@@ -86,7 +86,7 @@
                     <x-label for="contactnumber" value="{{ __('Contact Number') }}" />
                     <x-input id="contactnumber" class="block mt-1 w-full text-base" type="text" name="contactnumber" :value="old('contactnumber')" required autofocus autocomplete="contactnumber" />
                 </div>
-                <div class="w-full">
+                <div class="w-full mt-2">
                     <x-label for="religion" value="{{ __('Religion') }}" />
                     <x-input id="religion" class="block mt-1 w-full text-base" type="text" name="religion" :value="old('religion')" autofocus autocomplete="religion" />
                 </div>

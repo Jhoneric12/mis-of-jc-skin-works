@@ -10,6 +10,8 @@ class Patient extends Component
 {
     public function render()
     {
-        return view('livewire.notification.patient', ['notifications' => PatientNotif::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get()]);
+        $notifications = PatientNotif::where('user_id', Auth::user()->id)->latest()->get();
+        
+        return view('livewire.notification.patient', ['notifications' => $notifications]);
     }
 }

@@ -86,7 +86,7 @@ class Dashboard extends Component
                     ->send(new AppointmentExpired($appointment));
 
                 PatientNotif::create([
-                    'user_id' => Auth::user()->role,
+                    'user_id' => Auth::user()->id,
                     'description' => 'Your appointment has expired for Appointment No. ' . $appointment->id
                 ]);
 

@@ -86,9 +86,6 @@ class Dashboard extends Component
             ->get();
 
         foreach ($critical_products as $product) {
-            $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
-                                                ->where('description', 'like', '%'.$product->product_name.'%');
-            
             ClinicNotif::create([
                     'user_id' => Auth::user()->id,
                     'description' => 'Product "'.$product->product_name.'" is in low stock. Manage the product before the stock reaches zero',
@@ -101,8 +98,6 @@ class Dashboard extends Component
                                     ->get();
 
                 foreach ($expiring_items as $item) {
-                            $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
-                                        ->where('description', 'like', '%'.$item->product->product_name.'%');
 
                             ClinicNotif::create([
                                 'user_id' => Auth::user()->id,

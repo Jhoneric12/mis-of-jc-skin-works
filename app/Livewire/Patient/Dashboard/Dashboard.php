@@ -60,9 +60,6 @@ class Dashboard extends Component
             ->get();
 
         foreach ($tomorrowAppointments as $appointment) {
-            $existing_notification = PatientNotif::where('user_id', $appointment->patient_id)
-                ->where('description',  'like', '%' . $appointment->service->service_name . '%')
-                ->exists();
 
                 Mail::to($appointment->patient->email)
                     ->send(new AppointmentTomorrow($appointment));
@@ -84,8 +81,6 @@ class Dashboard extends Component
             ->get();
 
         foreach ($expiredAppointments as $appointment) {
-            $existing_notification = PatientNotif::where('user_id', $appointment->patient_id)
-                ->where('description', 'like', '%' . $appointment->id . '%');
 
                 Mail::to($appointment->patient->email)
                     ->send(new AppointmentExpired($appointment));

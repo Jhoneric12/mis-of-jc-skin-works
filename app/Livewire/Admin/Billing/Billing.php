@@ -122,7 +122,6 @@ class Billing extends Component
             'promos' => $promos,
             'categories' => ProductCategory::all(),
             'items' => Product::all(),
-            'patients' => User::where("role", 0)->get()
         ]);
     }
 
@@ -157,6 +156,7 @@ class Billing extends Component
 
         $this->validate([
             'patient_id' => 'required|integer',
+            'patient_name' => 'required',
             'payment_mode' => 'required',
         ]);
 
@@ -326,6 +326,7 @@ class Billing extends Component
 
         $order = Orders::create([
             'patient_id' => $this->patient_id,
+            'patient_name' => $this->patient_name,
             'staff_id' => Auth::user()->id,
             'payment_mode' => $this->payment_mode,
             'total_amount' => $this->total_amount,

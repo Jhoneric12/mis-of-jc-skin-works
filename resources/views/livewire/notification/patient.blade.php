@@ -17,7 +17,7 @@
                 <a class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <div class="flex-shrink-0">
 
-                        <img class="h-10 w-10 rounded-full" src="{{ asset('assets/Essentials/jcslogo.png') }}" alt="{{ $notif->user->name }}">
+                        <img class="h-10 w-10 rounded-full" src="{{ asset('assets/Essentials/jcslogo.png') }}">
                         {{-- @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $notif->user )
                             <div class="flex-shrink-0 h-10 w-10">  
                             </div>

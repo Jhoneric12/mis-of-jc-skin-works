@@ -115,7 +115,7 @@
     </form>
 </div>
 
-{{-- <script>
+<script>
     // Calculate Age depending on the birthdate
    document.addEventListener('DOMContentLoaded', function () {
 
@@ -142,4 +142,4 @@
            ageInput.value = age;
        });
    });
-</script> --}}
+</script>

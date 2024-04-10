@@ -9,7 +9,7 @@ class Orders extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['patient_id', 'staff_id', 'payment_mode', 'total_amount'];
+    protected $fillable = ['patient_id', 'staff_id', 'patient_name', 'payment_mode', 'total_amount'];
 
     public function patient()
     {

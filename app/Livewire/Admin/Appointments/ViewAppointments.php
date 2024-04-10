@@ -205,10 +205,10 @@ class ViewAppointments extends Component
             'first_name' => strtoupper($this->first_name),
             'middle_name' => strtoupper($this->middle_name),
             'last_name' => strtoupper($this->last_name),
-            'service_id' => $this->service_id,
+            'service_id' => $this->serve_id,
             'specialist_id' => $this->specialist_id,
-            'date' => $this->date,
-            'time' => $this->time,
+            'date' => $this->app_date,
+            'time' => $this->app_time,
             'status' => $this->app_status
         ]);
 

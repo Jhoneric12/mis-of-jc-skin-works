@@ -340,8 +340,15 @@
                         <div class='flex flex-col w-full'>
                             <div class="w-full">
                                 <div class='flex flex-col gap-1 mb-4 text-fontColor w-full'>
-                                    <x-label for="" value="{{ __('Patient ID') }}" />
-                                    <input wire:model="patient_id" type="text" class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <x-label for="" value="{{ __('Patient Name') }}" />
+                                    <select wire:model='patient_id' class='mt-1 border-gray-300 focus:border-[#4FBD5E] focus:ring-green-500 rounded-md shadow-sm'>
+                                        <option  value="">- Select Options - </option>
+                                        @foreach ($patients as $patient)
+                                            @if ($patient->account_status == true)
+                                                <option value="{{ $patient->id }}">ID : {{$patient->id}} - {{ $patient->first_name . " " . $patient->last_name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                     <x-input-error for="patient_id"/>
                                 </div>
                             </div>

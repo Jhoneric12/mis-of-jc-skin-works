@@ -21,20 +21,18 @@ class GeneratePrescription extends Component
 
     public function render()
     {
-        return view('livewire.doctor.prescription.generate-prescription');
+        return view('livewire.doctor.prescription.generate-prescription', [
+            'patients' => User::where("role", 0)->get()
+        ]);
     }
 
     public function generate()
     {
-        if($this->patient_id != null)
-        {
-            $this->validate([
-                'patient_id' => 'required|exists:users,id',
-                'medication' => 'required',
-                'description' => 'required',
-                'patient_name' => 'required'
-            ],['patient_id.exists' => 'Patient id not found']);
-        }
+        $this->validate([
+            'patient_id' => 'required|exists:users,id',
+            'medication' => 'required',
+            'description' => 'required',
+        ],['patient_id.exists' => 'Patient id not found']);
 
         Prescription::create([
             'patient_id' => $this->patient_id,
@@ -46,7 +44,7 @@ class GeneratePrescription extends Component
         // Logs
         AuditTrail::create([
             'user_id' => Auth::user()->id,
-            'log_name' => 'PRESCRIPTIOJ',
+            'log_name' => 'PRESCRIPTION',
             'user_type' => 'DOCTOR',
             'description' => 'GENERATED PRESCRIPTION'
         ]);

@@ -129,6 +129,9 @@
             @endforelse
         </div>
     </div>
+
+    <div id="calendar" class="relative bg-white h-[30rem] rounded-lg shadow-md p-8 border border-solid w-full md:h-screen">
+    </div>
     
 
     {{-- Add Modal --}}
@@ -138,9 +141,6 @@
         </x-slot>
     
         <x-slot name="content">
-
-            {{-- <div id="calendar" class="relative bg-white rounded-lg shadow-md p-8 border border-solid w-full h-[20rem]">
-            </div> --}}
 
             <form wire:submit='create'>
                 @csrf
@@ -318,9 +318,9 @@
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    // left: 'prev,next today',
+                    // center: 'title',
+                    // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                 },
                 dayMaxEventRows: true,
                     views: {
@@ -378,6 +378,12 @@
                 background-color: white;
                 color: black;
                 border: 1px solid green;
+                width: 2rem;
+                height: 3rem;
+                font-size: 1rem;
+            }
+            #calendar .fc-toolbar title {
+                font-size: 1rem;
             }
         </style>
     @endpush

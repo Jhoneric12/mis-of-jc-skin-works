@@ -48,7 +48,7 @@ class ManageInventory extends Component
             ->where('products.product_name', 'like', '%' . $this->search . '%')
             ->where('products.status', 1) 
             ->orWhere('inventories.product_id', $this->search)
-            ->distinct()
+            // ->distinct()
             ->orderBy('inventories.created_at', 'desc');
             
         $products = $query->paginate(10);

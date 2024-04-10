@@ -11,9 +11,16 @@
         @csrf
         <div class='flex gap-4 w-full items-center'>
             <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
-                <x-label for="patient_id" value="{{ __('Patient ID') }}" />
-                <x-input wire:model='patient_id' id="firstname" class="block mt-1 w-full" type="text" name="firstname" :value="old('firstname')"  autofocus autocomplete="firstname" />
-                <x-input-error for="patient_id"/>
+                <x-label for="" value="{{ __('Patient Name') }}" />
+                                    <select wire:model='patient_id' class='mt-1 border-gray-300 focus:border-[#4FBD5E] focus:ring-green-500 rounded-md shadow-sm'>
+                                        <option  value="">- Select Options - </option>
+                                        @foreach ($patients as $patient)
+                                            @if ($patient->account_status == true)
+                                                <option value="{{ $patient->id }}">ID : {{$patient->id}} - {{ $patient->first_name . " " . $patient->last_name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <x-input-error for="patient_id"/>
             </div>
             <div class='flex flex-col gap-1 mb-4 text-fontColor w-[50%]'>
                 <x-label for="" value="{{ __('Service Name') }}" />

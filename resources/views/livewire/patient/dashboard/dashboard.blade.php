@@ -222,7 +222,7 @@
         </x-slot>
     
         <x-slot name="footer">
-            <x-button class="flex gap-2 ms-3" wire:click='closeSucess' wire:loading.attr="disabled">              
+            <x-button class="flex gap-2 ms-3" wire:click='closeModal' wire:loading.attr="disabled">              
                 {{ __('Close') }}
             </x-button>
         </x-slot>

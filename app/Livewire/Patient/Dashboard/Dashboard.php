@@ -53,7 +53,7 @@ class Dashboard extends Component
     public function tommorowAppointments()
     {
         $tomorrowAppointments = Appointment::whereDate('date', Carbon::tomorrow())
-            ->where('status', 'Confirmed', 'On-going')
+            ->whereIn('status',[ 'Confirmed', 'On-going'])
             ->where('patient_id', Auth::user()->id)
             ->latest()
             ->get();

@@ -35,7 +35,7 @@
             <div class='flex flex-col gap-1 mb-4 w-[33.33%]'>
                 <x-label for="age" value="{{ __('Age') }}" />
                 <x-input wire:model='age' id="age" class="block mt-1 w-full" type="text" name="age" :value="old('age')"  autofocus autocomplete="age" />
-                <x-input-error for="age"/>
+                {{-- <x-input-error for="age"/> --}}
             </div>
             <div class='flex flex-col gap-1 mb-4 w-[33.33%]'>
                 <x-label for="" value="{{ __('Gender') }}" />

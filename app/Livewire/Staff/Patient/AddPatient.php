@@ -35,7 +35,7 @@ class AddPatient extends Component
             'firstname' => 'required',
             'lastname' => 'required',
             'bDate' => 'required|date|before:today',
-            'age' => 'required|numeric|min:1',
+            // 'age' => 'required|numeric|min:1',
             'gender' => 'required',
             'civilstatus' => 'required',
             // 'religion' => 'required',

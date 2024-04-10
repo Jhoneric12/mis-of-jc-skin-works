@@ -55,7 +55,6 @@ class Dashboard extends Component
         $tomorrowAppointments = Appointment::whereDate('date', Carbon::tomorrow())
             ->where('status', 'Confirmed')
             ->where('patient_id', Auth::user()->id)
-            ->whereNull('reminders_sent_at')
             ->latest()
             ->get();
 
@@ -69,7 +68,7 @@ class Dashboard extends Component
                     'description' => 'You have an appointment scheduled for tomorrow for ' . $appointment->service->service_name
                 ]);
 
-                $appointment->update(['reminders_sent_at' => Carbon::now()]);
+                // $appointment->update(['reminders_sent_at' => Carbon::now()]);
         }
     }
 

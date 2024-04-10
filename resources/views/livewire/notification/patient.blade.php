@@ -14,25 +14,24 @@
           </div>
           <div class="divide-y divide-gray-100 dark:divide-gray-700">
             @forelse ($notifications as $notif)
-                @if($notif->user_id != 1)
-                    <a class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <div class="flex-shrink-0">
-                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $notif->user )
-                                <div class="flex-shrink-0 h-10 w-10"> 
-                                    <img class="h-10 w-10 rounded-full" src="{{ $notif->user->profile_photo_url }}" alt="{{ $notif->user->name }}"> 
-                                </div>
-                            @else
-                                <div>
-                                    <div class="text-sm font-medium text-gray-900"> {{ $notif->first_name . " " . $notif->last_name }} </div>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="w-full ps-3">
-                            <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">{{$notif->description}}</div>
-                            <div class="text-xs text-blue-600 dark:text-blue-500">{{\Carbon\Carbon::parse($notif->created_at)->diffForHumans()}}</div>
-                        </div>
-                    </a>
-                @endif
+                <a class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <div class="flex-shrink-0">
+
+                        <img class="h-10 w-10 rounded-full" src="{{ asset('assets/Essentials/jcslogo.png') }}" alt="{{ $notif->user->name }}">
+                        {{-- @if (Laravel\Jetstream\Jetstream::managesProfilePhotos()  && $notif->user )
+                            <div class="flex-shrink-0 h-10 w-10">  
+                            </div>
+                        @else
+                            <div>
+                                <div class="text-sm font-medium text-gray-900"> {{ $notif->first_name . " " . $notif->last_name }} </div>
+                            </div>
+                        @endif --}}
+                    </div>
+                    <div class="w-full ps-3">
+                        <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">{{$notif->description}}</div>
+                        <div class="text-xs text-blue-600 dark:text-blue-500">{{\Carbon\Carbon::parse($notif->created_at)->diffForHumans()}}</div>
+                    </div>
+                </a>
             @empty
             <div class="flex flex-col items-center justify-center">
                 <img src="{{ asset('assets/Essentials/No data-cuate.png') }}" alt="" class="h-20 w-20">

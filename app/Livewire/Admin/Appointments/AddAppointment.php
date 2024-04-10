@@ -32,7 +32,7 @@ class AddAppointment extends Component
     public $date;
     public $time;
     public $setting = 'On-Site';
-    public $status = 'Scheduled';
+    public $status = 'Confirmed';
 
     public function render()
     {

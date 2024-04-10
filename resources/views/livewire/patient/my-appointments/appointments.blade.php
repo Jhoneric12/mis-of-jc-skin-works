@@ -130,8 +130,8 @@
         </div>
     </div>
 
-    <div id="calendar" class="relative bg-white h-[30rem] rounded-lg shadow-md p-8 border border-solid w-full md:h-screen">
-    </div>
+    {{-- <div id="calendar" class="relative bg-white h-[30rem] rounded-lg shadow-md p-8 border border-solid w-full md:h-screen">
+    </div> --}}
     
 
     {{-- Add Modal --}}

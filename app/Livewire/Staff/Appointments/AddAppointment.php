@@ -38,7 +38,8 @@ class AddAppointment extends Component
     {
         return view('livewire.staff.appointments.add-appointment',[
             'services' => Service::where('status', 1)->get(),
-            'specialists' => User::where('account_status', 1)->get()
+            'specialists' => User::where('account_status', 1)->get(),
+            'patients' => User::where("role", 0)->get()
         ]);
     }
 

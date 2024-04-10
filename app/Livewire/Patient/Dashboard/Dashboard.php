@@ -64,17 +64,15 @@ class Dashboard extends Component
                 ->where('description',  'like', '%' . $appointment->service->service_name . '%')
                 ->exists();
 
-            if (!$existing_notification) {
                 Mail::to($appointment->patient->email)
                     ->send(new AppointmentTomorrow($appointment));
 
                 PatientNotif::create([
-                    'user_id' => 3,
+                    'user_id' => Auth::user()->id,
                     'description' => 'You have an appointment scheduled for tomorrow for ' . $appointment->service->service_name
                 ]);
 
                 $appointment->update(['reminders_sent_at' => Carbon::now()]);
-            }
         }
     }
 
@@ -87,20 +85,17 @@ class Dashboard extends Component
 
         foreach ($expiredAppointments as $appointment) {
             $existing_notification = PatientNotif::where('user_id', $appointment->patient_id)
-                ->where('description', 'like', '%' . $appointment->id . '%')
-                ->exists();
+                ->where('description', 'like', '%' . $appointment->id . '%');
 
-            if (!$existing_notification) {
                 Mail::to($appointment->patient->email)
                     ->send(new AppointmentExpired($appointment));
 
                 PatientNotif::create([
-                    'user_id' => 3,
+                    'user_id' => Auth::user()->role,
                     'description' => 'Your appointment has expired for Appointment No. ' . $appointment->id
                 ]);
 
                 $appointment->update(['status' => 'Cancelled']);
-            }
         }
     }
 

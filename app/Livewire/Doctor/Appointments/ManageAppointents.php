@@ -87,7 +87,8 @@ class ManageAppointents extends Component
             'appointments_today' => $appointments_today,
             'appointments' => $appointments,
             'services' => Service::where('status', 1)->get(),
-            'specialists' => User::where('account_status', 1)->get()
+            'specialists' => User::where('account_status', 1)->get(),
+            'patients' => User::where("role", 0)->get()
         ]);
     }
 

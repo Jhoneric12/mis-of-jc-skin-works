@@ -87,16 +87,13 @@ class Dashboard extends Component
 
         foreach ($critical_products as $product) {
             $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
-                                                ->where('description', 'like', '%'.$product->product_name.'%')
-                                                ->exists();
+                                                ->where('description', 'like', '%'.$product->product_name.'%');
             
-            if (!$existing_notification) {
-                ClinicNotif::create([
+            ClinicNotif::create([
                     'user_id' => Auth::user()->id,
                     'description' => 'Product "'.$product->product_name.'" is in low stock. Manage the product before the stock reaches zero',
                     'type' => 'admin'
                 ]);
-            }
         }
 
         // Check for expiring items
@@ -104,17 +101,14 @@ class Dashboard extends Component
                                     ->get();
 
                 foreach ($expiring_items as $item) {
-                $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
-                            ->where('description', 'like', '%'.$item->product->product_name.'%')
-                            ->exists();
+                            $existing_notification = ClinicNotif::where('user_id', Auth::user()->id)
+                                        ->where('description', 'like', '%'.$item->product->product_name.'%');
 
-                if (!$existing_notification) {
-                    ClinicNotif::create([
-                    'user_id' => Auth::user()->id,
-                    'description' => 'Product "'.$item->product->product_name.'" is expiring soon. Manage the product before it expires.',
-                    'type' => 'admin'
-                ]);
-            }
+                            ClinicNotif::create([
+                                'user_id' => Auth::user()->id,
+                                'description' => 'Product "'.$item->product->product_name.'" is expiring soon. Manage the product before it expires.',
+                                'type' => 'admin'
+                            ]);
         }
 
         // Fetch and aggregate sales data by month

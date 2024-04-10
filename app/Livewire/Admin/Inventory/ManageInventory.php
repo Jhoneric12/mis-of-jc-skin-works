@@ -96,7 +96,9 @@ class ManageInventory extends Component
             $product = Product::find($this->product_id);
             if ($product) {
                 $product->total_qty += $this->total_quantity;
+                $inventory->expiration_date = $this->exp_date;
                 $product->save();
+                $inventory->save();
             }
         } else {
             // If inventory doesn't exist, create a new entry

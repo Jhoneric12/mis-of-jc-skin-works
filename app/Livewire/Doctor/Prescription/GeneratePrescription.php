@@ -22,7 +22,7 @@ class GeneratePrescription extends Component
     public function render()
     {
         return view('livewire.doctor.prescription.generate-prescription', [
-            'patients' => User::where("role", 0)->get()
+            'patients' => User::where("role", 0)->whereNotnull('email_verified_at')->get()
         ]);
     }
 

@@ -33,6 +33,7 @@ class Billing extends Component
     public $modalView = false;
     public $modalStatus = false;
     public $modalSucess = false;
+    public $modalInsufficient = false;
 
     #[URL]
     public $appointment_id;
@@ -168,6 +169,7 @@ class Billing extends Component
         $this->modalView = false;
         $this->modalAdd = false;
         $this->modalUpdate = false;
+        $this->modalInsufficient = false;
     }
 
     public function mount()
@@ -189,37 +191,45 @@ class Billing extends Component
 
     public function addToCart($itemId, $type)
     {
-        //Check if the quantity is null
+        // Check if the quantity is null
         $this->validate([
             'quantity' => 'required|numeric|min:1',
         ]);
 
-        $existingIndex = null;
-
-        // Check if the selected ID already exists in the cart
-        foreach ($this->cart as $index => $item) {
-            if ($item['id'] == $itemId) {
-                $existingIndex = $index;
-                break;
-            }
-        }
-
+        // Get the item and its unit price based on the type
         if ($type == 'product') {
             $item = Product::find($itemId);
-            $unitPrice = $item->price;
         } elseif ($type == 'service') {
             $item = Service::find($itemId);
-            $unitPrice = $item->price;
-        }
-        elseif($type == 'promotion') {
+        } elseif ($type == 'promotion') {
             $item = Promo::find($itemId);
-            $unitPrice = $item->price;
         } else {
             return;
         }
 
-        // $unitPrice = $item->price;
+        if (!$item) {
+            // Handle case where item is not found
+            return;
+        }
+
+        // Calculate the subtotal for the item
+        $unitPrice = $item->price;
         $subtotal = $this->quantity * $unitPrice;
+
+        // Check if there is sufficient quantity available
+        if ($this->quantity > $item->total_qty) {
+            $this->modalInsufficient = true;
+            return;
+        }
+
+        // Check if the selected ID already exists in the cart
+        $existingIndex = null;
+        foreach ($this->cart as $index => $cartItem) {
+            if ($cartItem['id'] == $itemId) {
+                $existingIndex = $index;
+                break;
+            }
+        }
 
         if ($existingIndex !== null) {
             // If the selected ID already exists in the cart, update the quantity, subtotal, and total
@@ -239,11 +249,13 @@ class Billing extends Component
             ];
         }
 
+        // Reset quantity to 1 for the next addition
         $this->quantity = 1;
 
-         // Update the cart totals
+        // Update the cart totals
         $this->updateCartTotals();
     }
+
 
     public function promo()
     {

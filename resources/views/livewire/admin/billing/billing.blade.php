@@ -642,6 +642,7 @@
         </x-slot>
     </x-dialog-modal>
 
+    {{-- Transaction completed --}}
     <x-dialog-modal wire:model.live="modalSucess" maxWidth='lg'>
         <x-slot name="title">
             {{ __('Transaction Completed') }}
@@ -661,6 +662,30 @@
         <x-slot name="footer">
             <x-button class="flex gap-2 ms-3" wire:click='proceedToSession' wire:loading.attr="disabled">              
                 {{ __('Proceed') }}
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    {{-- Insufficient quantity --}}
+    <x-dialog-modal wire:model.live="modalInsufficient" maxWidth='lg'>
+        <x-slot name="title">
+            {{ __('Insufficient quantity') }}
+        </x-slot>
+    
+        <x-slot name="content">
+            <div class="flex flex-col items-center justify-center gap-4">
+                <div>
+                    <img src="{{asset('assets/Essentials/insufficient.gif')}}" alt="" class="w-20 h-20">
+                </div>
+                <div>
+                    <h1 class="font-medium text-lg">Insufficient quantity</h1>
+                </div>
+            </div>
+        </x-slot>
+    
+        <x-slot name="footer">
+            <x-button class="flex gap-2 ms-3" wire:click='closeModal' wire:loading.attr="disabled">              
+                {{ __('Close') }}
             </x-button>
         </x-slot>
     </x-dialog-modal>

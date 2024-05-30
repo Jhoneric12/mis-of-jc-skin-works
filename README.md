@@ -1,12 +1,11 @@
-# JC’s Skin Works Dermatology Clinic Management Information System
+# Management Information System of Jc's Skin Works Dermatology Clinic
 
 The system was developed using the following technologies:
-- Alpine.js
 - Tailwind CSS
+- Alpine.js
 - Livewire
 - Laravel
 - MySQL
-- Postman (for testing REST API)
 
 ## User Types
 

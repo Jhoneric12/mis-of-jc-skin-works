@@ -14,7 +14,7 @@ The system provides different restriction levels for the following user types:
 1. **Patient**
 2. **Doctor**
 3. **Staff**
-4. **Owner/Dermatologist**
+4. **Owner/Administrator**
 
 ## Features
 
@@ -22,10 +22,14 @@ The system provides different restriction levels for the following user types:
 - **Appointment Management System**: Increases the efficiency of managing booking schedules.
 - **Email Notifications**: Notifies patients about their appointments and upcoming follow-up consultations.
 
-### For Staff and Administrator:
+### For Staff and Doctor:
 - **Patient Information Management**: Allows management of patients’ profiles and medical information.
 - **Sales and Transaction Management**: Enables the processing of payment transactions, invoices, and receipts.
 - **Clinic Products and Services Management**: Allows management of clinic products and services.
 
 ### For Administrator:
-- **User Access and Restrictions Management**: Allows the administrator to manage user access and restrictions within the system.
+- **Appointment Management System**: Increases the efficiency of managing booking schedules.
+- **Email Notifications**: Notifies patients about their appointments and upcoming follow-up consultations.
+- **Patient Information Management**: Allows management of patients’ profiles and medical information.
+- **Sales and Transaction Management**: Enables the processing of payment transactions, invoices, and receipts.
+- **Clinic Products and Services Management**: Allows management of clinic products and services.

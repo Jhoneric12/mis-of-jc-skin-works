@@ -27,6 +27,7 @@ class Billing extends Component
     public $serviceSearch;
     public $promoSearch;
     public $quantity = 1;
+    public $quantities =  [];
 
     public $modalAdd = false;
     public $modalUpdate = false;
@@ -182,6 +183,7 @@ class Billing extends Component
                     // Add the service to the cart
                     $service = Service::find($serviceId);
                     if ($service) {
+                        $this->quantities[$serviceId] = 1;
                         $this->addToCart($serviceId, 'service');
                     }
                 }
@@ -191,10 +193,15 @@ class Billing extends Component
 
     public function addToCart($itemId, $type)
     {
-        // Check if the quantity is null
+        // Validate the specific quantity for the item
         $this->validate([
-            'quantity' => 'required|numeric|min:1',
+            'quantities.' . $itemId => 'required|numeric|min:1',
         ]);
+
+        // // Add to cart the services in appointment
+        // if ($this->appointment_id) {
+        //     $item = Service::find($this->appointment_id->service->service_id);
+        // }
 
         // Get the item and its unit price based on the type
         if ($type == 'product') {
@@ -212,14 +219,20 @@ class Billing extends Component
             return;
         }
 
+        // Get the specific quantity for this item
+        $quantity = $this->quantities[$itemId];
+
         // Calculate the subtotal for the item
         $unitPrice = $item->price;
-        $subtotal = $this->quantity * $unitPrice;
+        $subtotal = $quantity * $unitPrice;
 
         // Check if there is sufficient quantity available
-        if ($this->quantity > $item->total_qty) {
-            $this->modalInsufficient = true;
-            return;
+        if ($type == 'product') {
+            if ($quantity > $item->total_qty) {
+                $this->modalInsufficient = true;
+                $this->quantity = 1;
+                return;
+            }
         }
 
         // Check if the selected ID already exists in the cart
@@ -233,7 +246,7 @@ class Billing extends Component
 
         if ($existingIndex !== null) {
             // If the selected ID already exists in the cart, update the quantity, subtotal, and total
-            $this->cart[$existingIndex]['quantity'] += $this->quantity;
+            $this->cart[$existingIndex]['quantity'] += $quantity;
             $this->cart[$existingIndex]['subtotal'] += $subtotal;
             $this->cart[$existingIndex]['total'] += $subtotal; // assuming total is the sum of all subtotals
         } else {
@@ -242,19 +255,20 @@ class Billing extends Component
                 'id' => $itemId,
                 'name' => $item->product_name ?? $item->service_name ?? $item->promo_name,
                 'type' => ucfirst($type),
-                'quantity' => $this->quantity,
+                'quantity' => $quantity,
                 'unit_price' => $unitPrice,
                 'subtotal' => $subtotal,
                 'total' => $subtotal, // assuming total is the same as subtotal for the first addition
             ];
         }
 
-        // Reset quantity to 1 for the next addition
-        $this->quantity = 1;
+        // Reset quantity for the item to 1 for the next addition
+        $this->quantities[$itemId] = null;
 
         // Update the cart totals
         $this->updateCartTotals();
     }
+
 
 
     public function promo()

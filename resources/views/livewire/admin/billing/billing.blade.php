@@ -121,11 +121,11 @@
                         <td class="px-6 py-6">
                             <div>
                                 <div class="flex">
-                                    <input wire:model='quantity' type="number" class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white text-sm" placeholder="Qty" value="1">
-                                    @error('quantity')
+                                    <input wire:model="quantities.{{ $product->id }}" type="number" class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white text-sm" placeholder="Qty" value="1">
+                                    @error('quantities.' . $product->id)
                                         <div class="text-red-500 text-xs ml-4">{{ $message }}</div>
                                     @enderror
-                                    <button wire:click="addToCart({{ $product->id }}, 'product')" class="px-8 rounded-r-lg bg-[#5FC26C] text-gray-200 text-sm font-bold p-2  border-[#5FC26C] border-t border-b border-r">Add to Cart</button>
+                                    <button wire:click="addToCart({{ $product->id }}, 'product')" class="px-8 rounded-r-lg bg-[#5FC26C] text-gray-200 text-sm font-bold p-2 border-[#5FC26C] border-t border-b border-r">Add to Cart</button>
                                 </div>
                             </div>
                         </td>
@@ -230,7 +230,10 @@
                         <td class="px-6 py-6">
                             <div>
                                 <div class="flex">
-                                    <input wire:model='quantity' type="number" class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white text-sm" placeholder="Qty" value="1">
+                                    <input wire:model='quantities.{{ $service->id }}' type="number" class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white text-sm" placeholder="Qty" value="1">
+                                    @error('quantities.' . $service->id)
+                                        <div class="text-red-500 text-xs ml-4">{{ $message }}</div>
+                                    @enderror
                                     <button wire:click="addToCart({{ $service->id }}, 'service')" class="px-8 rounded-r-lg bg-[#5FC26C] text-gray-200 text-sm font-bold p-2  border-[#5FC26C] border-t border-b border-r">Add to Cart</button>
                                 </div>
                             </div>
@@ -329,7 +332,10 @@
                         <td class="px-6 py-6">
                             <div>
                                 <div class="flex">
-                                    <input wire:model='quantity' type="number" class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white text-sm" placeholder="Qty" value="1">
+                                    <input wire:model='quantities.{{ $promo->id }}' type="number" class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white text-sm" placeholder="Qty" value="1">
+                                    @error('quantities.' . $promo->id)
+                                        <div class="text-red-500 text-xs ml-4">{{ $message }}</div>
+                                    @enderror
                                     <button wire:click="addToCart({{ $promo->id }}, 'promotion')" class="px-8 rounded-r-lg bg-[#5FC26C] text-gray-200 text-sm font-bold p-2  border-[#5FC26C] border-t border-b border-r">Add to Cart</button>
                                 </div>
                             </div>
